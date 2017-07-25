@@ -20,7 +20,7 @@
    For a production quality application (e.g. a Java compiler)
    this could be optimized */
 
-
+package com.away.lang.java.lexer;
 import java_cup.runtime.*;
 
 
