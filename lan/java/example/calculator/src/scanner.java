@@ -1,7 +1,6 @@
 /**
  * Created by away on 30/07/2017.
  */
-package calculator;
 
 import java_cup.runtime.*;
 
