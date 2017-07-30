@@ -53,7 +53,7 @@ parser code {:
 	    Transformer transformer = TransformerFactory.newInstance()
 		.newTransformer(new StreamSource(new File("tree.xsl")));
 	    Source text = new StreamSource(new File(args[1]));
-	    transformer.transform(text, new StreamResult(new File("output.html")));
+	    transformer.transform(text, new StreamResult(new File(args[0] + "output.html")));
 
 	    System.out.println("Parsing finished!");
 	} catch (Exception e) {

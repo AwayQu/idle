@@ -3,7 +3,7 @@
 rm complicated.xml
 rm Lexer.java
 rm Parser.java
-rm output.html
+rm *.html
 rm *.class
 rm sym.java
 rm simple.xml
