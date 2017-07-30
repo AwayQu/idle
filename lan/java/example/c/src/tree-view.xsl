@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-  <xsl:output method="html" 
-	      doctype-system="about:legacy-compat"
-	      encoding="UTF-8"
-	      indent="no"/>
+  <xsl:output method="html"
+              doctype-system="about:legacy-compat"
+              encoding="UTF-8"
+              indent="no"/>
 
   <xsl:variable name="apos">'</xsl:variable>
 
   <xsl:template match="/" mode='rendered'>
     <html>
       <head>
-	<meta charset="UTF-8" />
+        <meta charset="UTF-8" />
         <title>Parse-Tree</title>
         <link type="text/css" rel="stylesheet" href="tree-view.css"/>
       </head>
