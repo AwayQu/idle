@@ -2,16 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="26cc56d2-928f-4730-a43d-ef3a2d89d279" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/example/c/c.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/example/c/src/c.cup" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/example/c/src/c.flex" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/example/c/src/complicated.c" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/example/c/src/input.c" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/example/c/src/makeTest.sh" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/example/c/src/tree-view.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/example/c/src/tree-view.xsl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/example/c/src/tree.xsl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -900,7 +890,7 @@
       <workItem from="1501352417403" duration="1259000" />
       <workItem from="1501378469085" duration="174000" />
       <workItem from="1501378674122" duration="4317000" />
-      <workItem from="1501383132181" duration="1048000" />
+      <workItem from="1501383132181" duration="1066000" />
     </task>
     <task id="LOCAL-00001" summary="# example of minijava">
       <created>1501353637051</created>
@@ -951,11 +941,18 @@
       <option name="project" value="LOCAL" />
       <updated>1501383929523</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="# example of c">
+      <created>1501384200341</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1501384200341</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13294000" />
+    <option name="totallyTimeSpent" value="13312000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1046,7 +1043,8 @@
     <MESSAGE value="# output" />
     <MESSAGE value="# example of minijava" />
     <MESSAGE value="# script &amp; md" />
-    <option name="LAST_COMMIT_MESSAGE" value="# script &amp; md" />
+    <MESSAGE value="# example of c" />
+    <option name="LAST_COMMIT_MESSAGE" value="# example of c" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
