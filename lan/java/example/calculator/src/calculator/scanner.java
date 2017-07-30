@@ -1,7 +1,7 @@
 /**
  * Created by away on 30/07/2017.
  */
-package com.away.calculator;
+package calculator;
 
 import java_cup.runtime.*;
 
