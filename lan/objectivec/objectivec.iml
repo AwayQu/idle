@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="java-cup-11b-runtime" level="application" />
+    <orderEntry type="library" name="antlr-runtime-4.7" level="application" />
   </component>
 </module>
