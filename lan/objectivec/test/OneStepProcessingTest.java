@@ -39,4 +39,39 @@ public class OneStepProcessingTest {
 
 
     }
+
+
+    @Test
+    public void testOSPTranslateUnit() {
+        String emptyClassString = "#import \"TestObject.h\"\n" +
+                "#import \"FooObject.h\"\n" +
+                "\n" +
+                "@implementation TestObject {\n" +
+                "\n" +
+                "}\n" +
+                "@end";
+
+        ANTLRInputStream inputStream = new ANTLRInputStream(emptyClassString);
+
+        ObjectiveCLexer lexer = new ObjectiveCLexer(inputStream);
+
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+        ObjectiveCPreprocessorParser preparser = new ObjectiveCPreprocessorParser(tokens);
+//
+//        ParseTree pretree = preparser.directive();
+
+//        System.out.println(pretree.toStringTree());
+
+        ObjectiveCParser parser = new ObjectiveCParser(preparser.getTokenStream());
+
+
+        ParseTree tree = parser.translationUnit();
+
+        System.out.println(tree.toStringTree(parser));
+
+
+
+
+    }
 }
