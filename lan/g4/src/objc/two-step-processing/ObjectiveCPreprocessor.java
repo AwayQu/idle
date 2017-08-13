@@ -1,5 +1,3 @@
-package gen.twostepprocessing;
-
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ListTokenSource;
 import org.antlr.v4.runtime.Token;
