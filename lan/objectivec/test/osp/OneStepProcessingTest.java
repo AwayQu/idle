@@ -1,3 +1,5 @@
+package osp;
+
 import osp.gen.ObjectiveCLexer;
 import osp.gen.ObjectiveCParser;
 import osp.gen.ObjectiveCPreprocessorParser;
