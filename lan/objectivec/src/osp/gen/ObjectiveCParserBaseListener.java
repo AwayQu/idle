@@ -1,4 +1,4 @@
-package gen.onestepprocessing;// Generated from ObjectiveCParser.g4 by ANTLR 4.7
+package osp.gen;// Generated from ObjectiveCParser.g4 by ANTLR 4.7
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;

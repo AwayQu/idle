@@ -1,6 +1,6 @@
-import gen.onestepprocessing.ObjectiveCLexer;
-import gen.onestepprocessing.ObjectiveCParser;
-import gen.onestepprocessing.ObjectiveCPreprocessorParser;
+import osp.gen.ObjectiveCLexer;
+import osp.gen.ObjectiveCParser;
+import osp.gen.ObjectiveCPreprocessorParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;

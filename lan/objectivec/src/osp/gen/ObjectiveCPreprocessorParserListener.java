@@ -1,4 +1,4 @@
-package gen.onestepprocessing;// Generated from ObjectiveCPreprocessorParser.g4 by ANTLR 4.7
+package osp.gen;// Generated from ObjectiveCPreprocessorParser.g4 by ANTLR 4.7
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**

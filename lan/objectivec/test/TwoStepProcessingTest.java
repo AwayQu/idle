@@ -2,12 +2,15 @@
  * Created by away on 13/08/2017.
  */
 
-import com.sun.corba.se.impl.orb.ParserTable;
-import gen.twostepprocessing.*;
+import tsp.gen.ObjectiveCParser;
+import tsp.visitor.ObjectiveCPreprocessor;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
+import tsp.gen.ObjectiveCLexer;
+import tsp.gen.ObjectiveCPreprocessorLexer;
+import tsp.gen.ObjectiveCPreprocessorParser;
 
 /**
  1. Preprocessor lexer (ObjectiveCPreprocessorLexer.g4).
