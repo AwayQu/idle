@@ -123,7 +123,7 @@ public class CallGraph {
         parser.setBuildParseTree(true);
         ParseTree tree = parser.file();
         // show tree in text form
-//        System.out.println(tree.toStringTree(parser));
+        System.out.println(tree.toStringTree(parser));
 
         ParseTreeWalker walker = new ParseTreeWalker();
         FunctionListener collector = new FunctionListener();
