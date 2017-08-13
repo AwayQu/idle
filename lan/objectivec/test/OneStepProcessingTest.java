@@ -57,13 +57,13 @@ public class OneStepProcessingTest {
 
         CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-        ObjectiveCPreprocessorParser preparser = new ObjectiveCPreprocessorParser(tokens);
-//
+//        ObjectiveCPreprocessorParser preparser = new ObjectiveCPreprocessorParser(tokens);
+////
 //        ParseTree pretree = preparser.directive();
+//
+//        System.out.println(pretree.toStringTree(preparser));
 
-//        System.out.println(pretree.toStringTree());
-
-        ObjectiveCParser parser = new ObjectiveCParser(preparser.getTokenStream());
+        ObjectiveCParser parser = new ObjectiveCParser(tokens);
 
 
         ParseTree tree = parser.translationUnit();
@@ -74,4 +74,40 @@ public class OneStepProcessingTest {
 
 
     }
+
+
+    @Test
+    public void testOSPDirect() {
+        String emptyClassString = "#import \"TestObject.h\"\n" +
+                "#import \"FooObject.h\"\n" +
+                "\n" +
+                "@implementation TestObject {\n" +
+                "\n" +
+                "}\n" +
+                "@end";
+
+        ANTLRInputStream inputStream = new ANTLRInputStream(emptyClassString);
+
+        ObjectiveCLexer lexer = new ObjectiveCLexer(inputStream);
+
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+        ObjectiveCPreprocessorParser preparser = new ObjectiveCPreprocessorParser(tokens);
+//
+        ParseTree pretree = preparser.directive();
+
+        System.out.println(pretree.toStringTree(preparser));
+
+//        ObjectiveCParser parser = new ObjectiveCParser(preparser.getTokenStream());
+
+
+//        ParseTree tree = parser.translationUnit();
+
+//        System.out.println(tree.toStringTree(parser));
+
+
+
+
+    }
+
 }
