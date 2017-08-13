@@ -2,9 +2,11 @@
  * Created by away on 13/08/2017.
  */
 
-import gen.twostepprocessing.ObjectiveCPreprocessorLexer;
+import com.sun.corba.se.impl.orb.ParserTable;
+import gen.twostepprocessing.*;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 
 /**
@@ -29,7 +31,30 @@ public class TwoStepProcessingTest {
         ANTLRInputStream inputStream = new ANTLRInputStream(emptyClassString);
         ObjectiveCPreprocessorLexer preLexer = new ObjectiveCPreprocessorLexer(inputStream);
 
-        CommonTokenStream token = new CommonTokenStream(preLexer);
+        CommonTokenStream preToken = new CommonTokenStream(preLexer);
 
+        ObjectiveCPreprocessorParser preParser = new ObjectiveCPreprocessorParser(preToken);
+
+        ObjectiveCPreprocessorParser.ObjectiveCDocumentContext preParseTree = preParser.objectiveCDocument();
+
+        System.out.println(preParseTree.toStringTree(preParser));
+
+        ObjectiveCPreprocessor preprocessor = new ObjectiveCPreprocessor(preToken);
+//        Object ult = preprocessor.visitObjectiveCDocument(preParseTree);
+
+        Object res = preprocessor.visit(preParseTree);
+        System.out.println(preParseTree.toStringTree(preParser));
+
+        // =======================================
+
+        ObjectiveCLexer lexer = new ObjectiveCLexer(inputStream);
+
+        CommonTokenStream token = new CommonTokenStream(lexer);
+
+        ObjectiveCParser parser = new ObjectiveCParser(token);
+
+        ParseTree parseTree = parser.translationUnit();
+
+        System.out.println(parseTree.toStringTree(parser));
     }
 }
