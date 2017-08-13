@@ -8,7 +8,7 @@ float fact(int n) {
 }
 
 void a() { int x = b(); if false then {c(); d();} }
-void b() { c(); }cle
+void b() { c(); }
 void c() { b(); }
 void d() { }
 void e() { }
