@@ -3,5 +3,13 @@
  */
 package tsp.feature.dependency.visitor;
 
-public class DirectiveImportDependencyVisitor {
+import tsp.gen.ObjectiveCPreprocessorParser;
+import tsp.gen.ObjectiveCPreprocessorParserBaseVisitor;
+
+public class DirectiveImportDependencyVisitor extends ObjectiveCPreprocessorParserBaseVisitor {
+    @Override
+    public Object visitPreprocessorImport(ObjectiveCPreprocessorParser.PreprocessorImportContext ctx) {
+        System.out.println(ctx.getChild(1).getText());
+        return super.visitPreprocessorImport(ctx);
+    }
 }
