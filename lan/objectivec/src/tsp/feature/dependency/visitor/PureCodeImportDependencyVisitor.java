@@ -3,7 +3,15 @@
  */
 package tsp.feature.dependency.visitor;
 
-public class PureCodeImportDependencyVisitor {
+import tsp.gen.ObjectiveCParser;
+import tsp.gen.ObjectiveCParserBaseVisitor;
+import tsp.gen.ObjectiveCParserVisitor;
 
+public class PureCodeImportDependencyVisitor extends ObjectiveCParserBaseVisitor {
 
+    @Override
+    public Object visitImportDeclaration(ObjectiveCParser.ImportDeclarationContext ctx) {
+        System.out.println(ctx.getChild(1).getText());
+        return super.visitImportDeclaration(ctx);
+    }
 }
