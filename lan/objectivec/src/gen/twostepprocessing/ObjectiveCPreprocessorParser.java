@@ -5,6 +5,8 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ObjectiveCPreprocessorParser extends Parser {
@@ -111,6 +113,11 @@ public class ObjectiveCPreprocessorParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ObjectiveCPreprocessorParserListener ) ((ObjectiveCPreprocessorParserListener)listener).exitObjectiveCDocument(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ObjectiveCPreprocessorParserVisitor ) return ((ObjectiveCPreprocessorParserVisitor<? extends T>)visitor).visitObjectiveCDocument(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ObjectiveCDocumentContext objectiveCDocument() throws RecognitionException {
@@ -170,6 +177,11 @@ public class ObjectiveCPreprocessorParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ObjectiveCPreprocessorParserListener ) ((ObjectiveCPreprocessorParserListener)listener).exitText(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ObjectiveCPreprocessorParserVisitor ) return ((ObjectiveCPreprocessorParserVisitor<? extends T>)visitor).visitText(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -239,6 +251,11 @@ public class ObjectiveCPreprocessorParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ObjectiveCPreprocessorParserListener ) ((ObjectiveCPreprocessorParserListener)listener).exitCode(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ObjectiveCPreprocessorParserVisitor ) return ((ObjectiveCPreprocessorParserVisitor<? extends T>)visitor).visitCode(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final CodeContext code() throws RecognitionException {
@@ -267,7 +284,7 @@ public class ObjectiveCPreprocessorParser extends Parser {
 				setState(30); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
-			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
+			} while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER );
 			}
 		}
 		catch (RecognitionException re) {
@@ -306,6 +323,11 @@ public class ObjectiveCPreprocessorParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ObjectiveCPreprocessorParserListener ) ((ObjectiveCPreprocessorParserListener)listener).exitPreprocessorDef(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ObjectiveCPreprocessorParserVisitor ) return ((ObjectiveCPreprocessorParserVisitor<? extends T>)visitor).visitPreprocessorDef(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	public static class PreprocessorErrorContext extends DirectiveContext {
 		public TerminalNode ERROR() { return getToken(ObjectiveCPreprocessorParser.ERROR, 0); }
@@ -320,6 +342,11 @@ public class ObjectiveCPreprocessorParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ObjectiveCPreprocessorParserListener ) ((ObjectiveCPreprocessorParserListener)listener).exitPreprocessorError(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ObjectiveCPreprocessorParserVisitor ) return ((ObjectiveCPreprocessorParserVisitor<? extends T>)visitor).visitPreprocessorError(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	public static class PreprocessorConditionalContext extends DirectiveContext {
@@ -339,6 +366,11 @@ public class ObjectiveCPreprocessorParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ObjectiveCPreprocessorParserListener ) ((ObjectiveCPreprocessorParserListener)listener).exitPreprocessorConditional(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ObjectiveCPreprocessorParserVisitor ) return ((ObjectiveCPreprocessorParserVisitor<? extends T>)visitor).visitPreprocessorConditional(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	public static class PreprocessorImportContext extends DirectiveContext {
 		public Directive_textContext directive_text() {
@@ -355,6 +387,11 @@ public class ObjectiveCPreprocessorParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ObjectiveCPreprocessorParserListener ) ((ObjectiveCPreprocessorParserListener)listener).exitPreprocessorImport(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ObjectiveCPreprocessorParserVisitor ) return ((ObjectiveCPreprocessorParserVisitor<? extends T>)visitor).visitPreprocessorImport(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	public static class PreprocessorPragmaContext extends DirectiveContext {
 		public TerminalNode PRAGMA() { return getToken(ObjectiveCPreprocessorParser.PRAGMA, 0); }
@@ -369,6 +406,11 @@ public class ObjectiveCPreprocessorParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ObjectiveCPreprocessorParserListener ) ((ObjectiveCPreprocessorParserListener)listener).exitPreprocessorPragma(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ObjectiveCPreprocessorParserVisitor ) return ((ObjectiveCPreprocessorParserVisitor<? extends T>)visitor).visitPreprocessorPragma(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	public static class PreprocessorDefineContext extends DirectiveContext {
@@ -385,6 +427,11 @@ public class ObjectiveCPreprocessorParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ObjectiveCPreprocessorParserListener ) ((ObjectiveCPreprocessorParserListener)listener).exitPreprocessorDefine(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ObjectiveCPreprocessorParserVisitor ) return ((ObjectiveCPreprocessorParserVisitor<? extends T>)visitor).visitPreprocessorDefine(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -553,6 +600,11 @@ public class ObjectiveCPreprocessorParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ObjectiveCPreprocessorParserListener ) ((ObjectiveCPreprocessorParserListener)listener).exitDirective_text(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ObjectiveCPreprocessorParserVisitor ) return ((ObjectiveCPreprocessorParserVisitor<? extends T>)visitor).visitDirective_text(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final Directive_textContext directive_text() throws RecognitionException {
@@ -615,6 +667,11 @@ public class ObjectiveCPreprocessorParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ObjectiveCPreprocessorParserListener ) ((ObjectiveCPreprocessorParserListener)listener).exitPreprocessorParenthesis(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ObjectiveCPreprocessorParserVisitor ) return ((ObjectiveCPreprocessorParserVisitor<? extends T>)visitor).visitPreprocessorParenthesis(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	public static class PreprocessorNotContext extends Preprocessor_expressionContext {
 		public TerminalNode BANG() { return getToken(ObjectiveCPreprocessorParser.BANG, 0); }
@@ -629,6 +686,11 @@ public class ObjectiveCPreprocessorParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ObjectiveCPreprocessorParserListener ) ((ObjectiveCPreprocessorParserListener)listener).exitPreprocessorNot(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ObjectiveCPreprocessorParserVisitor ) return ((ObjectiveCPreprocessorParserVisitor<? extends T>)visitor).visitPreprocessorNot(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	public static class PreprocessorBinaryContext extends Preprocessor_expressionContext {
@@ -656,6 +718,11 @@ public class ObjectiveCPreprocessorParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ObjectiveCPreprocessorParserListener ) ((ObjectiveCPreprocessorParserListener)listener).exitPreprocessorBinary(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ObjectiveCPreprocessorParserVisitor ) return ((ObjectiveCPreprocessorParserVisitor<? extends T>)visitor).visitPreprocessorBinary(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	public static class PreprocessorConstantContext extends Preprocessor_expressionContext {
 		public TerminalNode TRUE() { return getToken(ObjectiveCPreprocessorParser.TRUE, 0); }
@@ -670,6 +737,11 @@ public class ObjectiveCPreprocessorParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ObjectiveCPreprocessorParserListener ) ((ObjectiveCPreprocessorParserListener)listener).exitPreprocessorConstant(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ObjectiveCPreprocessorParserVisitor ) return ((ObjectiveCPreprocessorParserVisitor<? extends T>)visitor).visitPreprocessorConstant(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	public static class PreprocessorConditionalSymbolContext extends Preprocessor_expressionContext {
@@ -688,6 +760,11 @@ public class ObjectiveCPreprocessorParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ObjectiveCPreprocessorParserListener ) ((ObjectiveCPreprocessorParserListener)listener).exitPreprocessorConditionalSymbol(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ObjectiveCPreprocessorParserVisitor ) return ((ObjectiveCPreprocessorParserVisitor<? extends T>)visitor).visitPreprocessorConditionalSymbol(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	public static class PreprocessorDefinedContext extends Preprocessor_expressionContext {
 		public TerminalNode DEFINED() { return getToken(ObjectiveCPreprocessorParser.DEFINED, 0); }
@@ -702,6 +779,11 @@ public class ObjectiveCPreprocessorParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ObjectiveCPreprocessorParserListener ) ((ObjectiveCPreprocessorParserListener)listener).exitPreprocessorDefined(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ObjectiveCPreprocessorParserVisitor ) return ((ObjectiveCPreprocessorParserVisitor<? extends T>)visitor).visitPreprocessorDefined(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -846,7 +928,7 @@ public class ObjectiveCPreprocessorParser extends Parser {
 			setState(103);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;

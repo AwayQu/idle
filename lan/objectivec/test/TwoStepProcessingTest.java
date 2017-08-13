@@ -28,8 +28,8 @@ public class TwoStepProcessingTest {
                 "}\n" +
                 "@end";
 
-        ANTLRInputStream inputStream = new ANTLRInputStream(emptyClassString);
-        ObjectiveCPreprocessorLexer preLexer = new ObjectiveCPreprocessorLexer(inputStream);
+        ANTLRInputStream preInputStream = new ANTLRInputStream(emptyClassString);
+        ObjectiveCPreprocessorLexer preLexer = new ObjectiveCPreprocessorLexer(preInputStream);
 
         CommonTokenStream preToken = new CommonTokenStream(preLexer);
 
@@ -37,16 +37,17 @@ public class TwoStepProcessingTest {
 
         ObjectiveCPreprocessorParser.ObjectiveCDocumentContext preParseTree = preParser.objectiveCDocument();
 
-        System.out.println(preParseTree.toStringTree(preParser));
+//        System.out.println(preParseTree.toStringTree(preParser));
 
         ObjectiveCPreprocessor preprocessor = new ObjectiveCPreprocessor(preToken);
 //        Object ult = preprocessor.visitObjectiveCDocument(preParseTree);
 
-        Object res = preprocessor.visit(preParseTree);
+        String removedSourceString = preprocessor.visit(preParseTree);
         System.out.println(preParseTree.toStringTree(preParser));
 
         // =======================================
 
+        ANTLRInputStream inputStream = new ANTLRInputStream(removedSourceString);
         ObjectiveCLexer lexer = new ObjectiveCLexer(inputStream);
 
         CommonTokenStream token = new CommonTokenStream(lexer);
