@@ -1,0 +1,7 @@
+{
+  "name": "a",
+  "version": "0.0.1",
+  "dependencies": {
+    "d3": "^4.10.0"
+  }
+}
