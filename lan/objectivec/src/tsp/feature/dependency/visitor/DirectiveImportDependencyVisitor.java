@@ -3,13 +3,23 @@
  */
 package tsp.feature.dependency.visitor;
 
+import tsp.feature.dependency.ImportDependency;
 import tsp.gen.ObjectiveCPreprocessorParser;
 import tsp.gen.ObjectiveCPreprocessorParserBaseVisitor;
 
-public class DirectiveImportDependencyVisitor extends ObjectiveCPreprocessorParserBaseVisitor {
+public class DirectiveImportDependencyVisitor extends ObjectiveCPreprocessorParserBaseVisitor<ImportDependency.FileNode> {
     @Override
-    public Object visitPreprocessorImport(ObjectiveCPreprocessorParser.PreprocessorImportContext ctx) {
+    public ImportDependency.FileNode visitPreprocessorImport(ObjectiveCPreprocessorParser.PreprocessorImportContext ctx) {
         System.out.println(ctx.getChild(1).getText());
-        return super.visitPreprocessorImport(ctx);
+        String importName = ctx.getChild(1).getText();
+        return new ImportDependency.FileNode(importName);
+    }
+
+    @Override
+    protected ImportDependency.FileNode aggregateResult(ImportDependency.FileNode aggregate, ImportDependency.FileNode nextResult) {
+        if (aggregate == null) return nextResult;
+        if (nextResult == null) return aggregate;
+        aggregate.getDependencyFiles().addAll(nextResult.getDependencyFiles());
+        return aggregate;
     }
 }

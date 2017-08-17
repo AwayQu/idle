@@ -67,7 +67,7 @@ public class ImportDependencyTest {
 
         DirectiveImportDependencyVisitor visitor = new DirectiveImportDependencyVisitor();
 
-        visitor.visit(preParseTree);
+        ImportDependency.FileNode node0 = visitor.visit(preParseTree);
 
 
         ObjectiveCPreprocessor preprocessor = new ObjectiveCPreprocessor(preToken);
@@ -90,6 +90,6 @@ public class ImportDependencyTest {
 
         PureCodeImportDependencyVisitor visitor1 = new PureCodeImportDependencyVisitor();
 
-        visitor1.visit(parseTree);
+        ImportDependency.FileNode node = visitor1.visit(parseTree);
     }
 }

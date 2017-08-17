@@ -3,15 +3,27 @@
  */
 package tsp.feature.dependency.visitor;
 
+import tsp.feature.dependency.ImportDependency;
 import tsp.gen.ObjectiveCParser;
 import tsp.gen.ObjectiveCParserBaseVisitor;
 import tsp.gen.ObjectiveCParserVisitor;
 
-public class PureCodeImportDependencyVisitor extends ObjectiveCParserBaseVisitor {
+import java.util.ArrayList;
+
+public class PureCodeImportDependencyVisitor extends ObjectiveCParserBaseVisitor<ImportDependency.FileNode> {
 
     @Override
-    public Object visitImportDeclaration(ObjectiveCParser.ImportDeclarationContext ctx) {
+    public ImportDependency.FileNode visitImportDeclaration(ObjectiveCParser.ImportDeclarationContext ctx) {
         System.out.println(ctx.getChild(1).getText());
-        return super.visitImportDeclaration(ctx);
+        String importName = ctx.getChild(1).getText();
+        return new ImportDependency.FileNode(importName);
+    }
+
+    @Override
+    protected ImportDependency.FileNode aggregateResult(ImportDependency.FileNode aggregate, ImportDependency.FileNode nextResult) {
+        if (aggregate == null) return nextResult;
+        if (nextResult == null) return aggregate;
+        aggregate.getDependencyFiles().addAll(nextResult.getDependencyFiles());
+        return aggregate;
     }
 }
