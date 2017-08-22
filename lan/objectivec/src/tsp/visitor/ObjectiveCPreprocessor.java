@@ -131,7 +131,8 @@ public class ObjectiveCPreprocessor extends ObjectiveCPreprocessorParserBaseVisi
         {
             StringBuilder str = new StringBuilder();
             ObjectiveCPreprocessorParser.Directive_textContext d = context.directive_text();
-            str.append(d.TEXT() != null ? d.TEXT() : "\r\n");
+
+            str.append((d != null && d.TEXT() != null) ? d.TEXT() : "\r\n");
             String directiveText = str.toString().trim();
             ConditionalSymbols.put(context.CONDITIONAL_SYMBOL().getText().replace(" ", ""), directiveText);
         }

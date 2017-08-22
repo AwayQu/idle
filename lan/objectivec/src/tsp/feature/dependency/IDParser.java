@@ -1,12 +1,8 @@
-/**
- * Created by away on 13/08/2017.
- */
 package tsp.feature.dependency;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.junit.Test;
 import tsp.feature.dependency.visitor.DirectiveImportDependencyVisitor;
 import tsp.feature.dependency.visitor.PureCodeImportDependencyVisitor;
 import tsp.gen.ObjectiveCLexer;
@@ -15,49 +11,29 @@ import tsp.gen.ObjectiveCPreprocessorLexer;
 import tsp.gen.ObjectiveCPreprocessorParser;
 import tsp.visitor.ObjectiveCPreprocessor;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
-public class ImportDependencyTest {
+/**
+ * 导入依赖parser
+ */
+public class IDParser {
+    static ImportDependency.FileNode parseFile(File file) throws IOException {
+        assert file.isFile();
+        FileInputStream fis = new FileInputStream(file);
 
-    @Test
-    public void testDirectiveImportDependency() {
-        String emptyClassString = "#import \"TestObject.h\"\n" +
-                "#import \"FooObject.h\"\n" +
-                "\n" +
-                "@implementation TestObject {\n" +
-                "\n" +
-                "}\n" +
-                "@end";
-
-        ANTLRInputStream preInputStream = new ANTLRInputStream(emptyClassString);
-        ObjectiveCPreprocessorLexer preLexer = new ObjectiveCPreprocessorLexer(preInputStream);
-
-        CommonTokenStream preToken = new CommonTokenStream(preLexer);
-
-        ObjectiveCPreprocessorParser preParser = new ObjectiveCPreprocessorParser(preToken);
-
-        ObjectiveCPreprocessorParser.ObjectiveCDocumentContext preParseTree = preParser.objectiveCDocument();
-
-
-        DirectiveImportDependencyVisitor visitor = new DirectiveImportDependencyVisitor();
-
-        visitor.visit(preParseTree);
+        ImportDependency.FileNode node = IDParser.parseOneFile(fis);
+        if (node != null) {
+            node.setFileName(file.getName());
+        }
+        return node;
 
     }
 
-
-    @Test
-    public void testPureImportDependency() {
-        String emptyClassString = "#import \"TestObject.h\"\n" +
-                "#import \"FooObject.h\"\n" +
-                "@import UIKit;\n" +
-                "\n" +
-                "@implementation TestObject {\n" +
-                "\n" +
-                "}\n" +
-                "@end";
-
-        ANTLRInputStream preInputStream = new ANTLRInputStream(emptyClassString);
+    private static ImportDependency.FileNode parseOneFile(FileInputStream fis) throws IOException {
+        ANTLRInputStream preInputStream = new ANTLRInputStream(fis);
         ObjectiveCPreprocessorLexer preLexer = new ObjectiveCPreprocessorLexer(preInputStream);
 
         CommonTokenStream preToken = new CommonTokenStream(preLexer);
@@ -93,16 +69,9 @@ public class ImportDependencyTest {
         PureCodeImportDependencyVisitor visitor1 = new PureCodeImportDependencyVisitor();
 
         ImportDependency.FileNode node = visitor1.visit(parseTree);
+        if (node != null) {
+            node0.getDependencyFiles().addAll(node.getDependencyFiles());
+        }
+        return node0;
     }
-
-    @Test
-    public void testParseProject() {
-        String projectPath = "/Users/away/IOSProject/activityIOS/";
-        ImportDependency id = new ImportDependency(projectPath);
-        ArrayList<ImportDependency.FileNode> fileNodes = id.parseProject();
-        System.out.println("============================");
-        System.out.println(fileNodes.toString());
-        System.out.println("============================");
-    }
-
 }
