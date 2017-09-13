@@ -4,7 +4,6 @@ import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 
 import java.util.HashMap;
-import java.util.Set;
 
 
 public class CallGraph {
@@ -13,18 +12,18 @@ public class CallGraph {
 //    public Set<CallGraphNode> callers;
 //    public Set<CallGraphNode> callees;
 
-    // Decl -> CGNode
-    private HashMap<Decl, CallGraphNode> functionMap;
+    // Declaration -> CGNode
+    private HashMap<Declaration, CallGraphNode> functionMap;
 
     private CallGraphNode root;
 
     public CallGraph() {
-        this.root = new CallGraphNode(new Decl("root"));
+        this.root = new CallGraphNode(new Declaration("root"));
         this.functionMap = new HashMap<>();
     }
 
     @Nullable
-    public CallGraphNode getNode(@NotNull Decl d) {
+    public CallGraphNode getNode(@NotNull Declaration d) {
         return this.functionMap.getOrDefault(d, null);
     }
 
@@ -41,6 +40,6 @@ public class CallGraph {
 
     @Override
     public String toString() {
-        return null;
+        return this.root.toString();
     }
 }

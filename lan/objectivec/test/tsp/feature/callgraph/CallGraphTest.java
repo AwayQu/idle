@@ -125,6 +125,7 @@ public class CallGraphTest {
         CallGraph graph = new CallGraph();
         CallVisitor visitor = new CallVisitor(graph);
         visitor.visit(parseTree);
-        System.out.print("finish");
+        System.out.println(graph);
+        System.out.println("finish");
     }
 }

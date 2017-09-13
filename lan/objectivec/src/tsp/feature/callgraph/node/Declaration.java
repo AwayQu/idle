@@ -1,9 +1,9 @@
 package tsp.feature.callgraph.node;
 
-public class Decl {
+public class Declaration {
     private String identify;
 
-    public Decl(String identify) {
+    public Declaration(String identify) {
         this.identify = identify;
     }
 
@@ -20,13 +20,19 @@ public class Decl {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Decl decl = (Decl) o;
+        Declaration declaration = (Declaration) o;
 
-        return identify != null ? identify.equals(decl.identify) : decl.identify == null;
+        return identify != null ? identify.equals(declaration.identify) : declaration.identify == null;
     }
 
     @Override
     public int hashCode() {
         return identify != null ? identify.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Declaration{" + '\'' + identify + '\'' +
+                '}';
     }
 }

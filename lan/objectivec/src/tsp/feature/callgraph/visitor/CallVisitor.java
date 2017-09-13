@@ -3,7 +3,7 @@ package tsp.feature.callgraph.visitor;
 import tsp.feature.callgraph.builder.CGBuilder;
 import tsp.feature.callgraph.node.CallGraph;
 import tsp.feature.callgraph.node.CallGraphNode;
-import tsp.feature.callgraph.node.Decl;
+import tsp.feature.callgraph.node.Declaration;
 import tsp.gen.ObjectiveCParser;
 import tsp.gen.ObjectiveCParserBaseVisitor;
 
@@ -47,8 +47,8 @@ public class CallVisitor extends ObjectiveCParserBaseVisitor<CGBuilder> {
     @Override
     public CGBuilder visitMethodSelector(ObjectiveCParser.MethodSelectorContext ctx) {
         String identify = ctx.getText();
-        Decl decl = new Decl(identify);
-        CallGraphNode caller = new CallGraphNode(decl);
+        Declaration declaration = new Declaration(identify);
+        CallGraphNode caller = new CallGraphNode(declaration);
         builder = new CGBuilder(this.graph, caller);
         builder.addCaller(caller);
         return super.visitMethodSelector(ctx);
@@ -68,8 +68,8 @@ public class CallVisitor extends ObjectiveCParserBaseVisitor<CGBuilder> {
     @Override
     public CGBuilder visitMessageSelector(ObjectiveCParser.MessageSelectorContext ctx) {
         String identify = ctx.getText();
-        Decl decl = new Decl(identify);
-        CallGraphNode callee = new CallGraphNode(decl);
+        Declaration declaration = new Declaration(identify);
+        CallGraphNode callee = new CallGraphNode(declaration);
         this.builder.addCallee(callee);
         return super.visitMessageSelector(ctx);
     }
