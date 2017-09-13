@@ -55,6 +55,11 @@ public class TestCallVisitor extends ObjectiveCParserBaseVisitor {
     }
 
     @Override
+    public Object visitMethodSelector(ObjectiveCParser.MethodSelectorContext ctx) {
+        return super.visitMethodSelector(ctx);
+    }
+
+    @Override
     public Object visitClassMethodDefinition(ObjectiveCParser.ClassMethodDefinitionContext ctx) {
         System.out.println("ClassMethodDeclaration");
         System.out.println(ctx.getText());
@@ -64,6 +69,7 @@ public class TestCallVisitor extends ObjectiveCParserBaseVisitor {
 
     @Override
     public Object visitInstanceMethodDefinition(ObjectiveCParser.InstanceMethodDefinitionContext ctx) {
+
         System.out.println("InstanceDeclaration");
         System.out.println(ctx.getText());
         System.out.println("");
