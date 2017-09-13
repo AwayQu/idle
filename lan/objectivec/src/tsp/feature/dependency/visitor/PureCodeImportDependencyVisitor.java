@@ -6,9 +6,6 @@ package tsp.feature.dependency.visitor;
 import tsp.feature.dependency.ImportDependency;
 import tsp.gen.ObjectiveCParser;
 import tsp.gen.ObjectiveCParserBaseVisitor;
-import tsp.gen.ObjectiveCParserVisitor;
-
-import java.util.ArrayList;
 
 public class PureCodeImportDependencyVisitor extends ObjectiveCParserBaseVisitor<ImportDependency.FileNode> {
 
