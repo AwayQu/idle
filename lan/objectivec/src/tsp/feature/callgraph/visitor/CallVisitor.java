@@ -1,20 +1,24 @@
 package tsp.feature.callgraph.visitor;
 
 import tsp.feature.callgraph.builder.CGBuilder;
+import tsp.feature.callgraph.node.CallGraph;
+import tsp.feature.callgraph.node.CallGraphNode;
+import tsp.feature.callgraph.node.Decl;
 import tsp.gen.ObjectiveCParser;
 import tsp.gen.ObjectiveCParserBaseVisitor;
 
 public class CallVisitor extends ObjectiveCParserBaseVisitor<CGBuilder> {
 
-
-    public CallVisitor() {
+    public CallGraph graph;
+    public CGBuilder builder;
+    public CallVisitor(CallGraph graph) {
+        this.graph = graph;
     }
 
 
 
     @Override
     public CGBuilder visitFunctionCallExpression(ObjectiveCParser.FunctionCallExpressionContext ctx) {
-        System.out.print(ctx);
         return super.visitFunctionCallExpression(ctx);
     }
 
@@ -42,12 +46,16 @@ public class CallVisitor extends ObjectiveCParserBaseVisitor<CGBuilder> {
 
     @Override
     public CGBuilder visitMethodSelector(ObjectiveCParser.MethodSelectorContext ctx) {
+        String identify = ctx.getText();
+        Decl decl = new Decl(identify);
+        CallGraphNode caller = new CallGraphNode(decl);
+        builder = new CGBuilder(this.graph, caller);
+        builder.addCaller(caller);
         return super.visitMethodSelector(ctx);
     }
 
     @Override
     public CGBuilder visitMessageExpression(ObjectiveCParser.MessageExpressionContext ctx) {
-        System.out.print(ctx);
         return super.visitMessageExpression(ctx);
     }
 
@@ -59,6 +67,10 @@ public class CallVisitor extends ObjectiveCParserBaseVisitor<CGBuilder> {
 
     @Override
     public CGBuilder visitMessageSelector(ObjectiveCParser.MessageSelectorContext ctx) {
+        String identify = ctx.getText();
+        Decl decl = new Decl(identify);
+        CallGraphNode callee = new CallGraphNode(decl);
+        this.builder.addCallee(callee);
         return super.visitMessageSelector(ctx);
     }
 

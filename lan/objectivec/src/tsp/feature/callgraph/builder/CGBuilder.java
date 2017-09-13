@@ -12,5 +12,15 @@ public class CGBuilder {
         this.caller = caller;
     }
 
+    public void addCaller(CallGraphNode caller) {
+//        if (this.callGraph.getNode(caller.getFunctionDecl()) == null)
+        this.callGraph.addCaller(caller);
+    }
+
+    public void addCallee(CallGraphNode callee) {
+        this.caller.addCallee(callee);
+        if (this.callGraph.getNode(callee.getFunctionDecl()) == null)
+            this.callGraph.addFunction(callee);
+    }
 
 }

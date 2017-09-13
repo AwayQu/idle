@@ -16,7 +16,7 @@ public class CallGraph {
     // Decl -> CGNode
     private HashMap<Decl, CallGraphNode> functionMap;
 
-    public CallGraphNode root;
+    private CallGraphNode root;
 
     public CallGraph() {
         this.root = new CallGraphNode(new Decl("root"));
@@ -28,7 +28,19 @@ public class CallGraph {
         return this.functionMap.getOrDefault(d, null);
     }
 
-    public void addToCallGraph (Decl d) {
 
+    public void addCaller(CallGraphNode caller) {
+        this.root.addCallee(caller);
+        this.addFunction(caller);
+
+    }
+
+    public void addFunction(CallGraphNode n) {
+        this.functionMap.put(n.getFunctionDecl(), n);
+    }
+
+    @Override
+    public String toString() {
+        return null;
     }
 }
