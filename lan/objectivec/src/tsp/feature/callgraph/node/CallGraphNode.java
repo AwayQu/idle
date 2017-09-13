@@ -35,8 +35,8 @@ public class CallGraphNode {
 
     @Override
     public String toString() {
-        return "CallGraphNode{" + functionDeclaration +
-                ", callees=" + callees +
-                '}';
+        return "CallGraphNode{ \n" + functionDeclaration +
+                ", \n callees=" + callees +
+                "}";
     }
 }
