@@ -1,7 +1,7 @@
 /**
  * Created by away on 13/08/2017.
  */
-package tsp.feature.dependency;
+package tsp.feature.dependency.fd;
 
 import java.io.File;
 import java.io.IOException;

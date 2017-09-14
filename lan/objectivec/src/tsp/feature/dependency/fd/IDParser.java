@@ -1,10 +1,10 @@
-package tsp.feature.dependency;
+package tsp.feature.dependency.fd;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import tsp.feature.dependency.visitor.DirectiveImportDependencyVisitor;
-import tsp.feature.dependency.visitor.PureCodeImportDependencyVisitor;
+import tsp.feature.dependency.fd.visitor.DirectiveImportDependencyVisitor;
+import tsp.feature.dependency.fd.visitor.PureCodeImportDependencyVisitor;
 import tsp.gen.ObjectiveCLexer;
 import tsp.gen.ObjectiveCParser;
 import tsp.gen.ObjectiveCPreprocessorLexer;
@@ -13,7 +13,6 @@ import tsp.visitor.ObjectiveCPreprocessor;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
