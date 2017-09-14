@@ -35,11 +35,20 @@ public class CallGraph {
     }
 
     public void addFunction(CallGraphNode n) {
-        this.functionMap.put(n.getFunctionDecl(), n);
+        this.functionMap.put(n.getDeclaration(), n);
     }
 
     @Override
     public String toString() {
         return this.root.toString();
     }
+
+    public String dotString() {
+        StringBuilder sb = new StringBuilder("");
+        sb.append("strict digraph {\n");
+        sb.append(this.root.dotString());
+        sb.append("}");
+        return sb.toString();
+    }
+
 }

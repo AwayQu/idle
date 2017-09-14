@@ -13,13 +13,13 @@ public class CGBuilder {
     }
 
     public void addCaller(CallGraphNode caller) {
-//        if (this.callGraph.getNode(caller.getFunctionDecl()) == null)
+//        if (this.callGraph.getNode(caller.getDeclaration()) == null)
         this.callGraph.addCaller(caller);
     }
 
     public void addCallee(CallGraphNode callee) {
         this.caller.addCallee(callee);
-        if (this.callGraph.getNode(callee.getFunctionDecl()) == null)
+        if (this.callGraph.getNode(callee.getDeclaration()) == null)
             this.callGraph.addFunction(callee);
     }
 

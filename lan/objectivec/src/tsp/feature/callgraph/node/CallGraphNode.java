@@ -6,12 +6,12 @@ import java.util.HashSet;
 
 public class CallGraphNode {
 
-    private Declaration functionDeclaration;
+    private Declaration declaration;
 
     private HashSet<CallGraphNode> callees;
 
-    public CallGraphNode(@NotNull Declaration functionDeclaration) {
-        this.functionDeclaration = functionDeclaration;
+    public CallGraphNode(@NotNull Declaration declaration) {
+        this.declaration = declaration;
         this.callees = new HashSet<>();
     }
 
@@ -20,23 +20,41 @@ public class CallGraphNode {
     }
 
     @NotNull
-    public Declaration getFunctionDecl() {
-        return functionDeclaration;
+    public Declaration getDeclaration() {
+        return declaration;
     }
 
-    public void dump() {
 
-    }
 
     public void print() {
-        System.out.print(this.functionDeclaration);
+        System.out.print(this.declaration);
         System.out.print(this.callees);
     }
 
     @Override
     public String toString() {
-        return "CallGraphNode{ \n" + functionDeclaration +
+        return "CallGraphNode{ \n" + declaration +
                 ", \n callees=" + callees +
                 "}";
+    }
+
+
+    public void dumpDot() {
+
+    }
+
+    public String dotString() {
+        String id = this.declaration.getIdentify();
+        String arrow = " -> ";
+        StringBuilder sb = new StringBuilder("");
+        for (CallGraphNode node: this.callees) {
+            String calleeIdentify = node.getDeclaration().getIdentify();
+            String dotString = node.dotString();
+
+            sb.append(id).append(arrow).append(calleeIdentify).append("\n");
+            sb.append(dotString);
+
+        }
+        return sb.toString();
     }
 }

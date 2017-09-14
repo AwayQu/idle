@@ -7,15 +7,14 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 import tsp.feature.callgraph.node.CallGraph;
 import tsp.feature.callgraph.visitor.CallVisitor;
-import tsp.feature.dependency.ImportDependency;
-import tsp.feature.dependency.visitor.DirectiveImportDependencyVisitor;
-import tsp.feature.dependency.visitor.PureCodeImportDependencyVisitor;
 import tsp.gen.ObjectiveCLexer;
 import tsp.gen.ObjectiveCParser;
 import tsp.gen.ObjectiveCPreprocessorLexer;
 import tsp.gen.ObjectiveCPreprocessorParser;
 import tsp.visitor.ObjectiveCPreprocessor;
 
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class CallGraphTest {
@@ -127,5 +126,91 @@ public class CallGraphTest {
         visitor.visit(parseTree);
         System.out.println(graph);
         System.out.println("finish");
+    }
+
+
+    @Test
+    public void dotOutputTest() throws Exception {
+        ANTLRFileStream fs = new ANTLRFileStream("./test/res/InstanceCallTest.m");
+        ObjectiveCPreprocessorLexer preLexer = new ObjectiveCPreprocessorLexer(fs);
+
+        CommonTokenStream preToken = new CommonTokenStream(preLexer);
+
+        ObjectiveCPreprocessorParser preParser = new ObjectiveCPreprocessorParser(preToken);
+
+        ObjectiveCPreprocessorParser.ObjectiveCDocumentContext preParseTree = preParser.objectiveCDocument();
+
+
+        ObjectiveCPreprocessor preprocessor = new ObjectiveCPreprocessor(preToken);
+
+        String removedSourceString = preprocessor.visit(preParseTree);
+//        System.out.println(preParseTree.toStringTree(preParser));
+
+        // =======================================
+
+        ANTLRInputStream inputStream = new ANTLRInputStream(removedSourceString);
+        ObjectiveCLexer lexer = new ObjectiveCLexer(inputStream);
+
+        CommonTokenStream token = new CommonTokenStream(lexer);
+
+        ObjectiveCParser parser = new ObjectiveCParser(token);
+
+        ParseTree parseTree = parser.translationUnit();
+
+//        System.out.println(parseTree.toStringTree(parser));
+
+        CallGraph graph = new CallGraph();
+        CallVisitor visitor = new CallVisitor(graph);
+        visitor.visit(parseTree);
+        System.out.println(graph.dotString());
+        System.out.println("finish");
+
+        FileWriter fw = new FileWriter("./test/res/out/instanceCallTest.dot");
+        fw.write(graph.dotString());
+        fw.flush();
+        fw.close();
+    }
+
+
+    @Test
+    public void dotOutputTest1() throws Exception {
+        ANTLRFileStream fs = new ANTLRFileStream("./test/res/InstanceCallTest1.m");
+        ObjectiveCPreprocessorLexer preLexer = new ObjectiveCPreprocessorLexer(fs);
+
+        CommonTokenStream preToken = new CommonTokenStream(preLexer);
+
+        ObjectiveCPreprocessorParser preParser = new ObjectiveCPreprocessorParser(preToken);
+
+        ObjectiveCPreprocessorParser.ObjectiveCDocumentContext preParseTree = preParser.objectiveCDocument();
+
+
+        ObjectiveCPreprocessor preprocessor = new ObjectiveCPreprocessor(preToken);
+
+        String removedSourceString = preprocessor.visit(preParseTree);
+//        System.out.println(preParseTree.toStringTree(preParser));
+
+        // =======================================
+
+        ANTLRInputStream inputStream = new ANTLRInputStream(removedSourceString);
+        ObjectiveCLexer lexer = new ObjectiveCLexer(inputStream);
+
+        CommonTokenStream token = new CommonTokenStream(lexer);
+
+        ObjectiveCParser parser = new ObjectiveCParser(token);
+
+        ParseTree parseTree = parser.translationUnit();
+
+//        System.out.println(parseTree.toStringTree(parser));
+
+        CallGraph graph = new CallGraph();
+        CallVisitor visitor = new CallVisitor(graph);
+        visitor.visit(parseTree);
+        System.out.println(graph.dotString());
+        System.out.println("finish");
+
+        FileWriter fw = new FileWriter("./test/res/out/instanceCallTest1.dot");
+        fw.write(graph.dotString());
+        fw.flush();
+        fw.close();
     }
 }
