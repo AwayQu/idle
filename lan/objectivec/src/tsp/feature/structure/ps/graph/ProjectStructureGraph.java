@@ -34,4 +34,10 @@ public class ProjectStructureGraph {
                 "root=" + root +
                 '}';
     }
+
+    public String dotString() {
+        return "digraph G {\n" +
+                "  size=\"8,6\"; ratio=fill; node[fontsize=24];"
+                        + this.root.dotString() + "}";
+    }
 }

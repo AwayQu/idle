@@ -21,4 +21,19 @@ public class DirectoryNode extends FileDescriptionNode {
                 "fdMap=" + fdMap +
                 '}';
     }
+
+    @Override
+    public String dotString() {
+        StringBuilder sb = new StringBuilder("");
+        String path = this.getPath().replace('/','_');
+        sb.append("subgraph \"cluster_" + path + "\" {\n" +
+                "    shape=box\n" +
+                "    label=\"" + this.getName() + "\";");
+        for (FileDescriptionNode fdn: this.fdMap.values()) {
+            sb.append(fdn.dotString());
+        }
+
+        sb.append("}");
+        return sb.toString();
+    }
 }

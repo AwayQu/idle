@@ -34,4 +34,8 @@ public class FileDescriptionNode {
     public String toString() {
         return name;
     }
+
+    public String dotString() {
+        return "";
+    }
 }
