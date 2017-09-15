@@ -31,6 +31,10 @@ public class ImportDependency {
             this.fileName = fileName;
         }
 
+        public String getFileName() {
+            return fileName;
+        }
+
         public FileNode(String dependencyFile) {
             ArrayList<String> dependencyFiles = new ArrayList<>();
             dependencyFiles.add(dependencyFile);
@@ -51,10 +55,8 @@ public class ImportDependency {
      * 获取类依赖关系
      */
     public ArrayList<FileNode> parseProject() {
-        File currentDir = new File(this.projectPath);
-        assert currentDir.isDirectory();
-        ArrayList<File> files = new ArrayList<>();
-        this.getFile(files, currentDir);
+
+        ArrayList<File> files = getProjectFiles();
 
         ArrayList<FileNode> fileNodes = new ArrayList<>();
 
@@ -69,6 +71,14 @@ public class ImportDependency {
             }
         }
         return fileNodes;
+    }
+
+    public ArrayList<File> getProjectFiles() {
+        File currentDir = new File(this.projectPath);
+        assert currentDir.isDirectory();
+        ArrayList<File> files = new ArrayList<>();
+        this.getFile(files, currentDir);
+        return files;
     }
 
     private void getFile(ArrayList<File> files, File currentDir) {

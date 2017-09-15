@@ -19,7 +19,7 @@ import java.io.IOException;
  * 导入依赖parser
  */
 public class IDParser {
-    static ImportDependency.FileNode parseFile(File file) throws IOException {
+    public static ImportDependency.FileNode parseFile(File file) throws IOException {
         assert file.isFile();
         FileInputStream fis = new FileInputStream(file);
 

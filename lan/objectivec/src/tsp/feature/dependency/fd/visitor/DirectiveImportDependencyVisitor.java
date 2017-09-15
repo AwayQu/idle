@@ -10,7 +10,7 @@ import tsp.gen.ObjectiveCPreprocessorParserBaseVisitor;
 public class DirectiveImportDependencyVisitor extends ObjectiveCPreprocessorParserBaseVisitor<ImportDependency.FileNode> {
     @Override
     public ImportDependency.FileNode visitPreprocessorImport(ObjectiveCPreprocessorParser.PreprocessorImportContext ctx) {
-        System.out.println(ctx.getChild(1).getText());
+//        System.out.println(ctx.getChild(1).getText());
         String importName = ctx.getChild(1).getText();
         return new ImportDependency.FileNode(importName);
     }
