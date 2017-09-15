@@ -1,6 +1,8 @@
 package tsp.feature.dependency.fd.node;
 
 
+import tsp.feature.structure.ps.node.FileDescriptionNode;
+
 import java.util.HashMap;
 
 public class FileNode {
@@ -24,6 +26,23 @@ public class FileNode {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String dotString() {
+        if (this.fdMap.isEmpty()) {
+            return "\"" + this.getName() + "\";\n";
+        } else {
+
+            StringBuilder sb = new StringBuilder("");
+            for (FileNode fdn : this.fdMap.values()) {
+                sb.append("\"" + this.getName() + "\" -> " +
+                        "\"" + fdn.getName() + "\""
+                        + ";\n");
+                sb.append(fdn.dotString());
+            }
+
+            return sb.toString();
+        }
     }
 
     @Override

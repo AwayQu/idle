@@ -11,7 +11,7 @@ public class DirectiveImportDependencyVisitor extends ObjectiveCPreprocessorPars
     @Override
     public ImportDependency.FileNode visitPreprocessorImport(ObjectiveCPreprocessorParser.PreprocessorImportContext ctx) {
 //        System.out.println(ctx.getChild(1).getText());
-        String importName = ctx.getChild(1).getText();
+        String importName = ctx.getChild(1).getText().replace('\"', ' ');
         return new ImportDependency.FileNode(importName);
     }
 

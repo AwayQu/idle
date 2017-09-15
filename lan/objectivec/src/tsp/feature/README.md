@@ -29,3 +29,10 @@
 * class's function call graph
 * a function call graph (todo)
 * flow of a module call graph (todo)
+
+
+# Test
+
+* todo valid .dot file syntax
+
+https://dreampuf.github.io/GraphvizOnline/
