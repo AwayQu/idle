@@ -2,6 +2,7 @@ package tsp.basic;
 
 
 import tsp.basic.file.DirectoryNode;
+import tsp.basic.file.FileDescriptionNode;
 import tsp.basic.file.FileNode;
 import tsp.basic.file.FileVisitor;
 
@@ -22,7 +23,6 @@ public class PrintFileVisitor extends BaseNodeVisitor<String> implements FileVis
 
     @Override
     public String visitFileNode(FileNode node) {
-
         System.out.println(this.getIndent() + node.getName());
         return this.visitChildren(node);
     }
