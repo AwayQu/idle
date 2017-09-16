@@ -7,4 +7,7 @@ public interface NodeVisitor<T> {
 
     T visitChildren(Node n);
 
+    public T aggregateResult(T aggregate, T nextResult);
+
+    public T defaultResult();
 }

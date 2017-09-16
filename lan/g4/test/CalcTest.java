@@ -1,7 +1,7 @@
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 /**
  * Created by away on 13/08/2017.

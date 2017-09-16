@@ -1,7 +1,6 @@
 package tsp.feature.dependency.fd.node;
 
 
-import tsp.feature.structure.ps.node.FileDescriptionNode;
 
 import java.util.HashMap;
 
@@ -52,4 +51,5 @@ public class FileNode {
                 ", fdMap=" + fdMap +
                 '}';
     }
+
 }

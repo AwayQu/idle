@@ -2,20 +2,19 @@ package tsp.basic;
 
 public class BaseNode implements Node {
 
-
     @Override
     public Node getParent() {
         return null;
     }
 
     @Override
-    public Node getChild() {
-        return null;
+    public Node getChild(int idx) {
+        return this.getChildren()[idx];
     }
 
     @Override
-    public Node getChild(int idx) {
-        return null;
+    public int getChildCount() {
+        return 0;
     }
 
     @Override

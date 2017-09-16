@@ -1,6 +1,6 @@
 package tsp.feature.structure.ps.graph;
 
-import tsp.feature.structure.ps.node.FileDescriptionNode;
+import tsp.basic.file.FileDescriptionNode;
 
 import java.util.HashMap;
 

@@ -1,4 +1,6 @@
-package tsp.feature.structure.ps.node;
+package tsp.basic.file;
+
+import tsp.basic.NodeVisitor;
 
 import java.util.HashMap;
 
@@ -36,4 +38,14 @@ public class DirectoryNode extends FileDescriptionNode {
         sb.append("}");
         return sb.toString();
     }
+
+    @Override
+    public <T> T accept(NodeVisitor<? extends T> visitor) {
+        if (visitor instanceof FileVisitor) {
+            return ((FileVisitor<? extends T>) visitor).visitDirectoryNode(this);
+        }
+        return visitor.visitChildren(this);
+    }
+
+
 }

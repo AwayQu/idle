@@ -1,6 +1,8 @@
-package tsp.feature.structure.ps.node;
+package tsp.basic.file;
 
-public class FileDescriptionNode {
+import tsp.basic.BaseNode;
+
+public class FileDescriptionNode extends BaseNode{
     private String name;
     private String path;
     private String extension;
@@ -38,4 +40,6 @@ public class FileDescriptionNode {
     public String dotString() {
         return "";
     }
+
+
 }

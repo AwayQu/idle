@@ -1,9 +1,8 @@
 package tsp.feature.structure.ps.scan;
 
 import tsp.feature.structure.ps.graph.ProjectStructureGraph;
-import tsp.feature.structure.ps.node.DirectoryNode;
-import tsp.feature.structure.ps.node.FileDescriptionNode;
-import tsp.feature.structure.ps.node.FileNode;
+import tsp.basic.file.DirectoryNode;
+import tsp.basic.file.FileNode;
 
 import java.io.File;
 import java.util.ArrayList;
