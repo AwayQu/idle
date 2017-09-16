@@ -18,10 +18,12 @@ public abstract class BaseNodeVisitor<T> implements NodeVisitor<T> {
         depth++;
         T result = this.defaultResult();
         int count = n.getChildCount();
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count && this.shouldVisitNextChild(n); i++) {
             Node c = n.getChild(i);
-            T childResult = c.accept(this);
-            result = this.aggregateResult(result, childResult);
+            if (this.shouldVisitChild(c)) {
+                T childResult = c.accept(this);
+                result = this.aggregateResult(result, childResult);
+            }
         }
         depth--;
         return result;
@@ -35,6 +37,16 @@ public abstract class BaseNodeVisitor<T> implements NodeVisitor<T> {
     @Override
     public T defaultResult() {
         return null;
+    }
+
+    @Override
+    public boolean shouldVisitNextChild(Node p) {
+        return true;
+    }
+
+    @Override
+    public boolean shouldVisitChild(Node c) {
+        return true;
     }
 
     public int getDepth() {

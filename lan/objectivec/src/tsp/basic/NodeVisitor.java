@@ -10,4 +10,8 @@ public interface NodeVisitor<T> {
     public T aggregateResult(T aggregate, T nextResult);
 
     public T defaultResult();
+
+    public boolean shouldVisitNextChild(Node n);
+
+    public boolean shouldVisitChild(Node c);
 }

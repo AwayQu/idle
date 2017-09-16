@@ -28,4 +28,25 @@ public class DotGraphFileVisitor extends BaseNodeVisitor<String> implements File
         }
         return this.visitChildren(node);
     }
+
+    @Override
+    public boolean shouldVisitNextChild(Node n) {
+        FileDescriptionNode parent = (FileDescriptionNode) n.getParent();
+        FileDescriptionNode node = (FileDescriptionNode)n;
+        if (node.getName().startsWith(".")
+                || node.getName().endsWith(".xcodeproj")) {
+            return false;
+        }
+        return super.shouldVisitNextChild(n);
+    }
+
+    @Override
+    public boolean shouldVisitChild(Node c) {
+        FileDescriptionNode node = (FileDescriptionNode)c;
+        if (node.getName().startsWith(".")
+                || node.getName().endsWith(".xcodeproj")) {
+            return false;
+        }
+        return super.shouldVisitChild(c);
+    }
 }
