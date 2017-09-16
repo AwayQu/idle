@@ -42,7 +42,7 @@ public class DirectoryNode extends FileDescriptionNode {
 
     @Override
     public Node getChild(int idx) {
-        return ((Node[])this.fdMap.values().toArray())[idx];
+        return (Node)this.fdMap.values().toArray()[idx];
     }
 
     @Override

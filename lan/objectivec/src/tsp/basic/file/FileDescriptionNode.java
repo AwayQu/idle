@@ -2,7 +2,7 @@ package tsp.basic.file;
 
 import tsp.basic.BaseNode;
 
-public class FileDescriptionNode extends BaseNode{
+public class FileDescriptionNode extends BaseNode {
     private String name;
     private String path;
     private String extension;
