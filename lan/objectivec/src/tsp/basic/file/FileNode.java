@@ -14,15 +14,6 @@ public class FileNode extends FileDescriptionNode {
 
 
     //region base node
-    @Override
-    public Node getParent() {
-        return super.getParent();
-    }
-
-    @Override
-    public Node getChild(int idx) {
-        return this.getChildren()[idx];
-    }
 
     @Override
     public <T> T accept(NodeVisitor<? extends T> visitor) {

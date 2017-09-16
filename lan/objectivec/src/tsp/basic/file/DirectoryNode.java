@@ -1,5 +1,6 @@
 package tsp.basic.file;
 
+import tsp.basic.Node;
 import tsp.basic.NodeVisitor;
 
 import java.util.HashMap;
@@ -38,6 +39,17 @@ public class DirectoryNode extends FileDescriptionNode {
         sb.append("}");
         return sb.toString();
     }
+
+    @Override
+    public Node getChild(int idx) {
+        return ((Node[])this.fdMap.values().toArray())[idx];
+    }
+
+    @Override
+    public int getChildCount() {
+        return this.fdMap.values().toArray().length;
+    }
+
 
     @Override
     public <T> T accept(NodeVisitor<? extends T> visitor) {
