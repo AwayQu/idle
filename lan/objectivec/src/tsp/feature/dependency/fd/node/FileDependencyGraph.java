@@ -31,7 +31,7 @@ public class FileDependencyGraph {
     public String dotString() {
         StringBuilder sb = new StringBuilder("");
         sb.append("digraph G {\n" +
-                "  size=\"10,10\"; ratio=fill; node[fontsize=24 shape=box];");
+                "node[shape=box];");
         for (FileNode fdn : this.fdMap.values()) {
             sb.append(fdn.dotString());
         }
