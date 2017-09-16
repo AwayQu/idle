@@ -1,12 +1,23 @@
 package tsp.basic.file;
 
 import tsp.basic.BaseNode;
+import tsp.basic.Node;
 
 public class FileDescriptionNode extends BaseNode {
+
+    private FileDescriptionNode parent;
     private String name;
     private String path;
     private String extension;
 
+    public void setParent(FileDescriptionNode parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public Node getParent() {
+        return this.parent;
+    }
 
     public String getName() {
         return name;

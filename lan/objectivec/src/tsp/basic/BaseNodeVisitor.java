@@ -1,6 +1,13 @@
 package tsp.basic;
 
 public abstract class BaseNodeVisitor<T> implements NodeVisitor<T> {
+
+    private int depth;
+
+    public BaseNodeVisitor() {
+        this.depth = 0;
+    }
+
     @Override
     public T visit(Node n) {
         return n.accept(this);
@@ -8,6 +15,7 @@ public abstract class BaseNodeVisitor<T> implements NodeVisitor<T> {
 
     @Override
     public T visitChildren(Node n) {
+        depth++;
         T result = this.defaultResult();
         int count = n.getChildCount();
         for (int i = 0; i < count; i++) {
@@ -15,6 +23,7 @@ public abstract class BaseNodeVisitor<T> implements NodeVisitor<T> {
             T childResult = c.accept(this);
             result = this.aggregateResult(result, childResult);
         }
+        depth--;
         return result;
     }
 
@@ -26,5 +35,9 @@ public abstract class BaseNodeVisitor<T> implements NodeVisitor<T> {
     @Override
     public T defaultResult() {
         return null;
+    }
+
+    public int getDepth() {
+        return depth;
     }
 }

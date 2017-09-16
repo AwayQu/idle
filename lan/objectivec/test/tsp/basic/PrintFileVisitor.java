@@ -6,16 +6,33 @@ import tsp.basic.file.FileNode;
 import tsp.basic.file.FileVisitor;
 
 public class PrintFileVisitor extends BaseNodeVisitor<String> implements FileVisitor<String> {
+    Node root;
+
+    public PrintFileVisitor() {
+    }
+
+    public String getIndent() {
+        StringBuilder sb = new StringBuilder("");
+        for (int i =0; i< this.getDepth(); i++) {
+            sb.append("----");
+        }
+
+        return sb.toString();
+    }
 
     @Override
     public String visitFileNode(FileNode node) {
-        System.out.println(node.getName());
+
+        System.out.println(this.getIndent() + node.getName());
         return this.visitChildren(node);
     }
 
     @Override
     public String visitDirectoryNode(DirectoryNode node) {
-        System.out.println(node.getName());
+        if (root == null) {
+            root = node;
+        }
+        System.out.println(this.getIndent() + node.getName());
         return this.visitChildren(node);
     }
 }

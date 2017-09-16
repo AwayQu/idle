@@ -35,17 +35,21 @@ public class FileScan {
                 for (File f: files) {
                     if (f.isDirectory()) {
                         DirectoryNode dn = new DirectoryNode();
+
                         dn.setPath(f.getPath());
                         dn.setName(f.getName());
+                        dn.setParent(parentDirNode);
 
                         directories.add(f);
                         graph.addFileDescription(dn);
                         parentDirNode.addFileDescription(dn);
 
                     } else {
+
                         FileNode fn = new FileNode();
                         fn.setName(f.getName());
                         fn.setPath(f.getPath());
+                        fn.setParent(parentDirNode);
                         graph.addFileDescription(fn);
                         parentDirNode.addFileDescription(fn);
                     }
