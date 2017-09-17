@@ -19,6 +19,7 @@ import tsp.visitor.TestObjcBaseVisitor;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
 public class ClassDiagramTest {
     @Test
@@ -71,7 +72,8 @@ public class ClassDiagramTest {
 
     @Test
     public void classDiagramTest5() throws Exception {
-        ProjectStructureGraph graph = FileScan.scanProject("/Users/away/IOSProject/activityIOS");
+        ProjectStructureGraph graph = FileScan.scanProject("/Users/away/Desktop/ios_hello");
+//        ProjectStructureGraph graph = FileScan.scanProject("/Users/away/IOSProject/activityIOS");
         FileDescriptionNode rootNode = graph.root;
 
         // className -> count
@@ -102,6 +104,28 @@ public class ClassDiagramTest {
                         System.out.println("protocol:" + protocol);
                     }
                 }
+
+                ObjectiveCParser.InterfaceDeclarationListContext declarationListContext = ctx.interfaceDeclarationList();
+                if (declarationListContext != null) {
+
+                    List<ObjectiveCParser.ClassMethodDeclarationContext> methodList = declarationListContext.classMethodDeclaration();
+                    if (methodList != null) {
+                        for (ObjectiveCParser.ClassMethodDeclarationContext method : methodList) {
+                            String methodName = method.methodDeclaration().methodSelector().getText();
+                            objc.addMethods(methodName);
+                            System.out.println("classMethod:" + methodName);
+                        }
+                    }
+
+                    List<ObjectiveCParser.InstanceMethodDeclarationContext> instanceMethodList = declarationListContext.instanceMethodDeclaration();
+                    if (instanceMethodList != null) {
+                        for (ObjectiveCParser.InstanceMethodDeclarationContext method : instanceMethodList) {
+                            String methodName = method.methodDeclaration().methodSelector().getText();
+                            objc.addMethods(methodName);
+                            System.out.println("instanceMethod:" + methodName);
+                        }
+                    }
+                }
                 objcMap.put(className, objc);
                 return super.visitClassInterface(ctx);
             }
@@ -125,7 +149,7 @@ public class ClassDiagramTest {
                     objc = objcMap.get(className);
                 }
                 if (ctx.protocolReferenceList() != null) {
-                    for (ObjectiveCParser.ProtocolNameContext name : ctx.protocolReferenceList().protocolList().protocolName()){
+                    for (ObjectiveCParser.ProtocolNameContext name : ctx.protocolReferenceList().protocolList().protocolName()) {
                         String protocol = name.getText();
                         objc.addProtocol(protocol);
                         System.out.println("protocol:" + protocol);
@@ -164,13 +188,19 @@ public class ClassDiagramTest {
         sb.append("@startuml\n");
 
         for (ObjcClass objc : objcMap.values()) {
+
+            sb.append("class " + objc.name + " {\n");
+            for (String method : objc.methods) {
+                sb.append("{method}" + method + "\n");
+            }
+            sb.append("}\n");
             // extends
             if (!objc.superClass.equals("NSObject")) {
                 sb.append(objc.superClass + "<|--" + objc.name + "\n");
             }
             for (String protocol : objc.protocols) {
                 // implements
-                sb.append(protocol + "<--" +objc.name + "\n");
+                sb.append(protocol + "<--" + objc.name + "\n");
             }
         }
 
@@ -180,6 +210,6 @@ public class ClassDiagramTest {
         System.out.println("===============");
         System.out.println(sb.toString());
 
-        Output.writeToFile("./test/res/out/uml/classDiagramTest5.puml",sb.toString());
+        Output.writeToFile("./test/res/out/uml/classDiagramTest5.puml", sb.toString());
     }
 }

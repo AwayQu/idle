@@ -4,10 +4,9 @@ import org.antlr.v4.runtime.tree.RuleNode;
 import tsp.gen.ObjectiveCParser;
 import tsp.gen.ObjectiveCParserBaseVisitor;
 
+import java.util.List;
+
 public class ClassVisitor extends ObjectiveCParserBaseVisitor<String> {
-
-    private boolean shouldVisit = true;
-
 
     @Override
     public String visitClassInterface(ObjectiveCParser.ClassInterfaceContext ctx) {
@@ -16,6 +15,22 @@ public class ClassVisitor extends ObjectiveCParserBaseVisitor<String> {
         for (ObjectiveCParser.ProtocolNameContext name : ctx.protocolReferenceList().protocolList().protocolName()) {
             System.out.println("protocol:" + name.getText());
         }
+
+        ObjectiveCParser.InterfaceDeclarationListContext declarationListContext = ctx.interfaceDeclarationList();
+        List<ObjectiveCParser.ClassMethodDeclarationContext> methodList = declarationListContext.classMethodDeclaration();
+        if (methodList != null) {
+            for (ObjectiveCParser.ClassMethodDeclarationContext method : methodList) {
+                System.out.println("classMethod:" + method.methodDeclaration().methodSelector().getText());
+            }
+        }
+
+        List<ObjectiveCParser.InstanceMethodDeclarationContext> instanceMethodList = declarationListContext.instanceMethodDeclaration();
+        if (instanceMethodList != null) {
+            for (ObjectiveCParser.InstanceMethodDeclarationContext method : instanceMethodList) {
+                System.out.println("instanceMethod:" + method.methodDeclaration().methodSelector().getText());
+            }
+        }
+
         return super.visitClassInterface(ctx);
     }
 
@@ -27,7 +42,28 @@ public class ClassVisitor extends ObjectiveCParserBaseVisitor<String> {
         for (ObjectiveCParser.ProtocolNameContext name : ctx.protocolReferenceList().protocolList().protocolName()) {
             System.out.println("protocol:" + name.getText());
         }
+
+        ObjectiveCParser.InterfaceDeclarationListContext declarationListContext = ctx.interfaceDeclarationList();
+        List<ObjectiveCParser.ClassMethodDeclarationContext> methodList = declarationListContext.classMethodDeclaration();
+        if (methodList != null) {
+            for (ObjectiveCParser.ClassMethodDeclarationContext method : methodList) {
+                System.out.println("classMethod:" + method.methodDeclaration().methodSelector().getText());
+            }
+        }
+
+        List<ObjectiveCParser.InstanceMethodDeclarationContext> instanceMethodList = declarationListContext.instanceMethodDeclaration();
+        if (instanceMethodList != null) {
+            for (ObjectiveCParser.InstanceMethodDeclarationContext method : instanceMethodList) {
+                System.out.println("instanceMethod:" + method.methodDeclaration().methodSelector().getText());
+            }
+        }
         return super.visitCategoryInterface(ctx);
+
     }
+
+
+
+
+
 }
 

@@ -8,6 +8,9 @@ public class ObjcClass {
     public String superClass;
     public ArrayList<String> protocols = new ArrayList<>();
 
+
+    public ArrayList<String> methods = new ArrayList<>();
+
     public void setName(String name) {
         this.name = name;
     }
@@ -18,6 +21,10 @@ public class ObjcClass {
 
     public void addProtocol(String protocol) {
         this.protocols.add(protocol);
+    }
+
+    public void addMethods(String method) {
+        this.methods.add(method);
     }
 
 }
