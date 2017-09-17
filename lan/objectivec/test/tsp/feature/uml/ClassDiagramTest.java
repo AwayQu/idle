@@ -109,6 +109,12 @@ public class ClassDiagramTest {
 
             @Override
             public String visitCategoryInterface(ObjectiveCParser.CategoryInterfaceContext ctx) {
+
+                if (ctx.categoryName() != null) {
+                    return null;
+                }
+                System.out.println("categoryName:" + (ctx.categoryName() != null ? ctx.categoryName().getText() : null));
+
                 String className = ctx.classNameGeneric().className().getText();
                 System.out.println("className:" + className);
                 ObjcClass objc = null;
@@ -118,7 +124,6 @@ public class ClassDiagramTest {
                 } else {
                     objc = objcMap.get(className);
                 }
-                System.out.println("categoryName:" + (ctx.categoryName() != null ? ctx.categoryName().getText() : null));
                 if (ctx.protocolReferenceList() != null) {
                     for (ObjectiveCParser.ProtocolNameContext name : ctx.protocolReferenceList().protocolList().protocolName()){
                         String protocol = name.getText();
@@ -144,6 +149,9 @@ public class ClassDiagramTest {
 
             @Override
             public String visitDirectoryNode(DirectoryNode node) {
+                if (node.getName().contains("Pods")) {
+                    return null;
+                }
                 return super.visitDirectoryNode(node);
             }
         };
@@ -157,7 +165,9 @@ public class ClassDiagramTest {
 
         for (ObjcClass objc : objcMap.values()) {
             // extends
-            sb.append(objc.superClass + "<|--" + objc.name + "\n");
+            if (!objc.superClass.equals("NSObject")) {
+                sb.append(objc.superClass + "<|--" + objc.name + "\n");
+            }
             for (String protocol : objc.protocols) {
                 // implements
                 sb.append(protocol + "<--" +objc.name + "\n");
