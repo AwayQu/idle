@@ -16,8 +16,6 @@ import tsp.g4.Output;
 import tsp.gen.ObjectiveCParser;
 import tsp.gen.ObjectiveCParserBaseVisitor;
 import tsp.visitor.TestObjcBaseVisitor;
-
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
