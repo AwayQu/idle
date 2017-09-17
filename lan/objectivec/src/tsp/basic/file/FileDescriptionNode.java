@@ -36,7 +36,8 @@ public class FileDescriptionNode extends BaseNode {
     }
 
     public String getExtension() {
-        return extension;
+        int lastIndex = this.getName().lastIndexOf(".");
+        return this.getName().substring(lastIndex + 1);
     }
 
     public void setExtension(String extension) {

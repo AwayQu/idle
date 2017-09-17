@@ -2,7 +2,6 @@ package tsp.basic;
 
 
 import tsp.basic.file.DirectoryNode;
-import tsp.basic.file.FileDescriptionNode;
 import tsp.basic.file.FileNode;
 import tsp.basic.file.FileVisitor;
 
