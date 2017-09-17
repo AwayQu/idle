@@ -4,15 +4,12 @@
 package tsp.feature.dependency;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 import tsp.feature.dependency.fd.ImportDependency;
 import tsp.feature.dependency.fd.visitor.DirectiveImportDependencyVisitor;
 import tsp.feature.dependency.fd.visitor.PureCodeImportDependencyVisitor;
-import tsp.gen.ObjectiveCLexer;
-import tsp.gen.ObjectiveCParser;
-import tsp.gen.ObjectiveCPreprocessorLexer;
+import tsp.g4.ObjcG4Util;
 import tsp.gen.ObjectiveCPreprocessorParser;
 import tsp.visitor.ObjectiveCPreprocessor;
 
@@ -31,13 +28,7 @@ public class ImportDependencyTest {
                 "@end";
 
         ANTLRInputStream preInputStream = new ANTLRInputStream(emptyClassString);
-        ObjectiveCPreprocessorLexer preLexer = new ObjectiveCPreprocessorLexer(preInputStream);
-
-        CommonTokenStream preToken = new CommonTokenStream(preLexer);
-
-        ObjectiveCPreprocessorParser preParser = new ObjectiveCPreprocessorParser(preToken);
-
-        ObjectiveCPreprocessorParser.ObjectiveCDocumentContext preParseTree = preParser.objectiveCDocument();
+        ParseTree preParseTree = ObjcG4Util.getPreParseTree(preInputStream);
 
 
         DirectiveImportDependencyVisitor visitor = new DirectiveImportDependencyVisitor();
@@ -59,37 +50,19 @@ public class ImportDependencyTest {
                 "@end";
 
         ANTLRInputStream preInputStream = new ANTLRInputStream(emptyClassString);
-        ObjectiveCPreprocessorLexer preLexer = new ObjectiveCPreprocessorLexer(preInputStream);
 
-        CommonTokenStream preToken = new CommonTokenStream(preLexer);
-
-        ObjectiveCPreprocessorParser preParser = new ObjectiveCPreprocessorParser(preToken);
-
-        ObjectiveCPreprocessorParser.ObjectiveCDocumentContext preParseTree = preParser.objectiveCDocument();
+        ObjcG4Util.PreprocessorParser preprocessorParser = new ObjcG4Util.PreprocessorParser(preInputStream).invoke();
+        ObjectiveCPreprocessor preprocessor = preprocessorParser.getPreprocessor();
+        ObjectiveCPreprocessorParser.ObjectiveCDocumentContext preParseTree = preprocessorParser.getPreParseTree();
 
 
         DirectiveImportDependencyVisitor visitor = new DirectiveImportDependencyVisitor();
-
         ImportDependency.FileNode node0 = visitor.visit(preParseTree);
 
-
-        ObjectiveCPreprocessor preprocessor = new ObjectiveCPreprocessor(preToken);
-
         String removedSourceString = preprocessor.visit(preParseTree);
-//        System.out.println(preParseTree.toStringTree(preParser));
 
-        // =======================================
 
-        ANTLRInputStream inputStream = new ANTLRInputStream(removedSourceString);
-        ObjectiveCLexer lexer = new ObjectiveCLexer(inputStream);
-
-        CommonTokenStream token = new CommonTokenStream(lexer);
-
-        ObjectiveCParser parser = new ObjectiveCParser(token);
-
-        ParseTree parseTree = parser.translationUnit();
-
-//        System.out.println(parseTree.toStringTree(parser));
+        ParseTree parseTree = ObjcG4Util.getPureParseTree(removedSourceString);
 
         PureCodeImportDependencyVisitor visitor1 = new PureCodeImportDependencyVisitor();
 

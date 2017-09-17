@@ -1,8 +1,5 @@
 package tsp.feature.uml;
 
-import org.antlr.v4.runtime.ANTLRFileStream;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 import tsp.basic.NodeVisitor;
@@ -13,8 +10,9 @@ import tsp.basic.file.FileNode;
 import tsp.feature.structure.ps.graph.ProjectStructureGraph;
 import tsp.feature.structure.ps.scan.FileScan;
 import tsp.feature.uml.classdiagram.visitor.ClassVisitor;
-import tsp.gen.*;
-import tsp.visitor.ObjectiveCPreprocessor;
+import tsp.g4.ObjcG4Util;
+import tsp.gen.ObjectiveCParser;
+import tsp.gen.ObjectiveCParserBaseVisitor;
 import tsp.visitor.TestObjcBaseVisitor;
 
 import java.io.File;
@@ -22,32 +20,9 @@ import java.io.File;
 public class ClassDiagramTest {
     @Test
     public void classDiagramTest1() throws Exception {
-        ANTLRFileStream fs = new ANTLRFileStream("./test/res/uml/class/Hello.m");
 
-        ObjectiveCPreprocessorLexer preLexer = new ObjectiveCPreprocessorLexer(fs);
-
-        CommonTokenStream preToken = new CommonTokenStream(preLexer);
-
-        ObjectiveCPreprocessorParser preParser = new ObjectiveCPreprocessorParser(preToken);
-
-        ObjectiveCPreprocessorParser.ObjectiveCDocumentContext preParseTree = preParser.objectiveCDocument();
-
-
-        ObjectiveCPreprocessor preprocessor = new ObjectiveCPreprocessor(preToken);
-
-        String removedSourceString = preprocessor.visit(preParseTree);
-//        System.out.println(preParseTree.toStringTree(preParser));
-
-        // =======================================
-
-        ANTLRInputStream inputStream = new ANTLRInputStream(removedSourceString);
-        ObjectiveCLexer lexer = new ObjectiveCLexer(inputStream);
-
-        CommonTokenStream token = new CommonTokenStream(lexer);
-
-        ObjectiveCParser parser = new ObjectiveCParser(token);
-
-        ParseTree parseTree = parser.translationUnit();
+        ParseTree parseTree = ObjcG4Util.getParseTree("./test/res/uml/class/Hello.m");
+        assert parseTree != null;
 
         TestObjcBaseVisitor visitor = new TestObjcBaseVisitor();
 
@@ -57,32 +32,10 @@ public class ClassDiagramTest {
 
     @Test
     public void classDiagramTest2() throws Exception {
-        ANTLRFileStream fs = new ANTLRFileStream("./test/res/uml/class/Hello.h");
-
-        ObjectiveCPreprocessorLexer preLexer = new ObjectiveCPreprocessorLexer(fs);
-
-        CommonTokenStream preToken = new CommonTokenStream(preLexer);
-
-        ObjectiveCPreprocessorParser preParser = new ObjectiveCPreprocessorParser(preToken);
-
-        ObjectiveCPreprocessorParser.ObjectiveCDocumentContext preParseTree = preParser.objectiveCDocument();
 
 
-        ObjectiveCPreprocessor preprocessor = new ObjectiveCPreprocessor(preToken);
-
-        String removedSourceString = preprocessor.visit(preParseTree);
-//        System.out.println(preParseTree.toStringTree(preParser));
-
-        // =======================================
-
-        ANTLRInputStream inputStream = new ANTLRInputStream(removedSourceString);
-        ObjectiveCLexer lexer = new ObjectiveCLexer(inputStream);
-
-        CommonTokenStream token = new CommonTokenStream(lexer);
-
-        ObjectiveCParser parser = new ObjectiveCParser(token);
-
-        ParseTree parseTree = parser.translationUnit();
+        ParseTree parseTree = ObjcG4Util.getParseTree("./test/res/uml/class/Hello.h");
+        assert parseTree != null;
 
         TestObjcBaseVisitor visitor = new TestObjcBaseVisitor();
 
@@ -93,32 +46,8 @@ public class ClassDiagramTest {
 
     @Test
     public void classDiagramTest3() throws Exception {
-        ANTLRFileStream fs = new ANTLRFileStream("./test/res/uml/class/Hello.m");
-
-        ObjectiveCPreprocessorLexer preLexer = new ObjectiveCPreprocessorLexer(fs);
-
-        CommonTokenStream preToken = new CommonTokenStream(preLexer);
-
-        ObjectiveCPreprocessorParser preParser = new ObjectiveCPreprocessorParser(preToken);
-
-        ObjectiveCPreprocessorParser.ObjectiveCDocumentContext preParseTree = preParser.objectiveCDocument();
-
-
-        ObjectiveCPreprocessor preprocessor = new ObjectiveCPreprocessor(preToken);
-
-        String removedSourceString = preprocessor.visit(preParseTree);
-//        System.out.println(preParseTree.toStringTree(preParser));
-
-        // =======================================
-
-        ANTLRInputStream inputStream = new ANTLRInputStream(removedSourceString);
-        ObjectiveCLexer lexer = new ObjectiveCLexer(inputStream);
-
-        CommonTokenStream token = new CommonTokenStream(lexer);
-
-        ObjectiveCParser parser = new ObjectiveCParser(token);
-
-        ParseTree parseTree = parser.translationUnit();
+        ParseTree parseTree = ObjcG4Util.getParseTree("./test/res/uml/class/Hello.m");
+        assert parseTree != null;
 
         ClassVisitor visitor = new ClassVisitor();
 
@@ -128,32 +57,9 @@ public class ClassDiagramTest {
 
     @Test
     public void classDiagramTest4() throws Exception {
-        ANTLRFileStream fs = new ANTLRFileStream("./test/res/uml/class/Hello.h");
 
-        ObjectiveCPreprocessorLexer preLexer = new ObjectiveCPreprocessorLexer(fs);
-
-        CommonTokenStream preToken = new CommonTokenStream(preLexer);
-
-        ObjectiveCPreprocessorParser preParser = new ObjectiveCPreprocessorParser(preToken);
-
-        ObjectiveCPreprocessorParser.ObjectiveCDocumentContext preParseTree = preParser.objectiveCDocument();
-
-
-        ObjectiveCPreprocessor preprocessor = new ObjectiveCPreprocessor(preToken);
-
-        String removedSourceString = preprocessor.visit(preParseTree);
-//        System.out.println(preParseTree.toStringTree(preParser));
-
-        // =======================================
-
-        ANTLRInputStream inputStream = new ANTLRInputStream(removedSourceString);
-        ObjectiveCLexer lexer = new ObjectiveCLexer(inputStream);
-
-        CommonTokenStream token = new CommonTokenStream(lexer);
-
-        ObjectiveCParser parser = new ObjectiveCParser(token);
-
-        ParseTree parseTree = parser.translationUnit();
+        ParseTree parseTree = ObjcG4Util.getParseTree("./test/res/uml/class/Hello.h");
+        assert parseTree != null;
 
         ClassVisitor visitor = new ClassVisitor();
 
