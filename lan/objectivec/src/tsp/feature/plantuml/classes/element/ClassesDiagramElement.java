@@ -1,4 +1,6 @@
 package tsp.feature.plantuml.classes.element;
 
-public interface ClassesDiagramElement {
+import tsp.feature.plantuml.classes.PUDescription;
+
+public interface ClassesDiagramElement extends PUDescription {
 }
