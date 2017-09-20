@@ -1,4 +1,5 @@
 package tsp.feature.plantuml.classes.element;
 
-public interface CDEAnnotation {
+// stub
+public interface CDEAnnotation extends ClassesDiagramElement {
 }

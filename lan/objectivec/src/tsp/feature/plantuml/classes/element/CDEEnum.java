@@ -1,4 +1,4 @@
 package tsp.feature.plantuml.classes.element;
-
-public interface CDEEnum {
+// stub
+public interface CDEEnum extends ClassesDiagramElement {
 }
