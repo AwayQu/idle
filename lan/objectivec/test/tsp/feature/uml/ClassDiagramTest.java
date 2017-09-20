@@ -1,20 +1,24 @@
 package tsp.feature.uml;
 
+import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 import tsp.basic.NodeVisitor;
-import tsp.basic.file.AbstractorFileVisitor;
+import tsp.basic.file.AbstractFileVisitor;
 import tsp.basic.file.DirectoryNode;
 import tsp.basic.file.FileDescriptionNode;
 import tsp.basic.file.FileNode;
 import tsp.basic.objcclass.ObjcClass;
 import tsp.feature.structure.ps.graph.ProjectStructureGraph;
 import tsp.feature.structure.ps.scan.FileScan;
+import tsp.feature.uml.classdiagram.visitor.ClassDiagramFileVisitor;
 import tsp.feature.uml.classdiagram.visitor.ClassVisitor;
+import tsp.feature.uml.classdiagram.visitor.ObjcClassVisitor;
 import tsp.g4.ObjcG4Util;
 import tsp.g4.Output;
 import tsp.gen.ObjectiveCParser;
 import tsp.gen.ObjectiveCParserBaseVisitor;
+import tsp.language.ObjectiveC;
 import tsp.visitor.TestObjcBaseVisitor;
 import java.util.HashMap;
 import java.util.List;
@@ -77,106 +81,9 @@ public class ClassDiagramTest {
         // className -> count
         HashMap<String, ObjcClass> objcMap = new HashMap<>();
 
-        ObjectiveCParserBaseVisitor fileVisitor = new ObjectiveCParserBaseVisitor<String>() {
-            @Override
-            public String visitClassInterface(ObjectiveCParser.ClassInterfaceContext ctx) {
+        AbstractParseTreeVisitor classVisitor = new ObjcClassVisitor(objcMap);
 
-                String className = ctx.classNameGeneric().className().getText();
-                ObjcClass objc = null;
-                if (objcMap.get(className) == null) {
-                    objc = new ObjcClass();
-                    objc.setName(className);
-                } else {
-                    objc = objcMap.get(className);
-                }
-
-                System.out.println("className:" + className);
-                String superClass = ctx.superclassName().getText();
-                System.out.println("superClass:" + superClass);
-                objc.setSuperClass(superClass);
-                if (ctx.protocolReferenceList() != null) {
-
-                    for (ObjectiveCParser.ProtocolNameContext name : ctx.protocolReferenceList().protocolList().protocolName()) {
-                        String protocol = name.getText();
-                        objc.addProtocol(protocol);
-                        System.out.println("protocol:" + protocol);
-                    }
-                }
-
-                ObjectiveCParser.InterfaceDeclarationListContext declarationListContext = ctx.interfaceDeclarationList();
-                if (declarationListContext != null) {
-
-                    List<ObjectiveCParser.ClassMethodDeclarationContext> methodList = declarationListContext.classMethodDeclaration();
-                    if (methodList != null) {
-                        for (ObjectiveCParser.ClassMethodDeclarationContext method : methodList) {
-                            String methodName = method.methodDeclaration().methodSelector().getText();
-                            objc.addMethods(methodName);
-                            System.out.println("classMethod:" + methodName);
-                        }
-                    }
-
-                    List<ObjectiveCParser.InstanceMethodDeclarationContext> instanceMethodList = declarationListContext.instanceMethodDeclaration();
-                    if (instanceMethodList != null) {
-                        for (ObjectiveCParser.InstanceMethodDeclarationContext method : instanceMethodList) {
-                            String methodName = method.methodDeclaration().methodSelector().getText();
-                            objc.addMethods(methodName);
-                            System.out.println("instanceMethod:" + methodName);
-                        }
-                    }
-                }
-                objcMap.put(className, objc);
-                return super.visitClassInterface(ctx);
-            }
-
-
-            @Override
-            public String visitCategoryInterface(ObjectiveCParser.CategoryInterfaceContext ctx) {
-
-                if (ctx.categoryName() != null) {
-                    return null;
-                }
-                System.out.println("categoryName:" + (ctx.categoryName() != null ? ctx.categoryName().getText() : null));
-
-                String className = ctx.classNameGeneric().className().getText();
-                System.out.println("className:" + className);
-                ObjcClass objc = null;
-                if (objcMap.get(className) == null) {
-                    objc = new ObjcClass();
-                    objc.setName(className);
-                } else {
-                    objc = objcMap.get(className);
-                }
-                if (ctx.protocolReferenceList() != null) {
-                    for (ObjectiveCParser.ProtocolNameContext name : ctx.protocolReferenceList().protocolList().protocolName()) {
-                        String protocol = name.getText();
-                        objc.addProtocol(protocol);
-                        System.out.println("protocol:" + protocol);
-                    }
-                }
-                objcMap.put(className, objc);
-                return super.visitCategoryInterface(ctx);
-            }
-        };
-        NodeVisitor<String> nodeVisitor = new AbstractorFileVisitor<String>() {
-            @Override
-            public String visitFileNode(FileNode node) {
-
-                String path = node.getPath();
-                if (node.getExtension().equals("m") || node.getExtension().equals("h")) {
-                    ParseTree parseTree = ObjcG4Util.getParseTree(path);
-                    fileVisitor.visit(parseTree);
-                }
-                return super.visitFileNode(node);
-            }
-
-            @Override
-            public String visitDirectoryNode(DirectoryNode node) {
-                if (node.getName().contains("Pods")) {
-                    return null;
-                }
-                return super.visitDirectoryNode(node);
-            }
-        };
+        NodeVisitor<String> nodeVisitor = new ClassDiagramFileVisitor(classVisitor, new ObjectiveC());
 
 
         nodeVisitor.visit(rootNode);

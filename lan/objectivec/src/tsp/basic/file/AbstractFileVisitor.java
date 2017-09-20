@@ -3,7 +3,7 @@ package tsp.basic.file;
 
 import tsp.basic.BaseNodeVisitor;
 
-public abstract class AbstractorFileVisitor<T > extends BaseNodeVisitor<T> implements FileVisitor<T> {
+public abstract class AbstractFileVisitor<T > extends BaseNodeVisitor<T> implements FileVisitor<T> {
 
     @Override
     public T visitFileNode(FileNode node) {
