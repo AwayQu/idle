@@ -4,10 +4,7 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 import tsp.basic.NodeVisitor;
-import tsp.basic.file.AbstractFileVisitor;
-import tsp.basic.file.DirectoryNode;
 import tsp.basic.file.FileDescriptionNode;
-import tsp.basic.file.FileNode;
 import tsp.basic.objcclass.ObjcClass;
 import tsp.feature.structure.ps.graph.ProjectStructureGraph;
 import tsp.feature.structure.ps.scan.FileScan;
@@ -16,12 +13,9 @@ import tsp.feature.uml.classdiagram.visitor.ClassVisitor;
 import tsp.feature.uml.classdiagram.visitor.ObjcClassVisitor;
 import tsp.g4.ObjcG4Util;
 import tsp.g4.Output;
-import tsp.gen.ObjectiveCParser;
-import tsp.gen.ObjectiveCParserBaseVisitor;
-import tsp.language.ObjectiveC;
+import tsp.language.Lan;
 import tsp.visitor.TestObjcBaseVisitor;
 import java.util.HashMap;
-import java.util.List;
 
 public class ClassDiagramTest {
     @Test
@@ -83,7 +77,7 @@ public class ClassDiagramTest {
 
         AbstractParseTreeVisitor classVisitor = new ObjcClassVisitor(objcMap);
 
-        NodeVisitor<String> nodeVisitor = new ClassDiagramFileVisitor(classVisitor, new ObjectiveC());
+        NodeVisitor<String> nodeVisitor = new ClassDiagramFileVisitor(classVisitor, Lan.OBJECTIVE_C);
 
 
         nodeVisitor.visit(rootNode);

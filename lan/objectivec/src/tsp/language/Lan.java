@@ -1,5 +1,5 @@
 package tsp.language;
 
 public class Lan {
-    public static Language OBJECTIVEC = new ObjectiveC();
+    public static Language OBJECTIVE_C = new ObjectiveC();
 }
