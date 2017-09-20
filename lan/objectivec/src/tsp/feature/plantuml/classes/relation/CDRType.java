@@ -1,6 +1,9 @@
 package tsp.feature.plantuml.classes.relation;
 
-public enum PlantUMLClassesDiagramRelationType {
+/**
+ * Classes Diagram RelationType
+ */
+public enum CDRType {
 
     /**
      * The extend relation type.
@@ -19,7 +22,7 @@ public enum PlantUMLClassesDiagramRelationType {
 
     private String rightRelationSymbol;
 
-    private PlantUMLClassesDiagramRelationType(final String rightSymbol) {
+    private CDRType(final String rightSymbol) {
         rightRelationSymbol = rightSymbol;
     }
 
