@@ -1,5 +1,5 @@
-package tsp.feature.plantuml.classes.element;
-public enum CDETag {
+package tsp.feature.plantuml.classes.element.tag;
+public enum CDElementTag {
 
     /**
      * The "abstract class" tag.
@@ -31,7 +31,7 @@ public enum CDETag {
      */
     private String tagName;
 
-    private CDETag(final String name) {
+    private CDElementTag(final String name) {
         tagName = name;
     }
 

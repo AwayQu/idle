@@ -34,4 +34,9 @@ public abstract class AbstractClassesDiagramRelation implements ClassesDiagramRe
     public CDRType getType() {
         return this.type;
     }
+
+    @Override
+    public int compareTo(ClassesDiagramRelation o) {
+        return 1;
+    }
 }

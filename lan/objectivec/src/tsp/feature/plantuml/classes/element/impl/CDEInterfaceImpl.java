@@ -1,19 +1,14 @@
 package tsp.feature.plantuml.classes.element.impl;
 
-import tsp.feature.plantuml.classes.element.ClassesDiagramElement;
+import tsp.feature.plantuml.classes.element.AbstractClassesDiagramElement;
 
-public class CDEInterfaceImpl implements ClassesDiagramElement {
+import static tsp.feature.plantuml.classes.element.tag.CDElementTag.INTERFACE_TAG;
 
-    public String name;
+public class CDEInterfaceImpl extends AbstractClassesDiagramElement {
 
-    @Override
-    public String getPUTextDescription() {
-        return null;
-    }
 
-    @Override
-    public String getName() {
-       return this.name;
+    public CDEInterfaceImpl(String name) {
+        super(name, INTERFACE_TAG);
     }
 
 }
