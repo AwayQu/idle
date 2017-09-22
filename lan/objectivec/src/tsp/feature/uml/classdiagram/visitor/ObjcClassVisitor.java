@@ -92,4 +92,35 @@ public class ObjcClassVisitor extends ObjectiveCParserBaseVisitor<String> {
         objcMap.put(className, objc);
         return super.visitCategoryInterface(ctx);
     }
+
+
+    @Override
+    public String visitClassImplementation(ObjectiveCParser.ClassImplementationContext ctx) {
+        String className = ctx.classNameGeneric().className().getText();
+        ObjcClass objc = null;
+        if (objcMap.get(className) == null) {
+            objc = new ObjcClass();
+            objc.setName(className);
+        } else {
+            objc = objcMap.get(className);
+        }
+
+        if (ctx.implementationDefinitionList() != null) {
+            for (ObjectiveCParser.ClassMethodDefinitionContext define : ctx.implementationDefinitionList().classMethodDefinition()) {
+                String method = define.methodDefinition().methodSelector().getText();
+                objc.addMethods(method);
+                System.out.println("method:" + method);
+            }
+        }
+
+        if (ctx.implementationDefinitionList() != null) {
+            for (ObjectiveCParser.InstanceMethodDefinitionContext define : ctx.implementationDefinitionList().instanceMethodDefinition()) {
+                String method = define.methodDefinition().methodSelector().getText();
+                objc.addMethods(method);
+                System.out.println("method:" + method);
+            }
+        }
+
+        return super.visitClassImplementation(ctx);
+    }
 }

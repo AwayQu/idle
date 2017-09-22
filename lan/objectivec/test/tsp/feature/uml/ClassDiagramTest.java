@@ -17,6 +17,8 @@ import tsp.language.Lan;
 import tsp.visitor.TestObjcBaseVisitor;
 import java.util.HashMap;
 
+import static tsp.feature.constants.TestConstants.IOS_HELLO_PROJECT_PATH;
+
 public class ClassDiagramTest {
     @Test
     public void classDiagramTest1() throws Exception {
@@ -68,7 +70,7 @@ public class ClassDiagramTest {
 
     @Test
     public void classDiagramTest5() throws Exception {
-        ProjectStructureGraph graph = FileScan.scanProject("/Users/away/Desktop/ios_hello");
+        ProjectStructureGraph graph = FileScan.scanProject(IOS_HELLO_PROJECT_PATH);
 //        ProjectStructureGraph graph = FileScan.scanProject("/Users/away/IOSProject/activityIOS");
         FileDescriptionNode rootNode = graph.root;
 

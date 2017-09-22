@@ -15,6 +15,8 @@ import tsp.visitor.ObjectiveCPreprocessor;
 
 import java.util.ArrayList;
 
+import static tsp.feature.constants.TestConstants.ACTIVITY_PROJECT_PATH;
+
 public class ImportDependencyTest {
 
     @Test
@@ -71,7 +73,7 @@ public class ImportDependencyTest {
 
     @Test
     public void testParseProject() {
-        String projectPath = "/Users/away/IOSProject/activityIOS/";
+        String projectPath = ACTIVITY_PROJECT_PATH;
         ImportDependency id = new ImportDependency(projectPath);
         ArrayList<ImportDependency.FileNode> fileNodes = id.parseProject();
         System.out.println("============================");

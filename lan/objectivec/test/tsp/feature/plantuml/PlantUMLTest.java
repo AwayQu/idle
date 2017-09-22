@@ -2,14 +2,11 @@ package tsp.feature.plantuml;
 
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 import org.junit.Test;
-import sun.awt.SunHints;
 import tsp.basic.NodeVisitor;
 import tsp.basic.file.FileDescriptionNode;
 import tsp.basic.objcclass.ObjcClass;
 import tsp.feature.plantuml.classes.element.ClassesDiagramElement;
 import tsp.feature.plantuml.classes.element.impl.CDEClassImpl;
-import tsp.feature.plantuml.classes.element.item.CDItemTag;
-import tsp.feature.plantuml.classes.element.item.ClassesDiagramItem;
 import tsp.feature.plantuml.classes.element.item.impl.CDMethodImpl;
 import tsp.feature.plantuml.classes.impl.ClassesDiagramImpl;
 import tsp.feature.plantuml.classes.relation.impl.CDRExtendImpl;
@@ -21,7 +18,6 @@ import tsp.feature.uml.classdiagram.visitor.ObjcClassVisitor;
 import tsp.g4.Output;
 import tsp.language.Lan;
 
-import javax.swing.text.html.HTML;
 import java.util.HashMap;
 
 import static tsp.feature.constants.TestConstants.IOS_HELLO_PROJECT_PATH;
