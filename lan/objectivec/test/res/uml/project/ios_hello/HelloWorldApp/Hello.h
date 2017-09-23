@@ -19,6 +19,8 @@
 @property(strong) NSString* s;
 @property(strong) Hello* hello;
 
++ (void)load;
+
 - (Hello*)return_hello;
 
 - (NSString*)null_dereference_bug;

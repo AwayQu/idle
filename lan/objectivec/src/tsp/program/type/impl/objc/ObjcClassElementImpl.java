@@ -3,8 +3,6 @@ package tsp.program.type.impl.objc;
 import org.antlr.v4.runtime.tree.ParseTree;
 import tsp.feature.plantuml.classes.element.ClassesDiagramElement;
 import tsp.feature.plantuml.classes.element.impl.CDEClassImpl;
-import tsp.feature.plantuml.classes.element.item.CDItemTag;
-import tsp.feature.plantuml.classes.element.item.impl.CDMethodImpl;
 import tsp.feature.plantuml.classes.relation.ClassesDiagramRelation;
 import tsp.feature.plantuml.classes.relation.impl.CDRExtendImpl;
 import tsp.feature.plantuml.classes.relation.impl.CDRImplementImpl;
@@ -91,15 +89,16 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
                 if (methodList != null) {
                     for (ObjectiveCParser.ClassMethodDeclarationContext method : methodList) {
                         String methodName = method.methodDeclaration().methodSelector().getText();
-                        elements.add(new ObjcMethodElementImpl(methodName));
+//                        elements.add(new ObjcMethodElementImpl(methodName));
+                        elements.add(new ObjcMethodElementImpl(method));
                     }
                 }
 
                 List<ObjectiveCParser.InstanceMethodDeclarationContext> instanceMethodList = declarationListContext.instanceMethodDeclaration();
                 if (instanceMethodList != null) {
                     for (ObjectiveCParser.InstanceMethodDeclarationContext method : instanceMethodList) {
-                        String methodName = method.methodDeclaration().methodSelector().getText();
-                        elements.add(new ObjcMethodElementImpl(methodName));
+//                        String methodName = method.methodDeclaration().methodSelector().getText();
+                        elements.add(new ObjcMethodElementImpl(method));
                     }
                 }
             }
@@ -115,7 +114,7 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
 
         ClassesDiagramElement e = new CDEClassImpl(this.getName());
         for (MethodElement method : this.getImplementMethods()) {
-            e.addItem(new CDMethodImpl(method.getName(), CDItemTag.PUBLIC));
+            e.addItem(method.getClassesDiagramItem());
         }
         elements.add(e);
 

@@ -1,20 +1,22 @@
 package tsp.feature.plantuml.classes.element.item;
 
+import java.util.Set;
+
 import static tsp.constants.CommonConstants.LINE_SEPARATOR;
 
 public abstract class AbstractClassesDiagramItem implements ClassesDiagramItem {
 
     private final String name;
-    private final CDItemTag tag;
+    private final Set<CDItemTag> tags;
 
-    public AbstractClassesDiagramItem(String name, CDItemTag tag) {
+    public AbstractClassesDiagramItem(String name, Set<CDItemTag> tags) {
         this.name = name;
-        this.tag = tag;
+        this.tags = tags;
     }
 
     @Override
-    public CDItemTag getTag() {
-        return this.tag;
+    public Set<CDItemTag> getTags() {
+        return this.tags;
     }
 
     @Override
@@ -31,6 +33,12 @@ public abstract class AbstractClassesDiagramItem implements ClassesDiagramItem {
 
     @Override
     public String getPUTextDescription() {
-        return this.getTag().getTagName() + this.getName() + LINE_SEPARATOR;
+        StringBuilder sb = new StringBuilder();
+        for (CDItemTag tags : this.getTags()) {
+            sb.append(tags.getTagName());
+        }
+        sb.append(this.getName());
+        sb.append(LINE_SEPARATOR);
+        return sb.toString();
     }
 }

@@ -4,6 +4,7 @@ import tsp.feature.plantuml.classes.element.item.CDItemTag;
 import tsp.feature.plantuml.classes.element.item.ClassesDiagramItem;
 import tsp.feature.plantuml.classes.element.item.impl.CDMethodImpl;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -37,6 +38,15 @@ public abstract class AbstractMethodElement implements MethodElement {
 
     @Override
     public ClassesDiagramItem getClassesDiagramItem() {
-        return new CDMethodImpl(this.getName(), CDItemTag.PUBLIC);
+        Set<CDItemTag> tags = new HashSet<>();
+        if (this.getTags().contains(MethodTag.STATIC)) {
+            tags.add(CDItemTag.STATIC_TAG);
+        }
+        if (this.getTags().contains(MethodTag.PUBLIC)) {
+            tags.add(CDItemTag.PUBLIC_TAG);
+        }
+
+        return new CDMethodImpl(this.getName(), tags);
+
     }
 }

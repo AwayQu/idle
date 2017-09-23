@@ -8,7 +8,13 @@ public enum CDItemTag {
 
     PACKAGE_PRIVATE_TAG("~"),
 
-    PUBLIC("+");
+    PUBLIC_TAG("+"),
+
+    STATIC_TAG("{static} "),
+    ABSTRACT_TAG("{abstract} "),
+
+    METHOD_TAG("{method} "),
+    FIELD_TAG("{field} ");
 
 
     private String tagName;

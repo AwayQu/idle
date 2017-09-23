@@ -21,7 +21,6 @@ import tsp.language.Lan;
 import java.util.HashMap;
 
 import static tsp.feature.constants.TestConstants.IOS_HELLO_PROJECT_PATH;
-import static tsp.feature.plantuml.classes.element.item.CDItemTag.PUBLIC;
 
 public class PlantUMLTest {
 
@@ -45,7 +44,7 @@ public class PlantUMLTest {
         for (ObjcClass objc : objcMap.values()) {
             ClassesDiagramElement e = new CDEClassImpl(objc.name);
             for (String method : objc.methods) {
-                e.addItem(new CDMethodImpl(method, PUBLIC));
+                e.addItem(new CDMethodImpl(method, null));
             }
 
             classesDiagram.addElements(e);
