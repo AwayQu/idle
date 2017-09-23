@@ -9,4 +9,6 @@ public interface MethodElement extends ProgramElement, ToClassesDiagramItem {
 
     public Set<MethodTag> getTags();
 
+
+
 }

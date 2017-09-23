@@ -2,13 +2,13 @@ package tsp.feature.plantuml.classes.element.item;
 
 public enum CDItemTag {
 
-    PRIVATE_TAG("-"),
+    PRIVATE_TAG("- "),
 
-    PROTECTED_TAG("#"),
+    PROTECTED_TAG("# "),
 
-    PACKAGE_PRIVATE_TAG("~"),
+    PACKAGE_PRIVATE_TAG("~ "),
 
-    PUBLIC_TAG("+"),
+    PUBLIC_TAG("+ "),
 
     STATIC_TAG("{static} "),
     ABSTRACT_TAG("{abstract} "),

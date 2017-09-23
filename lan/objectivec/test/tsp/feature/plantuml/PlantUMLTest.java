@@ -7,7 +7,7 @@ import tsp.basic.file.FileDescriptionNode;
 import tsp.basic.objcclass.ObjcClass;
 import tsp.feature.plantuml.classes.element.ClassesDiagramElement;
 import tsp.feature.plantuml.classes.element.impl.CDEClassImpl;
-import tsp.feature.plantuml.classes.element.item.impl.CDMethodImpl;
+import tsp.feature.plantuml.classes.element.item.impl.CDItemImpl;
 import tsp.feature.plantuml.classes.impl.ClassesDiagramImpl;
 import tsp.feature.plantuml.classes.relation.impl.CDRExtendImpl;
 import tsp.feature.plantuml.classes.relation.impl.CDRImplementImpl;
@@ -44,7 +44,7 @@ public class PlantUMLTest {
         for (ObjcClass objc : objcMap.values()) {
             ClassesDiagramElement e = new CDEClassImpl(objc.name);
             for (String method : objc.methods) {
-                e.addItem(new CDMethodImpl(method, null));
+                e.addItem(new CDItemImpl(method, null));
             }
 
             classesDiagram.addElements(e);

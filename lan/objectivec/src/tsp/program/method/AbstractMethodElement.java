@@ -2,7 +2,7 @@ package tsp.program.method;
 
 import tsp.feature.plantuml.classes.element.item.CDItemTag;
 import tsp.feature.plantuml.classes.element.item.ClassesDiagramItem;
-import tsp.feature.plantuml.classes.element.item.impl.CDMethodImpl;
+import tsp.feature.plantuml.classes.element.item.impl.CDItemImpl;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +11,7 @@ import java.util.TreeSet;
 
 public abstract class AbstractMethodElement implements MethodElement {
 
-    TreeSet<MethodTag> tags;
+    Set<MethodTag> tags = new TreeSet<>();
     String name;
 
     public AbstractMethodElement(String name) {
@@ -19,6 +19,10 @@ public abstract class AbstractMethodElement implements MethodElement {
     }
 
     public AbstractMethodElement() {
+    }
+
+    public AbstractMethodElement(Set<MethodTag> tags) {
+        this.tags = tags;
     }
 
     public AbstractMethodElement(TreeSet<MethodTag> tags, String name) {
@@ -39,14 +43,33 @@ public abstract class AbstractMethodElement implements MethodElement {
     @Override
     public ClassesDiagramItem getClassesDiagramItem() {
         Set<CDItemTag> tags = new HashSet<>();
+        tags.add(CDItemTag.METHOD_TAG);
         if (this.getTags().contains(MethodTag.STATIC)) {
             tags.add(CDItemTag.STATIC_TAG);
         }
         if (this.getTags().contains(MethodTag.PUBLIC)) {
             tags.add(CDItemTag.PUBLIC_TAG);
+        } else {
+            tags.add(CDItemTag.PRIVATE_TAG);
         }
 
-        return new CDMethodImpl(this.getName(), tags);
+        return new CDItemImpl(this.getName(), tags);
 
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AbstractMethodElement that = (AbstractMethodElement) o;
+
+        return getName() != null ? getName().equals(that.getName()) : that.getName() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return getName() != null ? getName().hashCode() : 0;
     }
 }

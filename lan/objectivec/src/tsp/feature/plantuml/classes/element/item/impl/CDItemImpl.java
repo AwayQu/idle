@@ -5,15 +5,15 @@ import tsp.feature.plantuml.classes.element.item.CDItemTag;
 
 import java.util.Set;
 
-public class CDFieldImpl extends AbstractClassesDiagramItem {
+public class CDItemImpl extends AbstractClassesDiagramItem {
 
 
-    public CDFieldImpl(String name, Set<CDItemTag> tags) {
+    public CDItemImpl(String name, Set<CDItemTag> tags) {
         super(name, tags);
     }
 
     @Override
     public String getPUTextDescription() {
-        return "{field} " + super.getPUTextDescription();
+        return  super.getPUTextDescription();
     }
 }

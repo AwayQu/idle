@@ -8,6 +8,7 @@ import tsp.feature.plantuml.classes.relation.impl.CDRExtendImpl;
 import tsp.feature.plantuml.classes.relation.impl.CDRImplementImpl;
 import tsp.gen.ObjectiveCParser;
 import tsp.program.method.MethodElement;
+import tsp.program.method.MethodTag;
 import tsp.program.method.impl.objc.ObjcMethodElementImpl;
 import tsp.program.type.AbstractTypeElement;
 import tsp.program.type.ClassElement;
@@ -17,8 +18,10 @@ import tsp.program.type.TypeTag;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class ObjcClassElementImpl extends AbstractTypeElement implements ClassElement {
+
 
     ObjectiveCParser.ClassInterfaceContext classInterfaceContext;
     ObjectiveCParser.ClassImplementationContext classImplementationContext;
@@ -26,7 +29,6 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
     ObjectiveCParser.CategoryInterfaceContext anonymousCategoryInterfaceContexts;
     Set<ObjectiveCParser.CategoryInterfaceContext> categoryInterfaceContexts;
     Set<ObjectiveCParser.CategoryImplementationContext> categoryImplementationContexts;
-
 
 
     Set<ParseTree> tree;
@@ -90,7 +92,9 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
                     for (ObjectiveCParser.ClassMethodDeclarationContext method : methodList) {
                         String methodName = method.methodDeclaration().methodSelector().getText();
 //                        elements.add(new ObjcMethodElementImpl(methodName));
-                        elements.add(new ObjcMethodElementImpl(method));
+                        TreeSet<MethodTag> tags = new TreeSet<>();
+                        tags.add(MethodTag.PUBLIC);
+                        elements.add(new ObjcMethodElementImpl(method, tags));
                     }
                 }
 
@@ -98,11 +102,43 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
                 if (instanceMethodList != null) {
                     for (ObjectiveCParser.InstanceMethodDeclarationContext method : instanceMethodList) {
 //                        String methodName = method.methodDeclaration().methodSelector().getText();
-                        elements.add(new ObjcMethodElementImpl(method));
+                        TreeSet<MethodTag> tags = new TreeSet<>();
+                        tags.add(MethodTag.PUBLIC);
+                        elements.add(new ObjcMethodElementImpl(method, tags));
+                    }
+                }
+            }
+
+            if (classImplementationContext != null) {
+
+
+                if (classImplementationContext.implementationDefinitionList() != null) {
+                    for (ObjectiveCParser.ClassMethodDefinitionContext define : classImplementationContext.implementationDefinitionList().classMethodDefinition()) {
+                        TreeSet<MethodTag> tags = new TreeSet<>();
+                        tags.add(MethodTag.PRIVATE);
+                        MethodElement method = new ObjcMethodElementImpl(define, tags);
+                        // reduce both in interface and implementation
+                        if (!elements.contains(method)) {
+                            elements.add(method);
+                        }
+                    }
+                }
+
+                if (classImplementationContext.implementationDefinitionList() != null) {
+                    for (ObjectiveCParser.InstanceMethodDefinitionContext define : classImplementationContext.implementationDefinitionList().instanceMethodDefinition()) {
+                        TreeSet<MethodTag> tags = new TreeSet<>();
+                        tags.add(MethodTag.PRIVATE);
+                        MethodElement method = new ObjcMethodElementImpl(define, tags);
+                        // reduce both in interface and implementation
+                        if (!elements.contains(method)) {
+                            elements.add(method);
+                        }
                     }
                 }
             }
         }
+
+
         return elements;
     }
 
@@ -177,4 +213,6 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
     public void setCategoryImplementationContexts(Set<ObjectiveCParser.CategoryImplementationContext> categoryImplementationContexts) {
         this.categoryImplementationContexts = categoryImplementationContexts;
     }
+
+
 }

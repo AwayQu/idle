@@ -24,6 +24,11 @@ public class ObjcMethodElementImpl extends AbstractMethodElement {
         this.tree = tree;
     }
 
+    public ObjcMethodElementImpl(ParseTree tree, TreeSet<MethodTag> tags) {
+        super(tags);
+        this.tree = tree;
+    }
+
     @Override
     public String getName() {
         if (tree instanceof ObjectiveCParser.ClassMethodDeclarationContext) {
@@ -43,6 +48,7 @@ public class ObjcMethodElementImpl extends AbstractMethodElement {
     @Override
     public Set<MethodTag> getTags() {
         Set<MethodTag> tags = new TreeSet<>();
+        tags.addAll(super.getTags());
 
         if (tree instanceof ObjectiveCParser.ClassMethodDeclarationContext) {
             tags.add(MethodTag.STATIC);
@@ -55,6 +61,7 @@ public class ObjcMethodElementImpl extends AbstractMethodElement {
         }
         return tags;
     }
+
 
 
 }
