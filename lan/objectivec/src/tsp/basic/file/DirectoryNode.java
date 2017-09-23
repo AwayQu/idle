@@ -9,8 +9,12 @@ public class DirectoryNode extends FileDescriptionNode {
     // path -> FileNode
     public HashMap<String, FileDescriptionNode> fdMap;
 
+    public DirectoryNode(String path) {
+        super(path);
+    }
 
     public DirectoryNode() {
+        super(null);
         this.fdMap = new HashMap<>();
     }
 

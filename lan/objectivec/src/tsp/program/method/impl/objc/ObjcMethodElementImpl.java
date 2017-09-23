@@ -16,6 +16,10 @@ public class ObjcMethodElementImpl extends AbstractMethodElement {
         super(tags, name);
     }
 
+    public ObjcMethodElementImpl(String name) {
+        super(name);
+    }
+
     public ObjcMethodElementImpl(ParseTree tree) {
         this.tree = tree;
     }
@@ -51,4 +55,6 @@ public class ObjcMethodElementImpl extends AbstractMethodElement {
         }
         return tags;
     }
+
+
 }

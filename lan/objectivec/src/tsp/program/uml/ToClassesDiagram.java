@@ -4,5 +4,5 @@ import tsp.feature.plantuml.classes.ClassesDiagram;
 
 public interface ToClassesDiagram {
 
-    public ClassesDiagram getDiagram();
+    public ClassesDiagram getClassesDiagram();
 }

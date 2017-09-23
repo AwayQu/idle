@@ -1,14 +1,21 @@
 package tsp.program.method;
 
+import tsp.feature.plantuml.classes.element.item.CDItemTag;
 import tsp.feature.plantuml.classes.element.item.ClassesDiagramItem;
+import tsp.feature.plantuml.classes.element.item.impl.CDMethodImpl;
 
 import java.util.Set;
 import java.util.TreeSet;
+
 
 public abstract class AbstractMethodElement implements MethodElement {
 
     TreeSet<MethodTag> tags;
     String name;
+
+    public AbstractMethodElement(String name) {
+        this.name = name;
+    }
 
     public AbstractMethodElement() {
     }
@@ -30,6 +37,6 @@ public abstract class AbstractMethodElement implements MethodElement {
 
     @Override
     public ClassesDiagramItem getClassesDiagramItem() {
-        return null;
+        return new CDMethodImpl(this.getName(), CDItemTag.PUBLIC);
     }
 }

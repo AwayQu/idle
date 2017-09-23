@@ -1,9 +1,9 @@
 package tsp.program.type;
 
 import tsp.feature.plantuml.classes.element.ClassesDiagramElement;
+import tsp.feature.plantuml.classes.relation.ClassesDiagramRelation;
 import tsp.program.method.MethodElement;
 import tsp.program.method.MethodTag;
-import tsp.program.uml.ToClassesDiagramRelation;
 import tsp.program.variable.VariableElement;
 import tsp.program.variable.VariableTag;
 
@@ -92,7 +92,7 @@ public abstract class AbstractTypeElement implements TypeElement {
     }
 
     @Override
-    public Set<ToClassesDiagramRelation> getClassesDiagramRelations() {
+    public Set<ClassesDiagramRelation> getClassesDiagramRelations() {
         return null;
     }
 

@@ -10,6 +10,14 @@ public class FileDescriptionNode extends BaseNode {
     private String path;
     private String extension;
 
+
+    public FileDescriptionNode() {
+    }
+
+    public FileDescriptionNode(String path) {
+        this.path = path;
+    }
+
     public void setParent(FileDescriptionNode parent) {
         this.parent = parent;
     }

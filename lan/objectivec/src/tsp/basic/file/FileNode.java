@@ -1,9 +1,16 @@
 package tsp.basic.file;
 
-import tsp.basic.Node;
 import tsp.basic.NodeVisitor;
 
 public class FileNode extends FileDescriptionNode {
+
+
+    public FileNode() {
+    }
+
+    public FileNode(String path) {
+        super(path);
+    }
 
     @Override
     public String dotString() {
