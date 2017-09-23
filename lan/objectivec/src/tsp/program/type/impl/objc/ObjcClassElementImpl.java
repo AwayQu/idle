@@ -23,17 +23,20 @@ import java.util.Set;
 public class ObjcClassElementImpl extends AbstractTypeElement implements ClassElement {
 
     ObjectiveCParser.ClassInterfaceContext classInterfaceContext;
+    ObjectiveCParser.ClassImplementationContext classImplementationContext;
 
     ObjectiveCParser.CategoryInterfaceContext anonymousCategoryInterfaceContexts;
     Set<ObjectiveCParser.CategoryInterfaceContext> categoryInterfaceContexts;
+    Set<ObjectiveCParser.CategoryImplementationContext> categoryImplementationContexts;
 
-    ObjectiveCParser.ClassImplementationContext classImplementationContext;
 
 
     Set<ParseTree> tree;
 
     public ObjcClassElementImpl(String name) {
         super(name);
+        this.categoryImplementationContexts = new HashSet<>();
+        this.categoryInterfaceContexts = new HashSet<>();
     }
 
     public ObjcClassElementImpl(String name, Set<TypeTag> tags, Set<ParseTree> tree) {
@@ -150,5 +153,29 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
 
     public void setAnonymousCategoryInterfaceContexts(ObjectiveCParser.CategoryInterfaceContext anonymousCategoryInterfaceContexts) {
         this.anonymousCategoryInterfaceContexts = anonymousCategoryInterfaceContexts;
+    }
+
+    public ObjectiveCParser.ClassImplementationContext getClassImplementationContext() {
+        return classImplementationContext;
+    }
+
+    public void setClassImplementationContext(ObjectiveCParser.ClassImplementationContext classImplementationContext) {
+        this.classImplementationContext = classImplementationContext;
+    }
+
+    public Set<ObjectiveCParser.CategoryInterfaceContext> getCategoryInterfaceContexts() {
+        return categoryInterfaceContexts;
+    }
+
+    public void setCategoryInterfaceContexts(Set<ObjectiveCParser.CategoryInterfaceContext> categoryInterfaceContexts) {
+        this.categoryInterfaceContexts = categoryInterfaceContexts;
+    }
+
+    public Set<ObjectiveCParser.CategoryImplementationContext> getCategoryImplementationContexts() {
+        return categoryImplementationContexts;
+    }
+
+    public void setCategoryImplementationContexts(Set<ObjectiveCParser.CategoryImplementationContext> categoryImplementationContexts) {
+        this.categoryImplementationContexts = categoryImplementationContexts;
     }
 }

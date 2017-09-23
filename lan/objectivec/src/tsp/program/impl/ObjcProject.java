@@ -29,6 +29,13 @@ public class ObjcProject extends AbstractProject {
 
 
         AbstractParseTreeVisitor parseTreeVisitor = new ObjectiveCParserBaseVisitor() {
+            /**
+             * read @interface Foo: NSObject
+             *      @end
+             *
+             * @param ctx
+             * @return
+             */
             @Override
             public Object visitClassInterface(ObjectiveCParser.ClassInterfaceContext ctx) {
                 String name = ctx.classNameGeneric().className().getText();
@@ -46,11 +53,39 @@ public class ObjcProject extends AbstractProject {
             }
 
             @Override
+            public Object visitClassImplementation(ObjectiveCParser.ClassImplementationContext ctx) {
+                String name = ctx.classNameGeneric().className().getText();
+                ObjcClassElementImpl e = null;
+
+                if (elements.get(name) != null) {
+                    e = (ObjcClassElementImpl) elements.get(name);
+                } else {
+                    e = new ObjcClassElementImpl(name);
+                }
+
+                e.setClassImplementationContext(ctx);
+
+                elements.put(name, e);
+
+                return super.visitClassImplementation(ctx);
+            }
+
+            /**
+             * read @interface Foo ()
+             *
+             *      @end
+             *
+             *      @interface Foo (categoryName)
+             *
+             *      @end
+             *
+             * @param ctx
+             * @return
+             */
+            @Override
             public Object visitCategoryInterface(ObjectiveCParser.CategoryInterfaceContext ctx) {
 
-                if (ctx.categoryName() != null) {
-                    return null;
-                }
+                 Boolean isAnonymous = ctx.categoryName() == null;
 
                 String name = ctx.classNameGeneric().className().getText();
                 ObjcClassElementImpl e = null;
@@ -61,9 +96,35 @@ public class ObjcProject extends AbstractProject {
                     e = new ObjcClassElementImpl(name);
                 }
 
-                e.setAnonymousCategoryInterfaceContexts(ctx);
+                if (isAnonymous) {
+                    e.setAnonymousCategoryInterfaceContexts(ctx);
+                } else {
+                    e.getCategoryInterfaceContexts().add(ctx);
+                }
                 elements.put(name, e);
                 return super.visitCategoryInterface(ctx);
+            }
+
+            /**
+             * read  @implement Foo (category)
+             *       @end
+             *
+             * @param ctx
+             * @return
+             */
+            @Override
+            public Object visitCategoryImplementation(ObjectiveCParser.CategoryImplementationContext ctx) {
+                String name = ctx.classNameGeneric().className().getText();
+                ObjcClassElementImpl e = null;
+                if (elements.get(name) != null) {
+                    e = (ObjcClassElementImpl) elements.get(name);
+                } else {
+                    e = new ObjcClassElementImpl(name);
+                }
+
+                e.getCategoryImplementationContexts().add(ctx);
+                elements.put(name, e);
+                return super.visitCategoryImplementation(ctx);
             }
         };
 
