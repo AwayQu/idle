@@ -183,6 +183,10 @@ public class ObjcProject extends AbstractProject {
             for (ClassesDiagramElement element : e.getClassesDiagramElements()) {
                 diagram.addElements(element);
             }
+
+            for (ClassesDiagramRelation item : e.getClassesDiagramRelations()) {
+                diagram.addRelation(item);
+            }
         }
 
 
