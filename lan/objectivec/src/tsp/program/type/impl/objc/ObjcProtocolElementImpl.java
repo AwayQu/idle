@@ -1,8 +1,10 @@
 package tsp.program.type.impl.objc;
 
 import tsp.feature.plantuml.classes.element.ClassesDiagramElement;
+import tsp.feature.plantuml.classes.element.impl.CDEClassImpl;
 import tsp.feature.plantuml.classes.element.impl.CDEInterfaceImpl;
 import tsp.feature.plantuml.classes.relation.ClassesDiagramRelation;
+import tsp.feature.plantuml.classes.relation.impl.CDRImplementImpl;
 import tsp.gen.ObjectiveCParser;
 import tsp.program.method.MethodElement;
 import tsp.program.method.MethodTag;
@@ -30,6 +32,19 @@ public class ObjcProtocolElementImpl extends AbstractTypeElement implements Inte
 
     public ObjectiveCParser.ProtocolDeclarationContext getProtocolDeclarationContext() {
         return protocolDeclarationContext;
+    }
+
+    @Override
+    public Set<InterfaceElement> getExtendInterfaces() {
+        Set<InterfaceElement> elements = new HashSet<>();
+        if (protocolDeclarationContext.protocolReferenceList() != null) {
+            for (ObjectiveCParser.ProtocolNameContext name : protocolDeclarationContext.protocolReferenceList().protocolList().protocolName()) {
+                String protocol = name.getText();
+                elements.add(new ObjcProtocolElementImpl(protocol));
+            }
+        }
+
+        return elements;
     }
 
     @Override
@@ -78,6 +93,12 @@ public class ObjcProtocolElementImpl extends AbstractTypeElement implements Inte
 
     @Override
     public Set<ClassesDiagramRelation> getClassesDiagramRelations() {
-        return super.getClassesDiagramRelations();
+        Set<ClassesDiagramRelation> elements = new HashSet<>();
+
+        for (InterfaceElement i : this.getExtendInterfaces()) {
+            elements.add(new CDRImplementImpl(new CDEClassImpl(this.getName()), new CDEInterfaceImpl(i.getName())));
+        }
+
+        return elements;
     }
 }

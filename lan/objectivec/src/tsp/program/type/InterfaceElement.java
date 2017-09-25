@@ -8,4 +8,5 @@ public interface InterfaceElement extends TypeElement {
 
     public Set<MethodElement> getDeclareMethods();
 
+    public Set<InterfaceElement> getExtendInterfaces();
 }
