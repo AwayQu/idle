@@ -15,9 +15,10 @@ import tsp.g4.ObjcG4Util;
 import tsp.g4.Output;
 import tsp.language.Lan;
 import tsp.visitor.TestObjcBaseVisitor;
+
 import java.util.HashMap;
 
-import static tsp.feature.constants.TestConstants.IOS_HELLO_PROJECT_PATH;
+import static tsp.constants.TestConstants.IOS_HELLO_PROJECT_PATH;
 
 public class ClassDiagramTest {
     @Test

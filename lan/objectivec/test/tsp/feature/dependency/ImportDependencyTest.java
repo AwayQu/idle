@@ -15,7 +15,7 @@ import tsp.visitor.ObjectiveCPreprocessor;
 
 import java.util.ArrayList;
 
-import static tsp.feature.constants.TestConstants.ACTIVITY_PROJECT_PATH;
+import static tsp.constants.TestConstants.ACTIVITY_PROJECT_PATH;
 
 public class ImportDependencyTest {
 

@@ -11,7 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static tsp.feature.constants.TestConstants.ACTIVITY_PROJECT_PATH;
+import static tsp.constants.TestConstants.ACTIVITY_PROJECT_PATH;
 
 public class FileDependencyTest {
     @Test

@@ -20,7 +20,7 @@ import tsp.language.Lan;
 
 import java.util.HashMap;
 
-import static tsp.feature.constants.TestConstants.IOS_HELLO_PROJECT_PATH;
+import static tsp.constants.TestConstants.IOS_HELLO_PROJECT_PATH;
 
 public class PlantUMLTest {
 

@@ -2,3 +2,5 @@
 vcs.xml
 *.class
 venv/
+
+objectivec/test/res/uml/project/
