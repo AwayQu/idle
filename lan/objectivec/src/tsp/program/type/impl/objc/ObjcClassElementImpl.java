@@ -3,6 +3,7 @@ package tsp.program.type.impl.objc;
 import org.antlr.v4.runtime.tree.ParseTree;
 import tsp.feature.plantuml.classes.element.ClassesDiagramElement;
 import tsp.feature.plantuml.classes.element.impl.CDEClassImpl;
+import tsp.feature.plantuml.classes.element.impl.CDEInterfaceImpl;
 import tsp.feature.plantuml.classes.relation.ClassesDiagramRelation;
 import tsp.feature.plantuml.classes.relation.impl.CDRExtendImpl;
 import tsp.feature.plantuml.classes.relation.impl.CDRImplementImpl;
@@ -147,12 +148,23 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
     public Set<ClassesDiagramElement> getClassesDiagramElements() {
 
         Set<ClassesDiagramElement> elements = new HashSet<>();
-
-        ClassesDiagramElement e = new CDEClassImpl(this.getName());
-        for (MethodElement method : this.getImplementMethods()) {
-            e.addItem(method.getClassesDiagramItem());
+        {
+            ClassesDiagramElement e = new CDEClassImpl(this.getName());
+            for (MethodElement method : this.getImplementMethods()) {
+                e.addItem(method.getClassesDiagramItem());
+            }
+            elements.add(e);
         }
-        elements.add(e);
+        // todo merge real implements
+        // add relation Class or Interface
+
+        for (ClassElement e : this.getSuperClasses()) {
+            elements.add(new CDEClassImpl(e.getName()));
+        }
+
+        for (InterfaceElement i : this.getImplementInterface()) {
+            elements.add(new CDEInterfaceImpl(i.getName()));
+        }
 
         return elements;
     }
@@ -165,7 +177,7 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
         }
 
         for (InterfaceElement i : this.getImplementInterface()) {
-            elements.add(new CDRImplementImpl(new CDEClassImpl(this.getName()), new CDEClassImpl(i.getName())));
+            elements.add(new CDRImplementImpl(new CDEClassImpl(this.getName()), new CDEInterfaceImpl(i.getName())));
         }
 
         return elements;
