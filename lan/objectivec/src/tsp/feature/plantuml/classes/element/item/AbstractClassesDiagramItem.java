@@ -1,17 +1,18 @@
 package tsp.feature.plantuml.classes.element.item;
 
+import com.sun.istack.internal.NotNull;
+
 import java.util.Set;
 
 import static tsp.constants.CommonConstants.LINE_SEPARATOR;
-import static tsp.feature.plantuml.common.utils.ComparableResult.AFTER;
-import static tsp.feature.plantuml.common.utils.ComparableResult.EQUAL;
+import static tsp.feature.plantuml.common.utils.ComparableResult.*;
 
 public abstract class AbstractClassesDiagramItem implements ClassesDiagramItem {
 
     private final String name;
     private final Set<CDItemTag> tags;
 
-    public AbstractClassesDiagramItem(String name, Set<CDItemTag> tags) {
+    public AbstractClassesDiagramItem(@NotNull String name, Set<CDItemTag> tags) {
         this.name = name;
         this.tags = tags;
     }
@@ -35,6 +36,14 @@ public abstract class AbstractClassesDiagramItem implements ClassesDiagramItem {
             comparision = EQUAL.getResult();
         } else {
             comparision = CDItemTag.compare(this.getTags(), o.getTags());
+            if (comparision == EQUAL.getResult()) {
+                if (this.getName() == null) {
+                    comparision = BEFORE.getResult();
+                    throw new Error("Internal Error");
+                } else  {
+                    comparision = this.getName().compareTo(o.getName());
+                }
+            }
         }
         return comparision;
     }
