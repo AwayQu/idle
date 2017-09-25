@@ -14,13 +14,17 @@ import tsp.gen.ObjectiveCParserBaseVisitor;
 import tsp.language.Lan;
 import tsp.program.AbstractProject;
 import tsp.program.type.ClassElement;
+import tsp.program.type.InterfaceElement;
 import tsp.program.type.impl.objc.ObjcClassElementImpl;
+import tsp.program.type.impl.objc.ObjcProtocolElementImpl;
 
 import java.util.HashMap;
 
 public class ObjcProject extends AbstractProject {
 
     private HashMap<String, ClassElement> elements = new HashMap<>();
+    private HashMap<String, InterfaceElement> interfaceElements = new HashMap<>();
+
 
     private ClassDiagramFileVisitor fileVisitor;
 
@@ -126,6 +130,29 @@ public class ObjcProject extends AbstractProject {
                 elements.put(name, e);
                 return super.visitCategoryImplementation(ctx);
             }
+
+            /**
+             * read @protocol protocalName
+             *      @end
+             *
+             * @param ctx
+             * @return
+             */
+            @Override
+            public Object visitProtocolDeclaration(ObjectiveCParser.ProtocolDeclarationContext ctx) {
+                String name = ctx.protocolName().getText();
+                ObjcProtocolElementImpl e = null;
+                if (elements.get(name) != null) {
+                    e = (ObjcProtocolElementImpl) elements.get(name);
+                } else {
+                    e = new ObjcProtocolElementImpl(name);
+                }
+
+                e.setProtocolDeclarationContext(ctx);
+                interfaceElements.put(name, e);
+
+                return super.visitProtocolDeclaration(ctx);
+            }
         };
 
         this.fileVisitor = new ClassDiagramFileVisitor(parseTreeVisitor, Lan.OBJECTIVE_C);
@@ -151,6 +178,14 @@ public class ObjcProject extends AbstractProject {
                 diagram.addRelation(item);
             }
         }
+
+        for (InterfaceElement e : this.interfaceElements.values()) {
+            for (ClassesDiagramElement element : e.getClassesDiagramElements()) {
+                diagram.addElements(element);
+            }
+        }
+
+
         return diagram;
     }
 }
