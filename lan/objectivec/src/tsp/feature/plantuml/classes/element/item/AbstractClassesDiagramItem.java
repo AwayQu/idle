@@ -3,6 +3,8 @@ package tsp.feature.plantuml.classes.element.item;
 import java.util.Set;
 
 import static tsp.constants.CommonConstants.LINE_SEPARATOR;
+import static tsp.feature.plantuml.common.utils.ComparableResult.AFTER;
+import static tsp.feature.plantuml.common.utils.ComparableResult.EQUAL;
 
 public abstract class AbstractClassesDiagramItem implements ClassesDiagramItem {
 
@@ -28,7 +30,13 @@ public abstract class AbstractClassesDiagramItem implements ClassesDiagramItem {
     // TODO
     @Override
     public int compareTo(ClassesDiagramItem o) {
-        return 1;
+        int comparision = AFTER.getResult();
+        if (this == o) {
+            comparision = EQUAL.getResult();
+        } else {
+            comparision = CDItemTag.compare(this.getTags(), o.getTags());
+        }
+        return comparision;
     }
 
     @Override

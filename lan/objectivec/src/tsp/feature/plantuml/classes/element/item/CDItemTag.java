@@ -1,30 +1,70 @@
 package tsp.feature.plantuml.classes.element.item;
 
+import java.util.Set;
+
+import static tsp.feature.plantuml.common.constants.PriorityConstants.*;
+import static tsp.feature.plantuml.common.utils.ComparableResult.*;
+
 public enum CDItemTag {
 
-    PRIVATE_TAG("- "),
+    PUBLIC_TAG("+ ", HIGHER),
 
-    PROTECTED_TAG("# "),
+    PACKAGE_PRIVATE_TAG("~ ", MEDIUM),
 
-    PACKAGE_PRIVATE_TAG("~ "),
+    PROTECTED_TAG("# ", LOW),
 
-    PUBLIC_TAG("+ "),
+    PRIVATE_TAG("- ", LOWER),
 
-    STATIC_TAG("{static} "),
-    ABSTRACT_TAG("{abstract} "),
 
-    METHOD_TAG("{method} "),
-    FIELD_TAG("{field} ");
+    ABSTRACT_TAG("{abstract} ", MEDIUM),
+    STATIC_TAG("{static} ", LOW),
+
+    FIELD_TAG("{field} ", MEDIUM),
+    METHOD_TAG("{method} ", LOW);
 
 
     private String tagName;
+    private int priorityValue;
 
-    private CDItemTag(final String name) {
+    private CDItemTag(final String name, final int priority) {
         tagName = name;
+        priorityValue = priority;
     }
 
     public String getTagName() {
         return tagName;
     }
+
+    public int getPriorityValue() {
+        return priorityValue;
+    }
+
+    public static int compare(Set<CDItemTag> firstSet, Set<CDItemTag> secondSet) {
+        int firstAggregation = 0;
+        int secondAggregation = 0;
+
+        if (firstSet != null) {
+            for (CDItemTag item : firstSet) {
+                firstAggregation += item.getPriorityValue();
+            }
+        }
+
+        if (secondSet != null) {
+            for (CDItemTag item : secondSet) {
+                secondAggregation += item.getPriorityValue();
+            }
+        }
+
+        if (firstAggregation < secondAggregation) {
+            return BEFORE.getResult();
+        } else if (firstAggregation == secondAggregation) {
+            return EQUAL.getResult();
+        } else {
+            return AFTER.getResult();
+        }
+
+
+    }
+
 
 }

@@ -3,7 +3,7 @@ package tsp.feature.plantuml.classes.impl;
 import tsp.feature.plantuml.classes.ClassesDiagram;
 import tsp.feature.plantuml.classes.element.ClassesDiagramElement;
 import tsp.feature.plantuml.classes.relation.ClassesDiagramRelation;
-import tsp.feature.plantuml.constants.PUConstants;
+import tsp.feature.plantuml.common.constants.PUConstants;
 
 import java.util.Set;
 import java.util.TreeSet;

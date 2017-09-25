@@ -1,4 +1,4 @@
-package tsp.feature.plantuml.constants;
+package tsp.feature.plantuml.common.constants;
 
 public class PUConstants {
 
