@@ -76,24 +76,24 @@ public abstract class AbstractTypeElement implements TypeElement {
 
     @Override
     public Set<MethodElement> getMethods() {
-        return null;
+        return new TreeSet<>();
     }
 
     @Override
     public Set<MethodElement> getMethods(Set<MethodTag> tags) {
-        return null;
+        return new TreeSet<>();
     }
 
 
 
     @Override
     public Set<ClassesDiagramElement> getClassesDiagramElements() {
-        return null;
+        return new TreeSet<>();
     }
 
     @Override
     public Set<ClassesDiagramRelation> getClassesDiagramRelations() {
-        return null;
+        return new TreeSet<>();
     }
 
     @Override

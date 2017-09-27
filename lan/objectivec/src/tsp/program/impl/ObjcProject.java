@@ -14,8 +14,10 @@ import tsp.gen.ObjectiveCParserBaseVisitor;
 import tsp.language.Lan;
 import tsp.program.AbstractProject;
 import tsp.program.type.ClassElement;
+import tsp.program.type.EnumElement;
 import tsp.program.type.InterfaceElement;
 import tsp.program.type.impl.objc.ObjcClassElementImpl;
+import tsp.program.type.impl.objc.ObjcEnumElementImpl;
 import tsp.program.type.impl.objc.ObjcProtocolElementImpl;
 
 import java.util.HashMap;
@@ -24,6 +26,7 @@ public class ObjcProject extends AbstractProject {
 
     private HashMap<String, ClassElement> elements = new HashMap<>();
     private HashMap<String, InterfaceElement> interfaceElements = new HashMap<>();
+    private HashMap<String, EnumElement> enumElements = new HashMap<>();
 
 
     private ClassDiagramFileVisitor fileVisitor;
@@ -153,6 +156,28 @@ public class ObjcProject extends AbstractProject {
 
                 return super.visitProtocolDeclaration(ctx);
             }
+
+            @Override
+            public Object visitEnumDeclaration(ObjectiveCParser.EnumDeclarationContext ctx) {
+
+                String name = null;
+                if (ctx.className() != null) {
+                     name = ctx.className().getText();
+                } else {
+                    name = ctx.enumSpecifier().identifier().get(0).getText();
+                }
+
+                ObjcEnumElementImpl e = null;
+                if (enumElements.get(name) != null) {
+                    e = (ObjcEnumElementImpl) enumElements.get(name);
+                } else {
+                    e = new ObjcEnumElementImpl(name);
+                }
+                e.setContext(ctx);
+                enumElements.put(name, e);
+
+                return super.visitEnumDeclaration(ctx);
+            }
         };
 
         this.fileVisitor = new ClassDiagramFileVisitor(parseTreeVisitor, Lan.OBJECTIVE_C);
@@ -189,6 +214,15 @@ public class ObjcProject extends AbstractProject {
             }
         }
 
+        for (EnumElement e : this.enumElements.values()) {
+            for (ClassesDiagramElement element : e.getClassesDiagramElements()) {
+                diagram.addElements(element);
+            }
+
+            for (ClassesDiagramRelation item : e.getClassesDiagramRelations()) {
+                diagram.addRelation(item);
+            }
+        }
 
         return diagram;
     }
