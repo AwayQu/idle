@@ -92,7 +92,7 @@ public class ObjcProject extends AbstractProject {
             @Override
             public Object visitCategoryInterface(ObjectiveCParser.CategoryInterfaceContext ctx) {
 
-                 Boolean isAnonymous = ctx.categoryName() == null;
+                Boolean isAnonymous = ctx.categoryName() == null;
 
                 String name = ctx.classNameGeneric().className().getText();
                 ObjcClassElementImpl e = null;
@@ -162,7 +162,7 @@ public class ObjcProject extends AbstractProject {
 
                 String name = null;
                 if (ctx.className() != null) {
-                     name = ctx.className().getText();
+                    name = ctx.className().getText();
                 } else {
                     name = ctx.enumSpecifier().identifier().get(0).getText();
                 }

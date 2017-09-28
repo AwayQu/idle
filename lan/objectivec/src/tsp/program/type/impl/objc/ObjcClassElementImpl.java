@@ -211,6 +211,10 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
     public Set<ClassesDiagramRelation> getClassesDiagramRelations() {
         Set<ClassesDiagramRelation> elements = new HashSet<>();
         for (ClassElement e : this.getSuperClasses()) {
+            // TODO Remove
+            if (e.getName().equals("NSObject")){
+                continue;
+            }
             elements.add(new CDRExtendImpl(new CDEClassImpl(this.getName()), new CDEClassImpl(e.getName())));
         }
 
