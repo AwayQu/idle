@@ -15,6 +15,8 @@ import tsp.program.type.AbstractTypeElement;
 import tsp.program.type.ClassElement;
 import tsp.program.type.InterfaceElement;
 import tsp.program.type.TypeTag;
+import tsp.program.variable.VariableElement;
+import tsp.program.variable.impl.objc.ObjcPropertyVariable;
 
 import java.util.HashSet;
 import java.util.List;
@@ -143,6 +145,35 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
         return elements;
     }
 
+    public Set<VariableElement> getProperties() {
+        Set<VariableElement> elements = new HashSet<>();
+        ObjectiveCParser.ClassInterfaceContext interfaceContext = this.getClassInterfaceContext();
+        if (interfaceContext == null) {
+//            throw new Error("AWAY INTERNAL ERROR");
+            return elements;
+        }
+        ObjectiveCParser.InterfaceDeclarationListContext interfaceDeclarationListContext = interfaceContext.interfaceDeclarationList();
+        if (interfaceDeclarationListContext != null) {
+            List<ObjectiveCParser.PropertyDeclarationContext> propertyDeclarationContexts = interfaceDeclarationListContext.propertyDeclaration();
+            for (ObjectiveCParser.PropertyDeclarationContext propertyDeclarationContext : propertyDeclarationContexts) {
+                //type
+//                propertyDeclarationContext.structDeclaration().specifierQualifierList()
+                //identify
+                String name = propertyDeclarationContext.structDeclaration().structDeclaratorList().getText();
+                if (name.startsWith("*")) {
+                    name = name.substring(1);
+                }
+                VariableElement e = new ObjcPropertyVariable(name);
+                elements.add(e);
+            }
+        }
+        return elements;
+    }
+
+    public Set<VariableElement> getVariables() {
+        return null;
+    }
+
 
     @Override
     public Set<ClassesDiagramElement> getClassesDiagramElements() {
@@ -150,11 +181,18 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
         Set<ClassesDiagramElement> elements = new HashSet<>();
         {
             ClassesDiagramElement e = new CDEClassImpl(this.getName());
+            for (VariableElement variable: this.getProperties())  {
+                e.addItem(variable.getClassesDiagramItem());
+            }
             for (MethodElement method : this.getImplementMethods()) {
                 e.addItem(method.getClassesDiagramItem());
             }
             elements.add(e);
         }
+
+
+
+
         // todo merge real implements
         // add relation Class or Interface
 

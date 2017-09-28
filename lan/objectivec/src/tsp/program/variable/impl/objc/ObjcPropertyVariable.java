@@ -13,4 +13,7 @@ public class ObjcPropertyVariable extends AbstractVariableElement {
         super(tags, type, name);
     }
 
+    public ObjcPropertyVariable(String name) {
+        super(name);
+    }
 }

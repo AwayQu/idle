@@ -1,9 +1,12 @@
 package tsp.program.variable;
 
 import org.antlr.v4.runtime.tree.ParseTree;
+import tsp.feature.plantuml.classes.element.item.CDItemTag;
 import tsp.feature.plantuml.classes.element.item.ClassesDiagramItem;
+import tsp.feature.plantuml.classes.element.item.impl.CDItemImpl;
 import tsp.program.type.TypeElement;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public abstract class AbstractVariableElement implements VariableElement {
@@ -21,25 +24,33 @@ public abstract class AbstractVariableElement implements VariableElement {
     }
 
     public AbstractVariableElement() {
+
+    }
+
+    public AbstractVariableElement(String name) {
+        this.name = name;
     }
 
     @Override
     public Set<VariableTag> getTags() {
-        return null;
+        return this.tags;
     }
 
     @Override
     public TypeElement getType() {
-        return null;
+        return this.type;
     }
 
     @Override
     public String getName() {
-        return null;
+        return this.name;
     }
 
     @Override
     public ClassesDiagramItem getClassesDiagramItem() {
-        return null;
+        Set<CDItemTag> tags = new HashSet<>();
+        tags.add(CDItemTag.FIELD_TAG);
+
+        return new CDItemImpl(this.getName(), tags);
     }
 }

@@ -39,7 +39,7 @@ public abstract class AbstractClassesDiagramItem implements ClassesDiagramItem {
             if (comparision == EQUAL.getResult()) {
                 if (this.getName() == null) {
                     comparision = BEFORE.getResult();
-                    throw new Error("Internal Error");
+                    throw new Error("AWAY Internal Error");
                 } else  {
                     comparision = this.getName().compareTo(o.getName());
                 }

@@ -25,6 +25,8 @@ public abstract class AbstractTypeElement implements TypeElement {
     public AbstractTypeElement() {
     }
 
+
+
     public AbstractTypeElement(String name, Set<TypeTag> tags) {
         this.name = name;
         this.tags = tags;
