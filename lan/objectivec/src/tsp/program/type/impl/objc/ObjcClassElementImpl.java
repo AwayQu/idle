@@ -11,10 +11,7 @@ import tsp.gen.ObjectiveCParser;
 import tsp.program.method.MethodElement;
 import tsp.program.method.MethodTag;
 import tsp.program.method.impl.objc.ObjcMethodElementImpl;
-import tsp.program.type.AbstractTypeElement;
-import tsp.program.type.ClassElement;
-import tsp.program.type.InterfaceElement;
-import tsp.program.type.TypeTag;
+import tsp.program.type.*;
 import tsp.program.variable.VariableElement;
 import tsp.program.variable.impl.objc.ObjcPropertyVariable;
 
@@ -156,14 +153,17 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
         if (interfaceDeclarationListContext != null) {
             List<ObjectiveCParser.PropertyDeclarationContext> propertyDeclarationContexts = interfaceDeclarationListContext.propertyDeclaration();
             for (ObjectiveCParser.PropertyDeclarationContext propertyDeclarationContext : propertyDeclarationContexts) {
+
                 //type
-//                propertyDeclarationContext.structDeclaration().specifierQualifierList()
+                String type = propertyDeclarationContext.structDeclaration().specifierQualifierList().getText();
+                TypeElement typeElement = new ObjcClassElementImpl(type);
+
                 //identify
                 String name = propertyDeclarationContext.structDeclaration().structDeclaratorList().getText();
                 if (name.startsWith("*")) {
                     name = name.substring(1);
                 }
-                VariableElement e = new ObjcPropertyVariable(name);
+                VariableElement e = new ObjcPropertyVariable(typeElement, name);
                 elements.add(e);
             }
         }
@@ -182,7 +182,7 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
         {
             ClassesDiagramElement e = new CDEClassImpl(this.getName());
             for (VariableElement variable: this.getProperties())  {
-                e.addItem(variable.getClassesDiagramItem());
+                e.addItem(variable.getClassesDiagramItem());;
             }
             for (MethodElement method : this.getImplementMethods()) {
                 e.addItem(method.getClassesDiagramItem());

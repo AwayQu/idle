@@ -19,8 +19,9 @@ public enum CDItemTag {
     ABSTRACT_TAG("{abstract} ", MEDIUM),
     STATIC_TAG("{static} ", LOW),
 
-    FIELD_TAG("{field} ", MEDIUM),
-    METHOD_TAG("{method} ", LOW);
+    FIELD_TAG("{field} ", HIGHER * 3),
+    METHOD_TAG("{method} ", HIGHER);
+
 
 
     private String tagName;

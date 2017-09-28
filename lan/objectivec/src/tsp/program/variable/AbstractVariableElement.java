@@ -27,6 +27,11 @@ public abstract class AbstractVariableElement implements VariableElement {
 
     }
 
+    public AbstractVariableElement(TypeElement type, String name) {
+        this.type = type;
+        this.name = name;
+    }
+
     public AbstractVariableElement(String name) {
         this.name = name;
     }
@@ -50,7 +55,11 @@ public abstract class AbstractVariableElement implements VariableElement {
     public ClassesDiagramItem getClassesDiagramItem() {
         Set<CDItemTag> tags = new HashSet<>();
         tags.add(CDItemTag.FIELD_TAG);
-
-        return new CDItemImpl(this.getName(), tags);
+        StringBuilder sb = new StringBuilder();
+        sb.append(name);
+        sb.append(" : ");
+        sb.append(this.getType().getName());
+        String name = sb.toString();
+        return new CDItemImpl(name, tags);
     }
 }
