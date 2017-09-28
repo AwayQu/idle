@@ -85,71 +85,96 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
         Set<MethodElement> elements = new HashSet<>();
         if (classInterfaceContext != null) {
             ObjectiveCParser.InterfaceDeclarationListContext declarationListContext = classInterfaceContext.interfaceDeclarationList();
-            if (declarationListContext != null) {
+            parseMethod(elements, declarationListContext);
+        }
 
-                List<ObjectiveCParser.ClassMethodDeclarationContext> methodList = declarationListContext.classMethodDeclaration();
-                if (methodList != null) {
-                    for (ObjectiveCParser.ClassMethodDeclarationContext method : methodList) {
-                        String methodName = method.methodDeclaration().methodSelector().getText();
-//                        elements.add(new ObjcMethodElementImpl(methodName));
-                        TreeSet<MethodTag> tags = new TreeSet<>();
-                        tags.add(MethodTag.PUBLIC);
-                        elements.add(new ObjcMethodElementImpl(method, tags));
-                    }
-                }
+        if (classImplementationContext != null) {
+            ObjectiveCParser.ImplementationDefinitionListContext definitionListContext = classImplementationContext.implementationDefinitionList();
+            parseMethod(elements, definitionListContext);
+        }
 
-                List<ObjectiveCParser.InstanceMethodDeclarationContext> instanceMethodList = declarationListContext.instanceMethodDeclaration();
-                if (instanceMethodList != null) {
-                    for (ObjectiveCParser.InstanceMethodDeclarationContext method : instanceMethodList) {
-//                        String methodName = method.methodDeclaration().methodSelector().getText();
-                        TreeSet<MethodTag> tags = new TreeSet<>();
-                        tags.add(MethodTag.PUBLIC);
-                        elements.add(new ObjcMethodElementImpl(method, tags));
-                    }
-                }
-            }
+        for (ObjectiveCParser.CategoryInterfaceContext categoryInterfaceContext : categoryInterfaceContexts) {
+            ObjectiveCParser.InterfaceDeclarationListContext declarationListContext = categoryInterfaceContext.interfaceDeclarationList();
+            parseMethod(elements, declarationListContext);
+        }
 
-            if (classImplementationContext != null) {
-
-
-                if (classImplementationContext.implementationDefinitionList() != null) {
-                    for (ObjectiveCParser.ClassMethodDefinitionContext define : classImplementationContext.implementationDefinitionList().classMethodDefinition()) {
-                        TreeSet<MethodTag> tags = new TreeSet<>();
-                        tags.add(MethodTag.PRIVATE);
-                        MethodElement method = new ObjcMethodElementImpl(define, tags);
-                        // reduce both in interface and implementation
-                        if (!elements.contains(method)) {
-                            elements.add(method);
-                        }
-                    }
-                }
-
-                if (classImplementationContext.implementationDefinitionList() != null) {
-                    for (ObjectiveCParser.InstanceMethodDefinitionContext define : classImplementationContext.implementationDefinitionList().instanceMethodDefinition()) {
-                        TreeSet<MethodTag> tags = new TreeSet<>();
-                        tags.add(MethodTag.PRIVATE);
-                        MethodElement method = new ObjcMethodElementImpl(define, tags);
-                        // reduce both in interface and implementation
-                        if (!elements.contains(method)) {
-                            elements.add(method);
-                        }
-                    }
-                }
-            }
+        for (ObjectiveCParser.CategoryImplementationContext implementationContext : categoryImplementationContexts) {
+            ObjectiveCParser.ImplementationDefinitionListContext definitionListContext = implementationContext.implementationDefinitionList();
+            parseMethod(elements, definitionListContext);
         }
 
 
         return elements;
     }
 
+    private void parseMethod(Set<MethodElement> elements, ObjectiveCParser.ImplementationDefinitionListContext definitionListContext) {
+        if (definitionListContext != null) {
+            for (ObjectiveCParser.ClassMethodDefinitionContext define : classImplementationContext.implementationDefinitionList().classMethodDefinition()) {
+                TreeSet<MethodTag> tags = new TreeSet<>();
+                tags.add(MethodTag.PRIVATE);
+                MethodElement method = new ObjcMethodElementImpl(define, tags);
+                // reduce both in interface and implementation
+                if (!elements.contains(method)) {
+                    elements.add(method);
+                }
+            }
+        }
+
+        if (definitionListContext != null) {
+            for (ObjectiveCParser.InstanceMethodDefinitionContext define : classImplementationContext.implementationDefinitionList().instanceMethodDefinition()) {
+                TreeSet<MethodTag> tags = new TreeSet<>();
+                tags.add(MethodTag.PRIVATE);
+                MethodElement method = new ObjcMethodElementImpl(define, tags);
+                // reduce both in interface and implementation
+                if (!elements.contains(method)) {
+                    elements.add(method);
+                }
+            }
+        }
+    }
+
+    private void parseMethod(Set<MethodElement> elements, ObjectiveCParser.InterfaceDeclarationListContext declarationListContext) {
+        if (declarationListContext != null) {
+
+            List<ObjectiveCParser.ClassMethodDeclarationContext> methodList = declarationListContext.classMethodDeclaration();
+            if (methodList != null) {
+                for (ObjectiveCParser.ClassMethodDeclarationContext method : methodList) {
+                    String methodName = method.methodDeclaration().methodSelector().getText();
+//                        elements.add(new ObjcMethodElementImpl(methodName));
+                    TreeSet<MethodTag> tags = new TreeSet<>();
+                    tags.add(MethodTag.PUBLIC);
+                    elements.add(new ObjcMethodElementImpl(method, tags));
+                }
+            }
+
+            List<ObjectiveCParser.InstanceMethodDeclarationContext> instanceMethodList = declarationListContext.instanceMethodDeclaration();
+            if (instanceMethodList != null) {
+                for (ObjectiveCParser.InstanceMethodDeclarationContext method : instanceMethodList) {
+//                        String methodName = method.methodDeclaration().methodSelector().getText();
+                    TreeSet<MethodTag> tags = new TreeSet<>();
+                    tags.add(MethodTag.PUBLIC);
+                    elements.add(new ObjcMethodElementImpl(method, tags));
+                }
+            }
+        }
+    }
+
     public Set<VariableElement> getProperties() {
         Set<VariableElement> elements = new HashSet<>();
         ObjectiveCParser.ClassInterfaceContext interfaceContext = this.getClassInterfaceContext();
-        if (interfaceContext == null) {
-//            throw new Error("AWAY INTERNAL ERROR");
-            return elements;
+        if (interfaceContext != null) {
+            ObjectiveCParser.InterfaceDeclarationListContext interfaceDeclarationListContext = interfaceContext.interfaceDeclarationList();
+            parsePropeties(elements, interfaceDeclarationListContext);
         }
-        ObjectiveCParser.InterfaceDeclarationListContext interfaceDeclarationListContext = interfaceContext.interfaceDeclarationList();
+        if (anonymousCategoryInterfaceContexts != null) {
+            ObjectiveCParser.InterfaceDeclarationListContext interfaceDeclarationListContext1 = anonymousCategoryInterfaceContexts.interfaceDeclarationList();
+            parsePropeties(elements, interfaceDeclarationListContext1);
+        }
+
+        return elements;
+    }
+
+    private void parsePropeties(Set<VariableElement> elements, ObjectiveCParser.InterfaceDeclarationListContext interfaceDeclarationListContext) {
         if (interfaceDeclarationListContext != null) {
             List<ObjectiveCParser.PropertyDeclarationContext> propertyDeclarationContexts = interfaceDeclarationListContext.propertyDeclaration();
             for (ObjectiveCParser.PropertyDeclarationContext propertyDeclarationContext : propertyDeclarationContexts) {
@@ -167,7 +192,6 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
                 elements.add(e);
             }
         }
-        return elements;
     }
 
     public Set<VariableElement> getVariables() {
@@ -181,16 +205,15 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
         Set<ClassesDiagramElement> elements = new HashSet<>();
         {
             ClassesDiagramElement e = new CDEClassImpl(this.getName());
-            for (VariableElement variable: this.getProperties())  {
-                e.addItem(variable.getClassesDiagramItem());;
+            for (VariableElement variable : this.getProperties()) {
+                e.addItem(variable.getClassesDiagramItem());
+                ;
             }
             for (MethodElement method : this.getImplementMethods()) {
                 e.addItem(method.getClassesDiagramItem());
             }
             elements.add(e);
         }
-
-
 
 
         // todo merge real implements
@@ -212,7 +235,7 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
         Set<ClassesDiagramRelation> elements = new HashSet<>();
         for (ClassElement e : this.getSuperClasses()) {
             // TODO Remove
-            if (e.getName().equals("NSObject")){
+            if (e.getName().equals("NSObject")) {
                 continue;
             }
             elements.add(new CDRExtendImpl(new CDEClassImpl(this.getName()), new CDEClassImpl(e.getName())));
