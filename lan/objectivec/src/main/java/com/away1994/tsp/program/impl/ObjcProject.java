@@ -145,8 +145,8 @@ public class ObjcProject extends AbstractProject {
             public Object visitProtocolDeclaration(ObjectiveCParser.ProtocolDeclarationContext ctx) {
                 String name = ctx.protocolName().getText();
                 ObjcProtocolElementImpl e = null;
-                if (elements.get(name) != null) {
-                    e = (ObjcProtocolElementImpl) elements.get(name);
+                if (interfaceElements.get(name) != null) {
+                    e = (ObjcProtocolElementImpl) interfaceElements.get(name);
                 } else {
                     e = new ObjcProtocolElementImpl(name);
                 }
