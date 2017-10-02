@@ -4,3 +4,4 @@ vcs.xml
 venv/
 .idea/
 objectivec/test/res/uml/project/
+target/
