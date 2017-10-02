@@ -1,4 +1,4 @@
-package com.away1994.tsp.commandline;
+package com.away1994.commandline;
 
 import com.away1994.tsp.g4.Output;
 import com.away1994.tsp.program.Project;

@@ -5,20 +5,20 @@ import com.away1994.tsp.gen.ObjectiveCParser;
 import com.away1994.tsp.gen.ObjectiveCPreprocessorLexer;
 import com.away1994.tsp.gen.ObjectiveCPreprocessorParser;
 import com.away1994.tsp.visitor.ObjectiveCPreprocessor;
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.IOException;
 
 public class ObjcG4Util {
 
     @Nullable
-    public static ParseTree getParseTree(@NotNull String filePath) {
+    public static ParseTree getParseTree(@Nonnull String filePath) {
         ANTLRFileStream fs = null;
         try {
             fs = new ANTLRFileStream(filePath);
@@ -34,7 +34,7 @@ public class ObjcG4Util {
      * @param codeString string of code
      * @return Parse Tree
      */
-    public static ParseTree getCodeParseTree(@NotNull String codeString) {
+    public static ParseTree getCodeParseTree(@Nonnull String codeString) {
         ANTLRInputStream preInputStream = new ANTLRInputStream(codeString);
         return getParseTree(preInputStream);
     }

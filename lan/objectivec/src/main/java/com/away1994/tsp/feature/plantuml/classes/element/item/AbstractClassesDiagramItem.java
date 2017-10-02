@@ -1,7 +1,6 @@
 package com.away1994.tsp.feature.plantuml.classes.element.item;
 
-import com.sun.istack.internal.NotNull;
-
+import javax.annotation.Nonnull;
 import java.util.Set;
 
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
@@ -12,7 +11,7 @@ public abstract class AbstractClassesDiagramItem implements ClassesDiagramItem {
     private final String name;
     private final Set<CDItemTag> tags;
 
-    public AbstractClassesDiagramItem(@NotNull String name,@NotNull Set<CDItemTag> tags) {
+    public AbstractClassesDiagramItem(@Nonnull String name, @Nonnull Set<CDItemTag> tags) {
         this.name = name;
         this.tags = tags;
     }

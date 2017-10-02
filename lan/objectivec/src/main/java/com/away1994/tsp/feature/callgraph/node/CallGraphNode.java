@@ -1,7 +1,7 @@
 package com.away1994.tsp.feature.callgraph.node;
 
-import com.sun.istack.internal.NotNull;
 
+import javax.annotation.Nonnull;
 import java.util.HashSet;
 
 public class CallGraphNode {
@@ -10,7 +10,7 @@ public class CallGraphNode {
 
     private HashSet<CallGraphNode> callees;
 
-    public CallGraphNode(@NotNull Declaration declaration) {
+    public CallGraphNode(@Nonnull Declaration declaration) {
         this.declaration = declaration;
         this.callees = new HashSet<>();
     }
@@ -19,7 +19,7 @@ public class CallGraphNode {
         this.callees.add(n);
     }
 
-    @NotNull
+    @Nonnull
     public Declaration getDeclaration() {
         return declaration;
     }

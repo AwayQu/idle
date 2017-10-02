@@ -1,8 +1,8 @@
 package com.away1994.tsp.feature.callgraph.node;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.HashMap;
 
 
@@ -23,7 +23,7 @@ public class CallGraph {
     }
 
     @Nullable
-    public CallGraphNode getNode(@NotNull Declaration d) {
+    public CallGraphNode getNode(@Nonnull Declaration d) {
         return this.functionMap.getOrDefault(d, null);
     }
 
