@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="ejb" url="file://$PROJECT_DIR$/objectivec" />
+    <file type="javaeeApplication" url="file://$PROJECT_DIR$/idlecommand" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
