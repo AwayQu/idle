@@ -5,6 +5,7 @@ import com.away1994.tsp.program.Project;
 import com.away1994.tsp.program.impl.ObjcProject;
 import io.airlift.airline.*;
 
+import java.io.File;
 import java.io.IOException;
 
 public class IDLE {
@@ -38,6 +39,7 @@ public class IDLE {
     @Command(name = "analyze", description = "analyze uml classes diagram with file")
     public static class ClassesDiagram extends IDLECommand
     {
+
         @Option(name = "-p", description = "Project Path")
         public String path;
 
@@ -46,6 +48,12 @@ public class IDLE {
 
         @Override
         public void run() {
+
+            File file = new File(path);
+            if (!file.exists()) {
+                System.out.println("Project path not exists!");
+                return;
+            }
             Project project = new ObjcProject(path);
 
 
@@ -53,9 +61,10 @@ public class IDLE {
 
             com.away1994.tsp.feature.plantuml.classes.ClassesDiagram diagram = project.getClassesDiagram();
             try {
-                Output.writeToFile(output, diagram.getPUTextDescription());
+                String out = output != null ? output: "./" + file.getName() + ".puml";
+                Output.writeToFile(out, diagram.getPUTextDescription());
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Write to output file fail");
             }
 
         }
