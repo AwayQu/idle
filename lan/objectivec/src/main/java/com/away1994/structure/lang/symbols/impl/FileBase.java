@@ -21,11 +21,6 @@ public class FileBase implements File {
      */
     public String name;
 
-    /**
-     * extension of file
-     */
-    public String extension;
-
 
     /**
      * all symbols in the file
@@ -66,13 +61,27 @@ public class FileBase implements File {
         this.name = name;
     }
 
+    /**
+     *
+     * @return extension of file
+     */
     public String getExtension() {
-        return extension;
+        int lastIndex = this.getName().lastIndexOf(".");
+        return this.getName().substring(lastIndex + 1);
     }
 
-    public void setExtension(String extension) {
-        this.extension = extension;
+
+
+    public String getFullPath() {
+
+        if (owner instanceof PathBase) {
+            return ((PathBase) this.owner).getPath() + "/" + this.name;
+        } else {
+            return null;
+        }
+
     }
+
 
     @Override
     public String identify() {
