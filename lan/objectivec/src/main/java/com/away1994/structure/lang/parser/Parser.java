@@ -5,7 +5,7 @@ import com.away1994.common.constants.log.FineConstants;
 import com.away1994.common.utils.log.LogUtils;
 import com.away1994.structure.lang.symbols.Symbol;
 import com.away1994.structure.lang.symbols.impl.*;
-import com.away1994.structure.lang.symbols.impl.variable.VariableBase;
+import com.away1994.structure.lang.symbols.impl.variable.VariableImpl;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -100,8 +100,8 @@ public class Parser {
                     /**
                      * etc..
                      */
-                    if (currentSymbol instanceof VariableBase)
-                        symbols = languageParser.parseVariable((VariableBase) currentSymbol);
+                    if (currentSymbol instanceof VariableImpl)
+                        symbols = languageParser.parseVariable((VariableImpl) currentSymbol);
                     break;
                 case INTERFACE_STATE:
                     /**

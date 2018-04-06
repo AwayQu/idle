@@ -8,7 +8,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
-public class VariableBase implements Variable {
+public class VariableImpl implements Variable {
 
 
     public Symbol owner;
@@ -17,7 +17,7 @@ public class VariableBase implements Variable {
 
     public Class type;
 
-    public VariableBase(Symbol owner, String name) {
+    public VariableImpl(Symbol owner, String name) {
         this.owner = owner;
         this.name = name;
     }

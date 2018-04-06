@@ -24,9 +24,9 @@ public class ReaderImpl implements Reader {
     }
 
     @Override
-    public Collection<Symbol> getSymbols(String name, String type) {
+    public <T extends Symbol> Collection<T> getSymbols(String name, String type) {
 
-        ArrayList<Symbol> symbols = new ArrayList<>();
+        ArrayList<T> symbols = new ArrayList<>();
         File file = new File(this.session.symbolsPath());
 
 
@@ -38,7 +38,7 @@ public class ReaderImpl implements Reader {
             if (f.getName().startsWith(type + "(" + name + ")")) {
                 LOGGER.log(INFO, "find class" + f.getName());
                 Symbol symbol = new SymbolImpl(f.getName());
-                symbols.add(symbol);
+                symbols.add((T) symbol);
             }
         }
 

@@ -62,4 +62,5 @@ public class ParserTest {
         aggregator.getClassDependencyInfo("Hello", 0);
 
     }
+
 }

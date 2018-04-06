@@ -7,7 +7,7 @@ import com.away1994.structure.lang.parser.LanguageParser;
 import com.away1994.structure.lang.symbols.Function;
 import com.away1994.structure.lang.symbols.Symbol;
 import com.away1994.structure.lang.symbols.impl.*;
-import com.away1994.structure.lang.symbols.impl.variable.VariableBase;
+import com.away1994.structure.lang.symbols.impl.variable.VariableImpl;
 import com.away1994.structure.lang.symbols.variable.Variable;
 import com.away1994.tsp.g4.ObjcG4Util;
 import com.away1994.tsp.gen.ObjectiveCParser;
@@ -56,7 +56,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
         return symbols;
     }
 
-    public ArrayList<Symbol> parseVariable(VariableBase variable) {
+    public ArrayList<Symbol> parseVariable(VariableImpl variable) {
         ArrayList<Symbol> symbols = new ArrayList<>();
 
         AbstractParseTreeVisitor parseTreeVisitor = new ObjectiveCParserBaseVisitor() {
@@ -230,7 +230,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
                     name = name.substring(1);
                 }
 
-                VariableBase variable = new VariableBase(clazz, name);
+                VariableImpl variable = new VariableImpl(clazz, name);
                 variable.setRuleContext(ctx);
                 clazz.iVariables.add(variable);
                 variables.add(variable);
@@ -286,7 +286,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
                     LOGGER.log(FINE, LogUtils.buildLogString(FineConstants.PARSE_DIRECTORY_FINE, f));
                     paths.add(new PathImpl(path, f.getPath()));
                 } else {
-                    LOGGER.log(SEVERE, LogUtils.buildLogString(ErrorConstants.UNKNOWN_FILE_TYPE, f));
+                    LOGGER.log(SEVERE, LogUtils.buildLogString(ErrorConstants.UNKNOWN_FILE_TYPE_ERROR, f));
                 }
             }
             path.getFiles().addAll(files);
@@ -311,7 +311,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
             @Override
             public Object visitEnumerator(ObjectiveCParser.EnumeratorContext ctx) {
                 String itemName = ctx.enumeratorIdentifier().getText();
-                VariableBase variable = new VariableBase(enumerator, itemName);
+                VariableImpl variable = new VariableImpl(enumerator, itemName);
                 enumerator.getValues().add(variable);
                 return super.visitEnumerator(ctx);
             }

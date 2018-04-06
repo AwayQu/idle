@@ -6,7 +6,7 @@ import com.away1994.structure.lang.aggregator.Session;
 import com.away1994.structure.lang.io.Reader;
 import com.away1994.structure.lang.io.read.ReaderImpl;
 import com.away1994.structure.lang.parser.State;
-import com.away1994.structure.lang.symbols.Symbol;
+import com.away1994.structure.lang.symbols.impl.ClassImpl;
 
 import java.util.Collection;
 import java.util.logging.Level;
@@ -26,7 +26,7 @@ public class AggregatorImpl implements Aggregator {
     @Override
     public AggregateInfo getClassDependencyInfo(String className, int depth) {
 
-        Collection<Symbol> symbols = reader.getSymbols(className, State.CLASS_STATE.getDescription());
+        Collection<ClassImpl> symbols = reader.getSymbols(className, State.CLASS_STATE.getDescription());
         LOGGER.log(Level.INFO, "find symbol" + symbols);
         return null;
     }

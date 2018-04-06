@@ -1,17 +1,26 @@
 package com.away1994.structure.lang.symbols.impl;
 
+import com.away1994.common.utils.log.LogUtils;
+import com.away1994.structure.lang.io.seriablize.InterfaceDeserializer;
 import com.away1994.structure.lang.parser.State;
 import com.away1994.structure.lang.symbols.Function;
 import com.away1994.structure.lang.symbols.Interface;
 import com.away1994.structure.lang.symbols.Symbol;
 import com.away1994.structure.lang.symbols.variable.Variable;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import static com.away1994.common.constants.log.ErrorConstants.NULL_POINTER_OWNER_ERROR;
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
+@JsonDeserialize(using = InterfaceDeserializer.class)
 public class InterfaceImpl implements Interface {
+
+    private static final transient Logger LOGGER = Logger.getLogger(InterfaceImpl.class.getName());
     /**
      * interface Name
      */
@@ -21,6 +30,10 @@ public class InterfaceImpl implements Interface {
      * owner always file
      */
     public Symbol owner;
+
+
+
+
 
 
     public ArrayList<Interface> extendInterfaces = new ArrayList<>();
@@ -92,11 +105,17 @@ public class InterfaceImpl implements Interface {
         this.extendInterfaces = extendInterfaces;
     }
 
-
-
-
     public String identify() {
-        return  "$INTERFACE(" + this.name + ")" + this.owner.identify();
+        if (this.getCachedIdentify() != null) {
+            return this.getCachedIdentify();
+        }
+        String absIdentify = "$INTERFACE(" + this.name + ")";
+        if (this.owner == null) {
+            LOGGER.log(Level.SEVERE, LogUtils.buildLogString(NULL_POINTER_OWNER_ERROR, absIdentify));
+            return absIdentify;
+        } else {
+            return absIdentify + this.owner.identify();
+        }
     }
 
     public String description() {
@@ -168,4 +187,16 @@ public class InterfaceImpl implements Interface {
     public ParserRuleContext getRuleContext() {
         return ruleContext;
     }
+
+
+    private String cachedIdentify;
+
+    public String getCachedIdentify() {
+        return cachedIdentify;
+    }
+
+    public void setCachedIdentify(String cachedIdentify) {
+        this.cachedIdentify = cachedIdentify;
+    }
+
 }

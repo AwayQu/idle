@@ -1,17 +1,23 @@
 package com.away1994.structure.lang.symbols.impl;
 
+import com.away1994.structure.lang.io.seriablize.*;
 import com.away1994.structure.lang.parser.State;
 import com.away1994.structure.lang.symbols.Class;
 import com.away1994.structure.lang.symbols.Function;
 import com.away1994.structure.lang.symbols.Interface;
 import com.away1994.structure.lang.symbols.Symbol;
 import com.away1994.structure.lang.symbols.variable.Variable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.ArrayList;
 
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
+
+@JsonIgnoreProperties({"ruleContext"})
 public class ClassImpl implements Class {
 
 
@@ -28,31 +34,44 @@ public class ClassImpl implements Class {
     /**
      * implements interfaces
      */
+    @JsonDeserialize(contentUsing = InterfaceDeserializer.class)
+    @JsonSerialize(contentUsing = InterfaceSerializer.class)
     public ArrayList<Interface> iInterfaces = new ArrayList<>();
 
     /**
      * super classes
      */
+    @JsonDeserialize(contentUsing = ClassDeserializer.class)
+    @JsonSerialize(contentUsing = ClassSerializer.class)
     public ArrayList<Class> superCls = new ArrayList<>();
 
     /**
      * instance variables
      */
+    @JsonDeserialize(contentUsing = VariableDeserializer.class)
+    @JsonSerialize(contentUsing = VariableSerializer.class)
     public ArrayList<Variable> iVariables = new ArrayList<>();
 
     /**
      * static variables
      */
+
+    @JsonDeserialize(contentUsing = VariableDeserializer.class)
+    @JsonSerialize(contentUsing = VariableSerializer.class)
     public ArrayList<Variable> sVariables = new ArrayList<>();
 
     /**
      * instance functions
      */
+    @JsonDeserialize(contentUsing = FunctionDeserializer.class)
+    @JsonSerialize(contentUsing = FunctionSerializer.class)
     public ArrayList<Function> iFunctions = new ArrayList<>();
 
     /**
      * static functions
      */
+    @JsonDeserialize(contentUsing = FunctionDeserializer.class)
+    @JsonSerialize(contentUsing = FunctionSerializer.class)
     public ArrayList<Function> sFunctions = new ArrayList<>();
 
     public ClassImpl(String name, Symbol owner) {
@@ -145,4 +164,6 @@ public class ClassImpl implements Class {
         return ruleContext;
     }
 
+
+    private String cachedIdentify;
 }
