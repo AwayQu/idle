@@ -1,8 +1,10 @@
 package com.away1994.structure.lang.symbols.impl;
 
+import com.away1994.structure.lang.parser.State;
 import com.away1994.structure.lang.symbols.File;
 import com.away1994.structure.lang.symbols.Path;
 import com.away1994.structure.lang.symbols.Symbol;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -96,4 +98,20 @@ public class PathBase implements Path {
 
         return sb.toString();
     }
+
+    @Override
+    public State state() {
+        return State.PATH_STATE;
+    }
+
+    public ParserRuleContext ruleContext;
+
+    public void setRuleContext(ParserRuleContext ruleContext) {
+        this.ruleContext = ruleContext;
+    }
+
+    public ParserRuleContext getRuleContext() {
+        return ruleContext;
+    }
+
 }

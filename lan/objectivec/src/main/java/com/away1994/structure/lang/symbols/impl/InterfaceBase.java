@@ -1,5 +1,6 @@
 package com.away1994.structure.lang.symbols.impl;
 
+import com.away1994.structure.lang.parser.State;
 import com.away1994.structure.lang.symbols.Function;
 import com.away1994.structure.lang.symbols.Interface;
 import com.away1994.structure.lang.symbols.Symbol;
@@ -49,15 +50,7 @@ public class InterfaceBase implements Interface {
     }
 
 
-    public ParserRuleContext ruleContext;
 
-    public void setRuleContext(ParserRuleContext ruleContext) {
-        this.ruleContext = ruleContext;
-    }
-
-    public ParserRuleContext getRuleContext() {
-        return ruleContext;
-    }
 
     public String identify() {
         return  "$INTERFACE(" + this.name + ")" + this.owner.identify();
@@ -109,5 +102,21 @@ public class InterfaceBase implements Interface {
         }
 
         return sb.toString();
+    }
+
+
+    @Override
+    public State state() {
+        return State.INTERFACE_STATE;
+    }
+
+    public ParserRuleContext ruleContext;
+
+    public void setRuleContext(ParserRuleContext ruleContext) {
+        this.ruleContext = ruleContext;
+    }
+
+    public ParserRuleContext getRuleContext() {
+        return ruleContext;
     }
 }

@@ -1,8 +1,10 @@
 package com.away1994.structure.lang.symbols.impl.variable;
 
+import com.away1994.structure.lang.parser.State;
 import com.away1994.structure.lang.symbols.Class;
 import com.away1994.structure.lang.symbols.Symbol;
 import com.away1994.structure.lang.symbols.variable.Variable;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
@@ -18,6 +20,14 @@ public class VariableBase implements Variable {
     public VariableBase(Symbol owner, String name) {
         this.owner = owner;
         this.name = name;
+    }
+
+    public Class getType() {
+        return type;
+    }
+
+    public void setType(Class type) {
+        this.type = type;
     }
 
     public String identify() {
@@ -39,7 +49,6 @@ public class VariableBase implements Variable {
         sb.append(LINE_SEPARATOR);
 
 
-
         sb.append("tpye:");
         sb.append(LINE_SEPARATOR);
         sb.append(this.type.identify());
@@ -47,4 +56,20 @@ public class VariableBase implements Variable {
 
         return sb.toString();
     }
+
+    @Override
+    public State state() {
+        return State.VARIABLE_STATE;
+    }
+
+    public ParserRuleContext ruleContext;
+
+    public void setRuleContext(ParserRuleContext ruleContext) {
+        this.ruleContext = ruleContext;
+    }
+
+    public ParserRuleContext getRuleContext() {
+        return ruleContext;
+    }
+
 }

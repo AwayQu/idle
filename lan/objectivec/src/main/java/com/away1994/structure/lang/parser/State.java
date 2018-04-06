@@ -13,7 +13,9 @@ public enum State {
 
     INTERFACE_STATE("interface"),
 
-    FUNCTION_STATE("function");
+    FUNCTION_STATE("function"),
+
+    ENUM_STATE("enum");
 
 
     private String description;

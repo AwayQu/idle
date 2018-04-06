@@ -1,10 +1,12 @@
 package com.away1994.structure.lang.symbols.impl;
 
+import com.away1994.structure.lang.parser.State;
 import com.away1994.structure.lang.symbols.Class;
 import com.away1994.structure.lang.symbols.File;
 import com.away1994.structure.lang.symbols.Interface;
 import com.away1994.structure.lang.symbols.Symbol;
 import com.away1994.structure.lang.symbols.variable.Variable;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.ArrayList;
 
@@ -105,4 +107,21 @@ public class FileBase implements File {
 
         return sb.toString();
     }
+
+    @Override
+    public State state() {
+        return State.FILE_STATE;
+    }
+
+    public ParserRuleContext ruleContext;
+
+    public void setRuleContext(ParserRuleContext ruleContext) {
+        this.ruleContext = ruleContext;
+    }
+
+    public ParserRuleContext getRuleContext() {
+        return ruleContext;
+    }
+
+
 }

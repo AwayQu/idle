@@ -1,5 +1,7 @@
 package com.away1994.structure.lang.symbols;
 
+import com.away1994.structure.lang.parser.State;
+
 public interface Symbol {
 
     /**
@@ -15,6 +17,6 @@ public interface Symbol {
     public String description();
 
 
-
+    public State state();
 
 }

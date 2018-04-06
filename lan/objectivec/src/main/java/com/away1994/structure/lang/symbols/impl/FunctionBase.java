@@ -1,7 +1,9 @@
 package com.away1994.structure.lang.symbols.impl;
 
+import com.away1994.structure.lang.parser.State;
 import com.away1994.structure.lang.symbols.Function;
 import com.away1994.structure.lang.symbols.Symbol;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
@@ -49,4 +51,20 @@ public class FunctionBase implements Function {
 
         return sb.toString();
     }
+
+    @Override
+    public State state() {
+        return State.FUNCTION_STATE;
+    }
+
+    public ParserRuleContext ruleContext;
+
+    public void setRuleContext(ParserRuleContext ruleContext) {
+        this.ruleContext = ruleContext;
+    }
+
+    public ParserRuleContext getRuleContext() {
+        return ruleContext;
+    }
+
 }

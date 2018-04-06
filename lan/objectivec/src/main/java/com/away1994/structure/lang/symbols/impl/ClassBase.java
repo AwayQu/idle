@@ -1,5 +1,6 @@
 package com.away1994.structure.lang.symbols.impl;
 
+import com.away1994.structure.lang.parser.State;
 import com.away1994.structure.lang.symbols.Class;
 import com.away1994.structure.lang.symbols.Function;
 import com.away1994.structure.lang.symbols.Interface;
@@ -59,15 +60,6 @@ public class ClassBase implements Class {
         this.owner = owner;
     }
 
-    public ParserRuleContext ruleContext;
-
-    public void setRuleContext(ParserRuleContext ruleContext) {
-        this.ruleContext = ruleContext;
-    }
-
-    public ParserRuleContext getRuleContext() {
-        return ruleContext;
-    }
 
     public String identify() {
         return "$CLASS(" + name + ")" + owner.identify();
@@ -136,6 +128,21 @@ public class ClassBase implements Class {
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public State state() {
+        return State.CLASS_STATE;
+    }
+
+    public ParserRuleContext ruleContext;
+
+    public void setRuleContext(ParserRuleContext ruleContext) {
+        this.ruleContext = ruleContext;
+    }
+
+    public ParserRuleContext getRuleContext() {
+        return ruleContext;
     }
 
 }
