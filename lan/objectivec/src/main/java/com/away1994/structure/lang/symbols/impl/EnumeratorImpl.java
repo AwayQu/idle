@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
-public class EnumeratorBase implements Enumerator {
+public class EnumeratorImpl implements Enumerator {
     /**
      * enum Name
      */
@@ -26,7 +26,7 @@ public class EnumeratorBase implements Enumerator {
 
     public ArrayList<Variable> values = new ArrayList<>();
 
-    public EnumeratorBase(String name, Symbol owner) {
+    public EnumeratorImpl(String name, Symbol owner) {
         this.name = name;
         this.owner = owner;
     }

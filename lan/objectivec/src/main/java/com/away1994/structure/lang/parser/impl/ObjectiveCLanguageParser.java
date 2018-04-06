@@ -29,7 +29,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
 
     private static final transient Logger LOGGER = Logger.getLogger(ObjectiveCLanguageParser.class.getName());
 
-    public ArrayList<Symbol> parseInterface(InterfaceBase anInterface) {
+    public ArrayList<Symbol> parseInterface(InterfaceImpl anInterface) {
         ArrayList<Symbol> symbols = new ArrayList<>();
 
         AbstractParseTreeVisitor parseTreeVisitor = new ObjectiveCParserBaseVisitor() {
@@ -37,7 +37,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
             @Override
             public Object visitProtocolName(ObjectiveCParser.ProtocolNameContext ctx) {
                 String protocol = ctx.getText();
-                InterfaceBase i = new InterfaceBase(protocol, anInterface);
+                InterfaceImpl i = new InterfaceImpl(protocol, anInterface);
                 anInterface.getExtendInterfaces().add(i);
                 return super.visitProtocolName(ctx);
             }
@@ -45,7 +45,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
             @Override
             public Object visitMethodDeclaration(ObjectiveCParser.MethodDeclarationContext ctx) {
                 String methodName = ctx.methodSelector().getText();
-                FunctionBase f = new FunctionBase(anInterface, methodName);
+                FunctionImpl f = new FunctionImpl(anInterface, methodName);
                 anInterface.getiFunctions().add(f);
                 return super.visitMethodDeclaration(ctx);
             }
@@ -63,7 +63,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
             @Override
             public Object visitSpecifierQualifierList(ObjectiveCParser.SpecifierQualifierListContext ctx) {
 
-                ClassBase type = new ClassBase(ctx.getText(), variable);
+                ClassImpl type = new ClassImpl(ctx.getText(), variable);
                 variable.setType(type);
                 return super.visitSpecifierQualifierList(ctx);
             }
@@ -76,7 +76,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
     }
 
 
-    public ArrayList<Symbol> parseFunction(FunctionBase function) {
+    public ArrayList<Symbol> parseFunction(FunctionImpl function) {
         ArrayList<Symbol> symbols = new ArrayList<>();
         return symbols;
     }
@@ -88,15 +88,15 @@ public class ObjectiveCLanguageParser implements LanguageParser {
      * @param file file
      * @return
      */
-    public ArrayList<Symbol> parseFile(FileBase file) {
+    public ArrayList<Symbol> parseFile(FileImpl file) {
         ArrayList<Symbol> symbols = new ArrayList<>();
         LOGGER.log(FINE, LogUtils.buildLogString(PARSE_FILE_FINE, file.getName()));
 
-        ArrayList<InterfaceBase> interfaces = new ArrayList<>();
+        ArrayList<InterfaceImpl> interfaces = new ArrayList<>();
         // TODO variables
-        ArrayList<ClassBase> classes = new ArrayList<>();
+        ArrayList<ClassImpl> classes = new ArrayList<>();
         // TODO functions
-        ArrayList<EnumeratorBase> enumerators = new ArrayList<>();
+        ArrayList<EnumeratorImpl> enumerators = new ArrayList<>();
 
         if (!Lan.OBJECTIVE_C.fileExtensions.contains(file.getExtension())) {
             return symbols;
@@ -110,7 +110,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
 
                 String name = ctx.classNameGeneric().className().getText();
 
-                ClassBase clazz = new ClassBase(name, file);
+                ClassImpl clazz = new ClassImpl(name, file);
                 clazz.setRuleContext(ctx);
                 classes.add(clazz);
 
@@ -123,7 +123,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
             @Override
             public Object visitClassImplementation(ObjectiveCParser.ClassImplementationContext ctx) {
                 String name = ctx.classNameGeneric().className().getText();
-                ClassBase clazz = new ClassBase(name, file);
+                ClassImpl clazz = new ClassImpl(name, file);
                 clazz.setRuleContext(ctx);
 
                 LOGGER.log(FINE, LogUtils.buildLogString(PARSE_CLASS_FINE, name));
@@ -139,7 +139,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
 
                 String name = ctx.classNameGeneric().className().getText();
                 name = isAnonymous ? name + "()" : name + ctx.categoryName().getText();
-                ClassBase clazz = new ClassBase(name, file);
+                ClassImpl clazz = new ClassImpl(name, file);
                 clazz.setRuleContext(ctx);
 
                 LOGGER.log(FINE, LogUtils.buildLogString(PARSE_CLASS_FINE, name));
@@ -151,7 +151,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
             @Override
             public Object visitCategoryImplementation(ObjectiveCParser.CategoryImplementationContext ctx) {
                 String name = ctx.classNameGeneric().className().getText();
-                ClassBase clazz = new ClassBase(name, file);
+                ClassImpl clazz = new ClassImpl(name, file);
                 clazz.setRuleContext(ctx);
                 classes.add(clazz);
 
@@ -163,7 +163,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
             @Override
             public Object visitProtocolDeclaration(ObjectiveCParser.ProtocolDeclarationContext ctx) {
                 String name = ctx.protocolName().getText();
-                InterfaceBase anInterface = new InterfaceBase(name, file);
+                InterfaceImpl anInterface = new InterfaceImpl(name, file);
                 anInterface.setRuleContext(ctx);
                 interfaces.add(anInterface);
 
@@ -179,7 +179,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
                 } else {
                     name = ctx.enumSpecifier().identifier().get(0).getText();
                 }
-                EnumeratorBase enumerator = new EnumeratorBase(name, file);
+                EnumeratorImpl enumerator = new EnumeratorImpl(name, file);
                 enumerator.setRuleContext(ctx);
                 enumerators.add(enumerator);
 
@@ -197,7 +197,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
     }
 
 
-    public ArrayList<Symbol> parseClass(ClassBase clazz) {
+    public ArrayList<Symbol> parseClass(ClassImpl clazz) {
         ArrayList<Symbol> symbols = new ArrayList<>();
         ArrayList<Function> functions = new ArrayList<>();
         ArrayList<Variable> variables = new ArrayList<>();
@@ -206,7 +206,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
             @Override
             public Object visitSuperclassName(ObjectiveCParser.SuperclassNameContext ctx) {
                 String name = ctx.getText();
-                ClassBase claz = new ClassBase(name, clazz);
+                ClassImpl claz = new ClassImpl(name, clazz);
                 clazz.superCls.add(claz);
                 return super.visitSuperclassName(ctx);
             }
@@ -216,7 +216,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
                 /// implements protocols
                 for (ObjectiveCParser.ProtocolNameContext protocolNameContext : ctx.protocolName()) {
                     String name = protocolNameContext.getText();
-                    InterfaceBase anInterface = new InterfaceBase(name, clazz);
+                    InterfaceImpl anInterface = new InterfaceImpl(name, clazz);
 
                     clazz.iInterfaces.add(anInterface);
                 }
@@ -243,7 +243,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
 
                 String name = ctx.methodSelector().getText();
 
-                FunctionBase function = new FunctionBase(clazz, name);
+                FunctionImpl function = new FunctionImpl(clazz, name);
                 clazz.iFunctions.add(function);
                 functions.add(function);
                 return super.visitMethodDeclaration(ctx);
@@ -252,7 +252,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
             @Override
             public Object visitMethodDefinition(ObjectiveCParser.MethodDefinitionContext ctx) {
                 String name = ctx.methodSelector().getText();
-                FunctionBase function = new FunctionBase(clazz, name);
+                FunctionImpl function = new FunctionImpl(clazz, name);
                 clazz.iFunctions.add(function);
                 functions.add(function);
                 return super.visitMethodDefinition(ctx);
@@ -266,7 +266,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
         return symbols;
     }
 
-    public ArrayList<Symbol> parsePath(PathBase path) {
+    public ArrayList<Symbol> parsePath(PathImpl path) {
         /**
          * TODO: use coroutine
          */
@@ -277,14 +277,14 @@ public class ObjectiveCLanguageParser implements LanguageParser {
 
         File[] fds = dir.listFiles();
         if (fds != null) {
-            ArrayList<FileBase> files = new ArrayList<>();
-            ArrayList<PathBase> paths = new ArrayList<>();
+            ArrayList<FileImpl> files = new ArrayList<>();
+            ArrayList<PathImpl> paths = new ArrayList<>();
             for (File f : fds) {
                 if (f.isFile()) {
-                    files.add(new FileBase(path, f.getName()));
+                    files.add(new FileImpl(path, f.getName()));
                 } else if (f.isDirectory()) {
                     LOGGER.log(FINE, LogUtils.buildLogString(FineConstants.PARSE_DIRECTORY_FINE, f));
-                    paths.add(new PathBase(path, f.getPath()));
+                    paths.add(new PathImpl(path, f.getPath()));
                 } else {
                     LOGGER.log(SEVERE, LogUtils.buildLogString(ErrorConstants.UNKNOWN_FILE_TYPE, f));
                 }
@@ -303,7 +303,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
     }
 
     @Override
-    public ArrayList<Symbol> parseEnumerator(EnumeratorBase enumerator) {
+    public ArrayList<Symbol> parseEnumerator(EnumeratorImpl enumerator) {
         ArrayList<Symbol> symbols = new ArrayList<>();
 
 

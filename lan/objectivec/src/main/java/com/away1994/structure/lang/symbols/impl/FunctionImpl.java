@@ -7,7 +7,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
-public class FunctionBase implements Function {
+public class FunctionImpl implements Function {
 
     public Symbol owner;
 
@@ -17,7 +17,7 @@ public class FunctionBase implements Function {
     public String signature;
 
 
-    public FunctionBase(Symbol owner, String signature) {
+    public FunctionImpl(Symbol owner, String signature) {
         this.owner = owner;
         this.signature = signature;
     }

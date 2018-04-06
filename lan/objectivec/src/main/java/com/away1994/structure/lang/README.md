@@ -58,3 +58,10 @@ name  -> string
 type -> type of variable
 
 
+
+
+## TODO
+
+ [x] encode and decode objects
+
+ [x] find and aggregate info

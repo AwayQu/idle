@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
-public class ClassBase implements Class {
+public class ClassImpl implements Class {
 
 
     /**
@@ -55,7 +55,7 @@ public class ClassBase implements Class {
      */
     public ArrayList<Function> sFunctions = new ArrayList<>();
 
-    public ClassBase(String name, Symbol owner) {
+    public ClassImpl(String name, Symbol owner) {
         this.name = name;
         this.owner = owner;
     }

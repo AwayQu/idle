@@ -9,19 +9,19 @@ import java.util.ArrayList;
 public interface LanguageParser {
 
 
-    public ArrayList<Symbol> parseInterface(InterfaceBase anInterface);
+    public ArrayList<Symbol> parseInterface(InterfaceImpl anInterface);
 
     public ArrayList<Symbol> parseVariable(VariableBase variable);
 
-    public ArrayList<Symbol> parseFunction(FunctionBase function);
+    public ArrayList<Symbol> parseFunction(FunctionImpl function);
 
-    public ArrayList<Symbol> parseFile(FileBase file);
+    public ArrayList<Symbol> parseFile(FileImpl file);
 
-    public ArrayList<Symbol> parseClass(ClassBase clazz);
+    public ArrayList<Symbol> parseClass(ClassImpl clazz);
 
-    public ArrayList<Symbol> parsePath(PathBase path);
+    public ArrayList<Symbol> parsePath(PathImpl path);
 
-    public ArrayList<Symbol> parseEnumerator(EnumeratorBase enumerator);
+    public ArrayList<Symbol> parseEnumerator(EnumeratorImpl enumerator);
 
 
 }

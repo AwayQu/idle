@@ -1,8 +1,11 @@
 package com.away1994.structure;
 
-import com.away1994.structure.lang.parser.StateMachineParser;
+import com.away1994.structure.lang.aggregator.Session;
+import com.away1994.structure.lang.aggregator.impl.AggregatorImpl;
+import com.away1994.structure.lang.aggregator.impl.SessionImpl;
+import com.away1994.structure.lang.parser.Parser;
 import com.away1994.structure.lang.parser.impl.ObjectiveCLanguageParser;
-import com.away1994.structure.lang.symbols.impl.PathBase;
+import com.away1994.structure.lang.symbols.impl.PathImpl;
 import com.away1994.tsp.constants.TestConstants;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,11 +22,11 @@ public class ParserTest {
     public void clearFile() {
         File file = new File(TEST_RESOURCES_PATH + "out/symbols");
         File[] files = file.listFiles();
-        if (files != null) {
-            for (File f: files) {
-                f.delete();
-            }
-        }
+//        if (files != null) {
+//            for (File f: files) {
+//                f.delete();
+//            }
+//        }
 
     }
 
@@ -31,7 +34,8 @@ public class ParserTest {
     public void parserTest() throws Exception {
         readLoggerConfigurationFromResourceFromClassClassLoader(LOGGING_PROPERTIES_PATH,
                 ParserTest.class);
-        StateMachineParser parser = new StateMachineParser(new PathBase(TestConstants.IOS_HELLO_PROJECT_PATH),
+
+        Parser parser = new Parser(new PathImpl(TestConstants.IOS_HELLO_PROJECT_PATH),
                 new ObjectiveCLanguageParser());
         parser.setOutputPath(TEST_RESOURCES_PATH + "out/symbols");
         parser.runParseStateMachine();
@@ -42,9 +46,20 @@ public class ParserTest {
     public void parserAFNTest() throws Exception {
         readLoggerConfigurationFromResourceFromClassClassLoader(LOGGING_PROPERTIES_PATH,
                 ParserTest.class);
-        StateMachineParser parser = new StateMachineParser(new PathBase(TestConstants.AFNetworking_PROJECT_PATH),
+        Parser parser = new Parser(new PathImpl(TestConstants.AFNetworking_PROJECT_PATH),
                 new ObjectiveCLanguageParser());
         parser.setOutputPath(TEST_RESOURCES_PATH + "out/symbols");
         parser.runParseStateMachine();
+    }
+
+    @Test
+    public void findClassTest() throws Exception {
+        readLoggerConfigurationFromResourceFromClassClassLoader(LOGGING_PROPERTIES_PATH,
+                ParserTest.class);
+        Session session = new SessionImpl(null, TEST_RESOURCES_PATH + "out/symbols");
+
+        AggregatorImpl aggregator = new AggregatorImpl(session);
+        aggregator.getClassDependencyInfo("Hello", 0);
+
     }
 }

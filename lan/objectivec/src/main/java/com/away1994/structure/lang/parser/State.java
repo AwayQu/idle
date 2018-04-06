@@ -3,19 +3,21 @@ package com.away1994.structure.lang.parser;
 public enum State {
 
 
-    PATH_STATE("path"),
+    PATH_STATE("$PATH"),
 
-    FILE_STATE("file"),
+    FILE_STATE("$FILE"),
 
-    CLASS_STATE("class"),
+    CLASS_STATE("$CLASS"),
 
-    VARIABLE_STATE("variable"),
+    VARIABLE_STATE("$VARIABLE"),
 
-    INTERFACE_STATE("interface"),
+    INTERFACE_STATE("$INTERFACE"),
 
-    FUNCTION_STATE("function"),
+    FUNCTION_STATE("$FUNCTION"),
 
-    ENUM_STATE("enum");
+    ENUM_STATE("$ENUM"),
+
+    PLACEHOLD_STATE("$PLACEHOLD");
 
 
     private String description;

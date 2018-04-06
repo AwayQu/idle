@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
-public class FileBase implements File {
+public class FileImpl implements File {
 
     /**
      * owner always path
@@ -52,7 +52,7 @@ public class FileBase implements File {
      */
     public ArrayList<Symbol> otherSymbols = new ArrayList<>();
 
-    public FileBase(Symbol owner, String name) {
+    public FileImpl(Symbol owner, String name) {
         this.owner = owner;
         this.name = name;
     }
@@ -78,8 +78,8 @@ public class FileBase implements File {
 
     public String getFullPath() {
 
-        if (owner instanceof PathBase) {
-            return ((PathBase) this.owner).getPath() + "/" + this.name;
+        if (owner instanceof PathImpl) {
+            return ((PathImpl) this.owner).getPath() + "/" + this.name;
         } else {
             return null;
         }

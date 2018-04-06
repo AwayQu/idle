@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
-public class PathBase implements Path {
+public class PathImpl implements Path {
 
     /**
      * path string
@@ -32,11 +32,11 @@ public class PathBase implements Path {
     public ArrayList<Path> paths = new ArrayList<>();
 
 
-    public PathBase(String path) {
+    public PathImpl(String path) {
         this.path = path;
     }
 
-    public PathBase(Symbol owner, String path) {
+    public PathImpl(Symbol owner, String path) {
         this.owner = owner;
         this.path = path;
     }
@@ -71,7 +71,7 @@ public class PathBase implements Path {
         try {
 
 
-            return "PATH(" + URLEncoder.encode(this.path, "utf8") + ")";
+            return "$PATH(" + URLEncoder.encode(this.path, "utf8") + ")";
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

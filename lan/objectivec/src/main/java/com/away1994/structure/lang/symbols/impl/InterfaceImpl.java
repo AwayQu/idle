@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
-public class InterfaceBase implements Interface {
+public class InterfaceImpl implements Interface {
     /**
      * interface Name
      */
@@ -78,7 +78,7 @@ public class InterfaceBase implements Interface {
         this.sFunctions = sFunctions;
     }
 
-    public InterfaceBase(String name, Symbol owner) {
+    public InterfaceImpl(String name, Symbol owner) {
         this.name = name;
         this.owner = owner;
     }

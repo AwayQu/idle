@@ -17,16 +17,16 @@ import java.util.logging.Logger;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.SEVERE;
 
-public class StateMachineParser {
-    private static final transient Logger LOGGER = Logger.getLogger(StateMachineParser.class.getName());
+public class Parser {
+    private static final transient Logger LOGGER = Logger.getLogger(Parser.class.getName());
 
-    public State currentState;
+    private State currentState;
 
-    public Symbol currentSymbol;
+    private Symbol currentSymbol;
 
-    public ArrayList<Symbol> nextSymbols = new ArrayList<>();
+    private ArrayList<Symbol> nextSymbols = new ArrayList<>();
 
-    public String outputPath;
+    private String outputPath;
 
 
     private LanguageParser languageParser = null;
@@ -39,7 +39,7 @@ public class StateMachineParser {
         this.outputPath = outputPath;
     }
 
-    public StateMachineParser(Symbol symbol, LanguageParser languageParser) {
+    public Parser(Symbol symbol, LanguageParser languageParser) {
         nextSymbols.add(symbol);
         this.languageParser = languageParser;
     }
@@ -69,8 +69,8 @@ public class StateMachineParser {
                      */
 
                     // read path get files and path
-                    if (currentSymbol instanceof PathBase)
-                        symbols = languageParser.parsePath((PathBase) currentSymbol);
+                    if (currentSymbol instanceof PathImpl)
+                        symbols = languageParser.parsePath((PathImpl) currentSymbol);
                     break;
                 case FILE_STATE:
                     /**
@@ -78,23 +78,23 @@ public class StateMachineParser {
                      * interface variable classes functions enum
                      */
                     // read files get classes and interface and variables and functions enum
-                    if (currentSymbol instanceof FileBase)
-                        symbols = languageParser.parseFile((FileBase) currentSymbol);
+                    if (currentSymbol instanceof FileImpl)
+                        symbols = languageParser.parseFile((FileImpl) currentSymbol);
                     break;
                 case CLASS_STATE:
                     /**
                      * situations:
                      * variables functions
                      */
-                    if (currentSymbol instanceof ClassBase)
-                        symbols = languageParser.parseClass((ClassBase) currentSymbol);
+                    if (currentSymbol instanceof ClassImpl)
+                        symbols = languageParser.parseClass((ClassImpl) currentSymbol);
                     break;
                 case FUNCTION_STATE:
                     /**
                      * etc..
                      */
-                    if (currentSymbol instanceof FunctionBase)
-                        symbols = languageParser.parseFunction((FunctionBase) currentSymbol);
+                    if (currentSymbol instanceof FunctionImpl)
+                        symbols = languageParser.parseFunction((FunctionImpl) currentSymbol);
                     break;
                 case VARIABLE_STATE:
                     /**
@@ -107,13 +107,13 @@ public class StateMachineParser {
                     /**
                      * etc..
                      */
-                    if (currentSymbol instanceof InterfaceBase)
-                        symbols = languageParser.parseInterface((InterfaceBase) currentSymbol);
+                    if (currentSymbol instanceof InterfaceImpl)
+                        symbols = languageParser.parseInterface((InterfaceImpl) currentSymbol);
                     break;
 
                 case ENUM_STATE:
-                    if (currentSymbol instanceof EnumeratorBase)
-                        symbols = languageParser.parseEnumerator((EnumeratorBase) currentSymbol);
+                    if (currentSymbol instanceof EnumeratorImpl)
+                        symbols = languageParser.parseEnumerator((EnumeratorImpl) currentSymbol);
                     break;
 
             }
