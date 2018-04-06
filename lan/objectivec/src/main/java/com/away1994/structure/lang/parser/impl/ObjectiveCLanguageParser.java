@@ -70,6 +70,13 @@ public class ObjectiveCLanguageParser implements LanguageParser {
         return symbols;
     }
 
+    /**
+     * parse file
+     * TODO: 1.test class 实现 和 接口在一个文件中
+     *
+     * @param symbol file
+     * @return
+     */
     public ArrayList<Symbol> parseFile(Symbol symbol) {
         ArrayList<Symbol> symbols = new ArrayList<>();
         if (symbol instanceof FileBase) {
@@ -80,7 +87,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
             // TODO variables
             ArrayList<ClassBase> classes = new ArrayList<>();
             // TODO functions
-            // TODO enums
+            ArrayList<EnumeratorBase> enumerators = new ArrayList<>();
 
             if (!Lan.OBJECTIVE_C.fileExtensions.contains(file.getExtension())) {
                 return symbols;
@@ -119,9 +126,10 @@ public class ObjectiveCLanguageParser implements LanguageParser {
                 @Override
                 public Object visitCategoryInterface(ObjectiveCParser.CategoryInterfaceContext ctx) {
 
-//                 Boolean isAnonymous = ctx.categoryName() == null;
+                    Boolean isAnonymous = ctx.categoryName() == null;
 
                     String name = ctx.classNameGeneric().className().getText();
+                    name = isAnonymous ? name + "()" : name + ctx.categoryName().getText();
                     ClassBase clazz = new ClassBase(name, file);
                     clazz.setRuleContext(ctx);
 
@@ -156,6 +164,16 @@ public class ObjectiveCLanguageParser implements LanguageParser {
 
                 @Override
                 public Object visitEnumDeclaration(ObjectiveCParser.EnumDeclarationContext ctx) {
+                    String name = null;
+                    if (ctx.className() != null) {
+                        name = ctx.className().getText();
+                    } else {
+                        name = ctx.enumSpecifier().identifier().get(0).getText();
+                    }
+                    EnumeratorBase enumerator = new EnumeratorBase(name, file);
+                    enumerator.setRuleContext(ctx);
+                    enumerators.add(enumerator);
+
                     return super.visitEnumDeclaration(ctx);
                 }
             };
@@ -164,6 +182,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
 
             symbols.addAll(classes);
             symbols.addAll(interfaces);
+            symbols.addAll(enumerators);
 
         }
         return symbols;
@@ -279,6 +298,27 @@ public class ObjectiveCLanguageParser implements LanguageParser {
 
         }
 
+        return symbols;
+    }
+
+    @Override
+    public ArrayList<Symbol> parseEnumerator(Symbol symbol) {
+        ArrayList<Symbol> symbols = new ArrayList<>();
+
+        if (symbol instanceof EnumeratorBase) {
+            EnumeratorBase enumerator = (EnumeratorBase) symbol;
+
+            AbstractParseTreeVisitor parseTreeVisitor = new ObjectiveCParserBaseVisitor() {
+                @Override
+                public Object visitEnumerator(ObjectiveCParser.EnumeratorContext ctx) {
+                    String itemName = ctx.enumeratorIdentifier().getText();
+                    VariableBase variable = new VariableBase(enumerator, itemName);
+                    enumerator.getValues().add(variable);
+                    return super.visitEnumerator(ctx);
+                }
+            };
+            parseTreeVisitor.visit(enumerator.getRuleContext());
+        }
         return symbols;
     }
 

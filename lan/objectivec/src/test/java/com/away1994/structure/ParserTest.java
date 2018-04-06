@@ -31,8 +31,18 @@ public class ParserTest {
     public void parserTest() throws Exception {
         readLoggerConfigurationFromResourceFromClassClassLoader(LOGGING_PROPERTIES_PATH,
                 ParserTest.class);
-//        StateMachineParser parser = new StateMachineParser(new PathBase(TestConstants.AFNetworking_PROJECT_PATH));
         StateMachineParser parser = new StateMachineParser(new PathBase(TestConstants.IOS_HELLO_PROJECT_PATH),
+                new ObjectiveCLanguageParser());
+        parser.setOutputPath(TEST_RESOURCES_PATH + "out/symbols");
+        parser.runParseStateMachine();
+    }
+
+
+    @Test
+    public void parserAFNTest() throws Exception {
+        readLoggerConfigurationFromResourceFromClassClassLoader(LOGGING_PROPERTIES_PATH,
+                ParserTest.class);
+        StateMachineParser parser = new StateMachineParser(new PathBase(TestConstants.AFNetworking_PROJECT_PATH),
                 new ObjectiveCLanguageParser());
         parser.setOutputPath(TEST_RESOURCES_PATH + "out/symbols");
         parser.runParseStateMachine();

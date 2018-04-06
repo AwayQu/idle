@@ -103,6 +103,10 @@ public class StateMachineParser {
                     symbols = languageParser.parseInterface(currentSymbol);
                     break;
 
+                case ENUM_STATE:
+                    symbols = languageParser.parseEnumerator(currentSymbol);
+                    break;
+
             }
             this.visitSymbol(currentSymbol);
             if (symbols != null) {

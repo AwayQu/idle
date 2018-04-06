@@ -19,5 +19,7 @@ public interface LanguageParser {
 
     public ArrayList<Symbol> parsePath(Symbol symbol);
 
+    public ArrayList<Symbol> parseEnumerator(Symbol symbol);
+
 
 }
