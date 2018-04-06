@@ -1,11 +1,10 @@
 package com.away1994.structure.lang.parser;
 
 import com.away1994.structure.lang.symbols.Class;
-import com.away1994.structure.lang.symbols.Function;
-import com.away1994.structure.lang.symbols.Path;
-import com.away1994.structure.lang.symbols.Symbol;
+import com.away1994.structure.lang.symbols.*;
 import com.away1994.structure.lang.symbols.impl.*;
 import com.away1994.structure.lang.symbols.impl.variable.VariableBase;
+import com.away1994.structure.lang.symbols.variable.Variable;
 import com.away1994.tsp.g4.ObjcG4Util;
 import com.away1994.tsp.gen.ObjectiveCParser;
 import com.away1994.tsp.gen.ObjectiveCParserBaseVisitor;
@@ -14,7 +13,10 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import static com.away1994.structure.lang.parser.State.*;
 
@@ -26,6 +28,16 @@ public class StateMachineParser {
     public Symbol currentSymbol;
 
     public ArrayList<Symbol> nextSymbols = new ArrayList<>();
+
+    public String outputPath;
+
+    public String getOutputPath() {
+        return outputPath;
+    }
+
+    public void setOutputPath(String outputPath) {
+        this.outputPath = outputPath;
+    }
 
     public StateMachineParser(Symbol symbol) {
         nextSymbols.add(symbol);
@@ -51,6 +63,10 @@ public class StateMachineParser {
                 currentState = CLASS_STATE;
             } else if (currentSymbol instanceof Function) {
                 currentState = FUNCTION_STATE;
+            } else if (currentSymbol instanceof Variable) {
+                currentState = VARIABLE_STATE;
+            } else if (currentSymbol instanceof Interface) {
+                currentState = INTERFACE_STATE;
             }
             ArrayList<Symbol> symbols;
             switch (currentState) {
@@ -65,6 +81,9 @@ public class StateMachineParser {
 
                     // read path get files and path
                     symbols = parsePath(currentSymbol);
+
+                    this.visitSymbol(currentSymbol);
+
                     this.nextSymbols.addAll(symbols);
 
                     break;
@@ -75,6 +94,9 @@ public class StateMachineParser {
                      */
                     // read files get classes and interface and variables and functions enum
                     symbols = parseFile(currentSymbol);
+
+                    this.visitSymbol(currentSymbol);
+
                     this.nextSymbols.addAll(symbols);
 
                     break;
@@ -86,32 +108,82 @@ public class StateMachineParser {
                      */
 
                     symbols = parseClass(currentSymbol);
-                    this.nextSymbols.addAll(symbols);
 
+                    this.visitSymbol(currentSymbol);
+
+                    this.nextSymbols.addAll(symbols);
                     break;
                 case FUNCTION_STATE:
 
                     /**
                      * etc..
                      */
+                    symbols = parseFunction(currentSymbol);
 
-                    System.out.println(currentSymbol.identify());
+                    this.visitSymbol(currentSymbol);
+
+                    this.nextSymbols.addAll(symbols);
 
                     break;
                 case VARIABLE_STATE:
                     /**
                      * etc..
                      */
+
+                    symbols = parseVariable(currentSymbol);
+
+                    this.visitSymbol(currentSymbol);
+
+                    this.nextSymbols.addAll(symbols);
                     break;
                 case INTERFACE_STATE:
                     /**
                      * etc..
                      */
+
+                    symbols = parseInterface(currentSymbol);
+
+                    this.visitSymbol(currentSymbol);
+
+                    this.nextSymbols.addAll(symbols);
                     break;
 
             }
 
         }
+    }
+
+    private ArrayList<Symbol> parseInterface(Symbol symbol) {
+        ArrayList<Symbol> symbols = new ArrayList<>();
+
+        if (symbol instanceof InterfaceBase) {
+
+
+        }
+        return symbols;
+    }
+
+    private ArrayList<Symbol> parseVariable(Symbol symbol) {
+        ArrayList<Symbol> symbols = new ArrayList<>();
+        if (symbol instanceof VariableBase) {
+            VariableBase variable = (VariableBase) symbol;
+
+            AbstractParseTreeVisitor parseTreeVisitor = new ObjectiveCParserBaseVisitor() {
+
+            };
+        }
+        return symbols;
+
+
+    }
+
+
+    private ArrayList<Symbol> parseFunction(Symbol symbol) {
+        ArrayList<Symbol> symbols = new ArrayList<>();
+        if (symbol instanceof FunctionBase) {
+
+        }
+        return symbols;
     }
 
     private ArrayList<Symbol> parseFile(Symbol symbol) {
@@ -416,5 +488,31 @@ public class StateMachineParser {
         }
 
         return symbols;
+    }
+
+    public void visitAllSymbols(Collection<Symbol> symbols) {
+        for (Symbol symbol : symbols) {
+            this.visitSymbol(symbol);
+        }
+    }
+
+    public void visitSymbol(Symbol symbol) {
+
+        this.write(symbol);
+
+    }
+
+    public void write(Symbol symbol) {
+        try {
+            String fileName = this.outputPath + "/" + symbol.identify();
+            FileWriter fw = new FileWriter(fileName);
+            fw.write(symbol.description());
+            fw.flush();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

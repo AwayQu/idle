@@ -3,6 +3,7 @@ package com.away1994.structure.lang.symbols.impl;
 import com.away1994.structure.lang.symbols.Function;
 import com.away1994.structure.lang.symbols.Symbol;
 
+import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
 public class FunctionBase implements Function {
 
@@ -27,14 +28,25 @@ public class FunctionBase implements Function {
      * contains classes
      */
 
-
-    @Override
     public String identify() {
-        return owner.identify() + this.signature;
+        return  "$FUNCTION("+this.signature + ")" + owner.identify();
     }
 
-    @Override
     public String description() {
-        return owner.identify() + this.signature;
+
+        StringBuilder sb = new StringBuilder();
+
+
+        sb.append("signature:");
+        sb.append(LINE_SEPARATOR);
+        sb.append(this.signature);
+        sb.append(LINE_SEPARATOR);
+
+        sb.append("owner:");
+        sb.append(LINE_SEPARATOR);
+        sb.append(this.owner.identify());
+        sb.append(LINE_SEPARATOR);
+
+        return sb.toString();
     }
 }

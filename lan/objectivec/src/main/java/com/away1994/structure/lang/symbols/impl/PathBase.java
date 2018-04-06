@@ -4,7 +4,11 @@ import com.away1994.structure.lang.symbols.File;
 import com.away1994.structure.lang.symbols.Path;
 import com.away1994.structure.lang.symbols.Symbol;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+
+import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
 public class PathBase implements Path {
 
@@ -60,13 +64,36 @@ public class PathBase implements Path {
         this.paths = paths;
     }
 
-    @Override
     public String identify() {
-        return this.path;
+
+        try {
+
+
+            return "PATH(" + URLEncoder.encode(this.path, "utf8") + ")";
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return "";
+
     }
 
-    @Override
     public String description() {
-        return this.path;
+        StringBuilder sb = new StringBuilder();
+
+
+        sb.append("path:");
+        sb.append(LINE_SEPARATOR);
+        sb.append(this.path);
+        sb.append(LINE_SEPARATOR);
+
+        if (this.owner != null) {
+
+            sb.append("owner:");
+            sb.append(LINE_SEPARATOR);
+            sb.append(this.owner.identify());
+            sb.append(LINE_SEPARATOR);
+        }
+
+        return sb.toString();
     }
 }

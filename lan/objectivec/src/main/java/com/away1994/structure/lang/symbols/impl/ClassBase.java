@@ -9,6 +9,8 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.ArrayList;
 
+import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
+
 public class ClassBase implements Class {
 
 
@@ -67,14 +69,73 @@ public class ClassBase implements Class {
         return ruleContext;
     }
 
-    @Override
     public String identify() {
-        return owner.identify() + name;
+        return "$CLASS(" + name + ")" + owner.identify();
     }
 
-    @Override
     public String description() {
-        return owner.identify() + name;
+        StringBuilder sb = new StringBuilder();
+
+
+        sb.append("name:");
+        sb.append(LINE_SEPARATOR);
+        sb.append(this.name);
+        sb.append(LINE_SEPARATOR);
+
+        sb.append("owner:");
+        sb.append(LINE_SEPARATOR);
+        sb.append(this.owner.identify());
+        sb.append(LINE_SEPARATOR);
+
+
+
+        sb.append("superCls:");
+        sb.append(LINE_SEPARATOR);
+
+        for (Symbol i : this.superCls) {
+            sb.append(i.identify());
+            sb.append(LINE_SEPARATOR);
+        }
+
+
+        sb.append("iInterface:");
+        sb.append(LINE_SEPARATOR);
+        for (Symbol i : this.iInterfaces) {
+            sb.append(i.identify());
+            sb.append(LINE_SEPARATOR);
+        }
+
+        sb.append("iVariables:");
+        sb.append(LINE_SEPARATOR);
+        for (Symbol i : this.iVariables) {
+            sb.append(i.identify());
+            sb.append(LINE_SEPARATOR);
+        }
+
+
+        sb.append("sVariables:");
+        sb.append(LINE_SEPARATOR);
+        for (Symbol i : this.sVariables) {
+            sb.append(i.identify());
+            sb.append(LINE_SEPARATOR);
+        }
+
+        sb.append("iFunctions:");
+        sb.append(LINE_SEPARATOR);
+        for (Symbol i : this.iFunctions) {
+            sb.append(i.identify());
+            sb.append(LINE_SEPARATOR);
+        }
+
+        sb.append("sFunctions:");
+
+        sb.append(LINE_SEPARATOR);
+        for (Symbol i : this.sFunctions) {
+            sb.append(i.identify());
+            sb.append(LINE_SEPARATOR);
+        }
+
+        return sb.toString();
     }
 
 }

@@ -8,6 +8,8 @@ import com.away1994.structure.lang.symbols.variable.Variable;
 
 import java.util.ArrayList;
 
+import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
+
 public class FileBase implements File {
 
     /**
@@ -83,13 +85,24 @@ public class FileBase implements File {
     }
 
 
-    @Override
     public String identify() {
-        return owner.identify() + this.name;
+        return  "$FILE(" +(this.name) + ")" + owner.identify();
     }
 
-    @Override
     public String description() {
-        return owner.identify() + this.name;
+        StringBuilder sb = new StringBuilder();
+
+
+        sb.append("name:");
+        sb.append(LINE_SEPARATOR);
+        sb.append(this.name);
+        sb.append(LINE_SEPARATOR);
+
+        sb.append("owner:");
+        sb.append(LINE_SEPARATOR);
+        sb.append(this.owner.identify());
+        sb.append(LINE_SEPARATOR);
+
+        return sb.toString();
     }
 }
