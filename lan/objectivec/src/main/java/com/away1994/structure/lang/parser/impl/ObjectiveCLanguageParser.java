@@ -29,44 +29,55 @@ public class ObjectiveCLanguageParser implements LanguageParser {
 
     private static final transient Logger LOGGER = Logger.getLogger(ObjectiveCLanguageParser.class.getName());
 
-    public ArrayList<Symbol> parseInterface(Symbol symbol) {
+    public ArrayList<Symbol> parseInterface(InterfaceBase anInterface) {
         ArrayList<Symbol> symbols = new ArrayList<>();
 
-        if (symbol instanceof InterfaceBase) {
+        AbstractParseTreeVisitor parseTreeVisitor = new ObjectiveCParserBaseVisitor() {
 
+            @Override
+            public Object visitProtocolName(ObjectiveCParser.ProtocolNameContext ctx) {
+                String protocol = ctx.getText();
+                InterfaceBase i = new InterfaceBase(protocol, anInterface);
+                anInterface.getExtendInterfaces().add(i);
+                return super.visitProtocolName(ctx);
+            }
 
-        }
+            @Override
+            public Object visitMethodDeclaration(ObjectiveCParser.MethodDeclarationContext ctx) {
+                String methodName = ctx.methodSelector().getText();
+                FunctionBase f = new FunctionBase(anInterface, methodName);
+                anInterface.getiFunctions().add(f);
+                return super.visitMethodDeclaration(ctx);
+            }
+        };
+
+        parseTreeVisitor.visit(anInterface.getRuleContext());
+
         return symbols;
     }
 
-    public ArrayList<Symbol> parseVariable(Symbol symbol) {
+    public ArrayList<Symbol> parseVariable(VariableBase variable) {
         ArrayList<Symbol> symbols = new ArrayList<>();
-        if (symbol instanceof VariableBase) {
-            VariableBase variable = (VariableBase) symbol;
 
-            AbstractParseTreeVisitor parseTreeVisitor = new ObjectiveCParserBaseVisitor() {
-                @Override
-                public Object visitSpecifierQualifierList(ObjectiveCParser.SpecifierQualifierListContext ctx) {
+        AbstractParseTreeVisitor parseTreeVisitor = new ObjectiveCParserBaseVisitor() {
+            @Override
+            public Object visitSpecifierQualifierList(ObjectiveCParser.SpecifierQualifierListContext ctx) {
 
-                    ClassBase type = new ClassBase(ctx.getText(), variable);
-                    variable.setType(type);
-                    return super.visitSpecifierQualifierList(ctx);
-                }
-            };
+                ClassBase type = new ClassBase(ctx.getText(), variable);
+                variable.setType(type);
+                return super.visitSpecifierQualifierList(ctx);
+            }
+        };
 
-            parseTreeVisitor.visit(variable.ruleContext);
-        }
+        parseTreeVisitor.visit(variable.ruleContext);
         return symbols;
 
 
     }
 
 
-    public ArrayList<Symbol> parseFunction(Symbol symbol) {
+    public ArrayList<Symbol> parseFunction(FunctionBase function) {
         ArrayList<Symbol> symbols = new ArrayList<>();
-        if (symbol instanceof FunctionBase) {
-
-        }
         return symbols;
     }
 
@@ -74,251 +85,238 @@ public class ObjectiveCLanguageParser implements LanguageParser {
      * parse file
      * TODO: 1.test class 实现 和 接口在一个文件中
      *
-     * @param symbol file
+     * @param file file
      * @return
      */
-    public ArrayList<Symbol> parseFile(Symbol symbol) {
+    public ArrayList<Symbol> parseFile(FileBase file) {
         ArrayList<Symbol> symbols = new ArrayList<>();
-        if (symbol instanceof FileBase) {
-            FileBase file = (FileBase) symbol;
-            LOGGER.log(FINE, LogUtils.buildLogString(PARSE_FILE_FINE, file.getName()));
+        LOGGER.log(FINE, LogUtils.buildLogString(PARSE_FILE_FINE, file.getName()));
 
-            ArrayList<InterfaceBase> interfaces = new ArrayList<>();
-            // TODO variables
-            ArrayList<ClassBase> classes = new ArrayList<>();
-            // TODO functions
-            ArrayList<EnumeratorBase> enumerators = new ArrayList<>();
+        ArrayList<InterfaceBase> interfaces = new ArrayList<>();
+        // TODO variables
+        ArrayList<ClassBase> classes = new ArrayList<>();
+        // TODO functions
+        ArrayList<EnumeratorBase> enumerators = new ArrayList<>();
 
-            if (!Lan.OBJECTIVE_C.fileExtensions.contains(file.getExtension())) {
-                return symbols;
+        if (!Lan.OBJECTIVE_C.fileExtensions.contains(file.getExtension())) {
+            return symbols;
+        }
+
+        ParseTree parseTree = ObjcG4Util.getParseTree(file.getFullPath());
+
+        AbstractParseTreeVisitor parseTreeVisitor = new ObjectiveCParserBaseVisitor() {
+            @Override
+            public Object visitClassInterface(ObjectiveCParser.ClassInterfaceContext ctx) {
+
+                String name = ctx.classNameGeneric().className().getText();
+
+                ClassBase clazz = new ClassBase(name, file);
+                clazz.setRuleContext(ctx);
+                classes.add(clazz);
+
+
+                LOGGER.log(FINE, LogUtils.buildLogString(PARSE_CLASS_FINE, name));
+
+                return super.visitClassInterface(ctx);
             }
 
-            ParseTree parseTree = ObjcG4Util.getParseTree(file.getFullPath());
+            @Override
+            public Object visitClassImplementation(ObjectiveCParser.ClassImplementationContext ctx) {
+                String name = ctx.classNameGeneric().className().getText();
+                ClassBase clazz = new ClassBase(name, file);
+                clazz.setRuleContext(ctx);
 
-            AbstractParseTreeVisitor parseTreeVisitor = new ObjectiveCParserBaseVisitor() {
-                @Override
-                public Object visitClassInterface(ObjectiveCParser.ClassInterfaceContext ctx) {
+                LOGGER.log(FINE, LogUtils.buildLogString(PARSE_CLASS_FINE, name));
 
-                    String name = ctx.classNameGeneric().className().getText();
+                classes.add(clazz);
+                return super.visitClassImplementation(ctx);
+            }
 
-                    ClassBase clazz = new ClassBase(name, file);
-                    clazz.setRuleContext(ctx);
-                    classes.add(clazz);
+            @Override
+            public Object visitCategoryInterface(ObjectiveCParser.CategoryInterfaceContext ctx) {
 
+                Boolean isAnonymous = ctx.categoryName() == null;
 
-                    LOGGER.log(FINE, LogUtils.buildLogString(PARSE_CLASS_FINE, name));
+                String name = ctx.classNameGeneric().className().getText();
+                name = isAnonymous ? name + "()" : name + ctx.categoryName().getText();
+                ClassBase clazz = new ClassBase(name, file);
+                clazz.setRuleContext(ctx);
 
-                    return super.visitClassInterface(ctx);
+                LOGGER.log(FINE, LogUtils.buildLogString(PARSE_CLASS_FINE, name));
+
+                classes.add(clazz);
+                return super.visitCategoryInterface(ctx);
+            }
+
+            @Override
+            public Object visitCategoryImplementation(ObjectiveCParser.CategoryImplementationContext ctx) {
+                String name = ctx.classNameGeneric().className().getText();
+                ClassBase clazz = new ClassBase(name, file);
+                clazz.setRuleContext(ctx);
+                classes.add(clazz);
+
+                LOGGER.log(FINE, LogUtils.buildLogString(PARSE_CLASS_FINE, name));
+
+                return super.visitCategoryImplementation(ctx);
+            }
+
+            @Override
+            public Object visitProtocolDeclaration(ObjectiveCParser.ProtocolDeclarationContext ctx) {
+                String name = ctx.protocolName().getText();
+                InterfaceBase anInterface = new InterfaceBase(name, file);
+                anInterface.setRuleContext(ctx);
+                interfaces.add(anInterface);
+
+                LOGGER.log(FINE, LogUtils.buildLogString(PARSE_CLASS_FINE, name));
+                return super.visitProtocolDeclaration(ctx);
+            }
+
+            @Override
+            public Object visitEnumDeclaration(ObjectiveCParser.EnumDeclarationContext ctx) {
+                String name = null;
+                if (ctx.className() != null) {
+                    name = ctx.className().getText();
+                } else {
+                    name = ctx.enumSpecifier().identifier().get(0).getText();
                 }
+                EnumeratorBase enumerator = new EnumeratorBase(name, file);
+                enumerator.setRuleContext(ctx);
+                enumerators.add(enumerator);
 
-                @Override
-                public Object visitClassImplementation(ObjectiveCParser.ClassImplementationContext ctx) {
-                    String name = ctx.classNameGeneric().className().getText();
-                    ClassBase clazz = new ClassBase(name, file);
-                    clazz.setRuleContext(ctx);
+                return super.visitEnumDeclaration(ctx);
+            }
+        };
 
-                    LOGGER.log(FINE, LogUtils.buildLogString(PARSE_CLASS_FINE, name));
+        parseTreeVisitor.visit(parseTree);
 
-                    classes.add(clazz);
-                    return super.visitClassImplementation(ctx);
-                }
+        symbols.addAll(classes);
+        symbols.addAll(interfaces);
+        symbols.addAll(enumerators);
 
-                @Override
-                public Object visitCategoryInterface(ObjectiveCParser.CategoryInterfaceContext ctx) {
-
-                    Boolean isAnonymous = ctx.categoryName() == null;
-
-                    String name = ctx.classNameGeneric().className().getText();
-                    name = isAnonymous ? name + "()" : name + ctx.categoryName().getText();
-                    ClassBase clazz = new ClassBase(name, file);
-                    clazz.setRuleContext(ctx);
-
-                    LOGGER.log(FINE, LogUtils.buildLogString(PARSE_CLASS_FINE, name));
-
-                    classes.add(clazz);
-                    return super.visitCategoryInterface(ctx);
-                }
-
-                @Override
-                public Object visitCategoryImplementation(ObjectiveCParser.CategoryImplementationContext ctx) {
-                    String name = ctx.classNameGeneric().className().getText();
-                    ClassBase clazz = new ClassBase(name, file);
-                    clazz.setRuleContext(ctx);
-                    classes.add(clazz);
-
-                    LOGGER.log(FINE, LogUtils.buildLogString(PARSE_CLASS_FINE, name));
-
-                    return super.visitCategoryImplementation(ctx);
-                }
-
-                @Override
-                public Object visitProtocolDeclaration(ObjectiveCParser.ProtocolDeclarationContext ctx) {
-                    String name = ctx.protocolName().getText();
-                    InterfaceBase anInterface = new InterfaceBase(name, file);
-                    anInterface.setRuleContext(ctx);
-                    interfaces.add(anInterface);
-
-                    LOGGER.log(FINE, LogUtils.buildLogString(PARSE_CLASS_FINE, name));
-                    return super.visitProtocolDeclaration(ctx);
-                }
-
-                @Override
-                public Object visitEnumDeclaration(ObjectiveCParser.EnumDeclarationContext ctx) {
-                    String name = null;
-                    if (ctx.className() != null) {
-                        name = ctx.className().getText();
-                    } else {
-                        name = ctx.enumSpecifier().identifier().get(0).getText();
-                    }
-                    EnumeratorBase enumerator = new EnumeratorBase(name, file);
-                    enumerator.setRuleContext(ctx);
-                    enumerators.add(enumerator);
-
-                    return super.visitEnumDeclaration(ctx);
-                }
-            };
-
-            parseTreeVisitor.visit(parseTree);
-
-            symbols.addAll(classes);
-            symbols.addAll(interfaces);
-            symbols.addAll(enumerators);
-
-        }
         return symbols;
     }
 
 
-    public ArrayList<Symbol> parseClass(Symbol symbol) {
+    public ArrayList<Symbol> parseClass(ClassBase clazz) {
         ArrayList<Symbol> symbols = new ArrayList<>();
-        if (symbol instanceof ClassBase) {
-            ClassBase clazz = (ClassBase) symbol;
-            ArrayList<Function> functions = new ArrayList<>();
-            ArrayList<Variable> variables = new ArrayList<>();
+        ArrayList<Function> functions = new ArrayList<>();
+        ArrayList<Variable> variables = new ArrayList<>();
 
-            AbstractParseTreeVisitor parseTreeVisitor = new ObjectiveCParserBaseVisitor() {
-                @Override
-                public Object visitSuperclassName(ObjectiveCParser.SuperclassNameContext ctx) {
-                    String name = ctx.getText();
-                    ClassBase claz = new ClassBase(name, symbol);
-                    clazz.superCls.add(claz);
-                    return super.visitSuperclassName(ctx);
+        AbstractParseTreeVisitor parseTreeVisitor = new ObjectiveCParserBaseVisitor() {
+            @Override
+            public Object visitSuperclassName(ObjectiveCParser.SuperclassNameContext ctx) {
+                String name = ctx.getText();
+                ClassBase claz = new ClassBase(name, clazz);
+                clazz.superCls.add(claz);
+                return super.visitSuperclassName(ctx);
+            }
+
+            @Override
+            public Object visitProtocolList(ObjectiveCParser.ProtocolListContext ctx) {
+                /// implements protocols
+                for (ObjectiveCParser.ProtocolNameContext protocolNameContext : ctx.protocolName()) {
+                    String name = protocolNameContext.getText();
+                    InterfaceBase anInterface = new InterfaceBase(name, clazz);
+
+                    clazz.iInterfaces.add(anInterface);
+                }
+                return super.visitProtocolList(ctx);
+            }
+
+            @Override
+            public Object visitPropertyDeclaration(ObjectiveCParser.PropertyDeclarationContext ctx) {
+                String name = ctx.structDeclaration().structDeclaratorList().getText();
+                if (name.startsWith("*")) {
+                    name = name.substring(1);
                 }
 
-                @Override
-                public Object visitProtocolList(ObjectiveCParser.ProtocolListContext ctx) {
-                    /// implements protocols
-                    for (ObjectiveCParser.ProtocolNameContext protocolNameContext : ctx.protocolName()) {
-                        String name = protocolNameContext.getText();
-                        InterfaceBase anInterface = new InterfaceBase(name, symbol);
+                VariableBase variable = new VariableBase(clazz, name);
+                variable.setRuleContext(ctx);
+                clazz.iVariables.add(variable);
+                variables.add(variable);
 
-                        clazz.iInterfaces.add(anInterface);
-                    }
-                    return super.visitProtocolList(ctx);
-                }
+                return super.visitPropertyDeclaration(ctx);
+            }
 
-                @Override
-                public Object visitPropertyDeclaration(ObjectiveCParser.PropertyDeclarationContext ctx) {
-                    String name = ctx.structDeclaration().structDeclaratorList().getText();
-                    if (name.startsWith("*")) {
-                        name = name.substring(1);
-                    }
+            @Override
+            public Object visitMethodDeclaration(ObjectiveCParser.MethodDeclarationContext ctx) {
 
-                    VariableBase variable = new VariableBase(symbol, name);
-                    variable.setRuleContext(ctx);
-                    clazz.iVariables.add(variable);
-                    variables.add(variable);
+                String name = ctx.methodSelector().getText();
 
-                    return super.visitPropertyDeclaration(ctx);
-                }
+                FunctionBase function = new FunctionBase(clazz, name);
+                clazz.iFunctions.add(function);
+                functions.add(function);
+                return super.visitMethodDeclaration(ctx);
+            }
 
-                @Override
-                public Object visitMethodDeclaration(ObjectiveCParser.MethodDeclarationContext ctx) {
+            @Override
+            public Object visitMethodDefinition(ObjectiveCParser.MethodDefinitionContext ctx) {
+                String name = ctx.methodSelector().getText();
+                FunctionBase function = new FunctionBase(clazz, name);
+                clazz.iFunctions.add(function);
+                functions.add(function);
+                return super.visitMethodDefinition(ctx);
+            }
+        };
 
-                    String name = ctx.methodSelector().getText();
+        parseTreeVisitor.visit(clazz.getRuleContext());
+        symbols.addAll(functions);
+        symbols.addAll(variables);
 
-                    FunctionBase function = new FunctionBase(symbol, name);
-                    clazz.iFunctions.add(function);
-                    functions.add(function);
-                    return super.visitMethodDeclaration(ctx);
-                }
-
-                @Override
-                public Object visitMethodDefinition(ObjectiveCParser.MethodDefinitionContext ctx) {
-                    String name = ctx.methodSelector().getText();
-                    FunctionBase function = new FunctionBase(symbol, name);
-                    clazz.iFunctions.add(function);
-                    functions.add(function);
-                    return super.visitMethodDefinition(ctx);
-                }
-            };
-
-            parseTreeVisitor.visit(clazz.getRuleContext());
-            symbols.addAll(functions);
-            symbols.addAll(variables);
-
-        }
         return symbols;
     }
 
-    public ArrayList<Symbol> parsePath(Symbol symbol) {
+    public ArrayList<Symbol> parsePath(PathBase path) {
         /**
          * TODO: use coroutine
          */
         ArrayList<Symbol> symbols = new ArrayList<>();
-        if (symbol instanceof PathBase) {
-            PathBase path = (PathBase) symbol;
-            File dir = new File(path.getPath());
+        File dir = new File(path.getPath());
 
-            assert dir.isDirectory();
+        assert dir.isDirectory();
 
-            File[] fds = dir.listFiles();
-            if (fds != null) {
-                ArrayList<FileBase> files = new ArrayList<>();
-                ArrayList<PathBase> paths = new ArrayList<>();
-                for (File f : fds) {
-                    if (f.isFile()) {
-                        files.add(new FileBase(path, f.getName()));
-                    } else if (f.isDirectory()) {
-                        LOGGER.log(FINE, LogUtils.buildLogString(FineConstants.PARSE_DIRECTORY_FINE, f));
-                        paths.add(new PathBase(path, f.getPath()));
-                    } else {
-                        LOGGER.log(SEVERE, LogUtils.buildLogString(ErrorConstants.UNKNOWN_FILE_TYPE, f));
-                    }
+        File[] fds = dir.listFiles();
+        if (fds != null) {
+            ArrayList<FileBase> files = new ArrayList<>();
+            ArrayList<PathBase> paths = new ArrayList<>();
+            for (File f : fds) {
+                if (f.isFile()) {
+                    files.add(new FileBase(path, f.getName()));
+                } else if (f.isDirectory()) {
+                    LOGGER.log(FINE, LogUtils.buildLogString(FineConstants.PARSE_DIRECTORY_FINE, f));
+                    paths.add(new PathBase(path, f.getPath()));
+                } else {
+                    LOGGER.log(SEVERE, LogUtils.buildLogString(ErrorConstants.UNKNOWN_FILE_TYPE, f));
                 }
-                path.getFiles().addAll(files);
-                path.getPaths().addAll(paths);
-
-                symbols.addAll(files);
-                symbols.addAll(paths);
-            } else {
-                LOGGER.log(FINE, FineConstants.EMPTY_DIRECTORY_FINE);
             }
+            path.getFiles().addAll(files);
+            path.getPaths().addAll(paths);
 
-
+            symbols.addAll(files);
+            symbols.addAll(paths);
+        } else {
+            LOGGER.log(FINE, FineConstants.EMPTY_DIRECTORY_FINE);
         }
+
 
         return symbols;
     }
 
     @Override
-    public ArrayList<Symbol> parseEnumerator(Symbol symbol) {
+    public ArrayList<Symbol> parseEnumerator(EnumeratorBase enumerator) {
         ArrayList<Symbol> symbols = new ArrayList<>();
 
-        if (symbol instanceof EnumeratorBase) {
-            EnumeratorBase enumerator = (EnumeratorBase) symbol;
 
-            AbstractParseTreeVisitor parseTreeVisitor = new ObjectiveCParserBaseVisitor() {
-                @Override
-                public Object visitEnumerator(ObjectiveCParser.EnumeratorContext ctx) {
-                    String itemName = ctx.enumeratorIdentifier().getText();
-                    VariableBase variable = new VariableBase(enumerator, itemName);
-                    enumerator.getValues().add(variable);
-                    return super.visitEnumerator(ctx);
-                }
-            };
-            parseTreeVisitor.visit(enumerator.getRuleContext());
-        }
+        AbstractParseTreeVisitor parseTreeVisitor = new ObjectiveCParserBaseVisitor() {
+            @Override
+            public Object visitEnumerator(ObjectiveCParser.EnumeratorContext ctx) {
+                String itemName = ctx.enumeratorIdentifier().getText();
+                VariableBase variable = new VariableBase(enumerator, itemName);
+                enumerator.getValues().add(variable);
+                return super.visitEnumerator(ctx);
+            }
+        };
+        parseTreeVisitor.visit(enumerator.getRuleContext());
         return symbols;
     }
 

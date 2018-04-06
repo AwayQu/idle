@@ -23,6 +23,9 @@ public class InterfaceBase implements Interface {
     public Symbol owner;
 
 
+    public ArrayList<Interface> extendInterfaces = new ArrayList<>();
+
+
     /**
      * instance variables
      */
@@ -43,10 +46,50 @@ public class InterfaceBase implements Interface {
      */
     public ArrayList<Function> sFunctions = new ArrayList<>();
 
+    public ArrayList<Variable> getiVariables() {
+        return iVariables;
+    }
+
+    public void setiVariables(ArrayList<Variable> iVariables) {
+        this.iVariables = iVariables;
+    }
+
+    public ArrayList<Variable> getsVariables() {
+        return sVariables;
+    }
+
+    public void setsVariables(ArrayList<Variable> sVariables) {
+        this.sVariables = sVariables;
+    }
+
+    public ArrayList<Function> getiFunctions() {
+        return iFunctions;
+    }
+
+    public void setiFunctions(ArrayList<Function> iFunctions) {
+        this.iFunctions = iFunctions;
+    }
+
+    public ArrayList<Function> getsFunctions() {
+        return sFunctions;
+    }
+
+    public void setsFunctions(ArrayList<Function> sFunctions) {
+        this.sFunctions = sFunctions;
+    }
 
     public InterfaceBase(String name, Symbol owner) {
         this.name = name;
         this.owner = owner;
+    }
+
+
+    public ArrayList<Interface> getExtendInterfaces() {
+        return extendInterfaces;
+    }
+
+    public void setExtendInterfaces(ArrayList<Interface> extendInterfaces) {
+        this.extendInterfaces = extendInterfaces;
     }
 
 
@@ -70,6 +113,12 @@ public class InterfaceBase implements Interface {
         sb.append(this.owner.identify());
         sb.append(LINE_SEPARATOR);
 
+        sb.append("extendInterfaces:");
+        sb.append(LINE_SEPARATOR);
+        for (Symbol i : this.extendInterfaces) {
+            sb.append(i.identify());
+            sb.append(LINE_SEPARATOR);
+        }
 
         sb.append("iVariables:");
         sb.append(LINE_SEPARATOR);

@@ -4,6 +4,8 @@ import com.away1994.common.constants.log.ErrorConstants;
 import com.away1994.common.constants.log.FineConstants;
 import com.away1994.common.utils.log.LogUtils;
 import com.away1994.structure.lang.symbols.Symbol;
+import com.away1994.structure.lang.symbols.impl.*;
+import com.away1994.structure.lang.symbols.impl.variable.VariableBase;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -67,7 +69,8 @@ public class StateMachineParser {
                      */
 
                     // read path get files and path
-                    symbols = languageParser.parsePath(currentSymbol);
+                    if (currentSymbol instanceof PathBase)
+                        symbols = languageParser.parsePath((PathBase) currentSymbol);
                     break;
                 case FILE_STATE:
                     /**
@@ -75,36 +78,42 @@ public class StateMachineParser {
                      * interface variable classes functions enum
                      */
                     // read files get classes and interface and variables and functions enum
-                    symbols = languageParser.parseFile(currentSymbol);
+                    if (currentSymbol instanceof FileBase)
+                        symbols = languageParser.parseFile((FileBase) currentSymbol);
                     break;
                 case CLASS_STATE:
                     /**
                      * situations:
                      * variables functions
                      */
-                    symbols = languageParser.parseClass(currentSymbol);
+                    if (currentSymbol instanceof ClassBase)
+                        symbols = languageParser.parseClass((ClassBase) currentSymbol);
                     break;
                 case FUNCTION_STATE:
                     /**
                      * etc..
                      */
-                    symbols = languageParser.parseFunction(currentSymbol);
+                    if (currentSymbol instanceof FunctionBase)
+                        symbols = languageParser.parseFunction((FunctionBase) currentSymbol);
                     break;
                 case VARIABLE_STATE:
                     /**
                      * etc..
                      */
-                    symbols = languageParser.parseVariable(currentSymbol);
+                    if (currentSymbol instanceof VariableBase)
+                        symbols = languageParser.parseVariable((VariableBase) currentSymbol);
                     break;
                 case INTERFACE_STATE:
                     /**
                      * etc..
                      */
-                    symbols = languageParser.parseInterface(currentSymbol);
+                    if (currentSymbol instanceof InterfaceBase)
+                        symbols = languageParser.parseInterface((InterfaceBase) currentSymbol);
                     break;
 
                 case ENUM_STATE:
-                    symbols = languageParser.parseEnumerator(currentSymbol);
+                    if (currentSymbol instanceof EnumeratorBase)
+                        symbols = languageParser.parseEnumerator((EnumeratorBase) currentSymbol);
                     break;
 
             }
