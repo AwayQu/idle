@@ -7,29 +7,23 @@ import com.away1994.structure.lang.symbols.Function;
 import com.away1994.structure.lang.symbols.Interface;
 import com.away1994.structure.lang.symbols.Symbol;
 import com.away1994.structure.lang.symbols.variable.Variable;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.ArrayList;
 
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
 
-@JsonIgnoreProperties({"ruleContext"})
-public class ClassImpl implements Class {
 
+public class ClassImpl extends SymbolImpl implements Class {
 
-    /**
-     * className
-     */
-    public String name;
+    public ClassImpl() {
+    }
 
-    /**
-     * class owner, always file
-     */
-    public Symbol owner;
+    public ClassImpl(String name, Symbol owner) {
+        super(name, owner);
+    }
 
     /**
      * implements interfaces
@@ -74,15 +68,6 @@ public class ClassImpl implements Class {
     @JsonSerialize(contentUsing = FunctionSerializer.class)
     public ArrayList<Function> sFunctions = new ArrayList<>();
 
-    public ClassImpl(String name, Symbol owner) {
-        this.name = name;
-        this.owner = owner;
-    }
-
-
-    public String identify() {
-        return "$CLASS(" + name + ")" + owner.identify();
-    }
 
     public String description() {
         StringBuilder sb = new StringBuilder();
@@ -154,16 +139,4 @@ public class ClassImpl implements Class {
         return State.CLASS_STATE;
     }
 
-    public ParserRuleContext ruleContext;
-
-    public void setRuleContext(ParserRuleContext ruleContext) {
-        this.ruleContext = ruleContext;
-    }
-
-    public ParserRuleContext getRuleContext() {
-        return ruleContext;
-    }
-
-
-    private String cachedIdentify;
 }

@@ -1,26 +1,33 @@
 package com.away1994.structure.lang.symbols.impl.variable;
 
+import com.away1994.structure.lang.io.seriablize.ClassDeserializer;
+import com.away1994.structure.lang.io.seriablize.ClassSerializer;
 import com.away1994.structure.lang.parser.State;
 import com.away1994.structure.lang.symbols.Class;
 import com.away1994.structure.lang.symbols.Symbol;
+import com.away1994.structure.lang.symbols.impl.SymbolImpl;
 import com.away1994.structure.lang.symbols.variable.Variable;
-import org.antlr.v4.runtime.ParserRuleContext;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
-public class VariableImpl implements Variable {
+public class VariableImpl extends SymbolImpl implements Variable {
 
-
-    public Symbol owner;
-
-    public String name;
-
-    public Class type;
-
-    public VariableImpl(Symbol owner, String name) {
-        this.owner = owner;
-        this.name = name;
+    public VariableImpl() {
     }
+
+    public VariableImpl(Class type) {
+        this.type = type;
+    }
+
+    public VariableImpl(String name, Symbol owner) {
+        super(name, owner);
+    }
+
+    @JsonDeserialize(using = ClassDeserializer.class)
+    @JsonSerialize(using = ClassSerializer.class)
+    public Class type;
 
     public Class getType() {
         return type;
@@ -30,9 +37,6 @@ public class VariableImpl implements Variable {
         this.type = type;
     }
 
-    public String identify() {
-        return "$VARIABLE(" + name + ")" + this.owner.identify();
-    }
 
     public String description() {
         StringBuilder sb = new StringBuilder();
@@ -62,14 +66,5 @@ public class VariableImpl implements Variable {
         return State.VARIABLE_STATE;
     }
 
-    public ParserRuleContext ruleContext;
-
-    public void setRuleContext(ParserRuleContext ruleContext) {
-        this.ruleContext = ruleContext;
-    }
-
-    public ParserRuleContext getRuleContext() {
-        return ruleContext;
-    }
 
 }

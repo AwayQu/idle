@@ -11,7 +11,9 @@ import java.io.IOException;
 public class InterfaceDeserializer extends JsonDeserializer<InterfaceImpl> {
     @Override
     public InterfaceImpl deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
-
-        return null;
+        String value = jsonParser.getText();
+        InterfaceImpl symbol = new InterfaceImpl();
+        symbol.setCachedIdentify(value);
+        return symbol;
     }
 }

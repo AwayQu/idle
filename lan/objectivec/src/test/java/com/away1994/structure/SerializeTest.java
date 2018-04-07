@@ -1,10 +1,12 @@
 package com.away1994.structure;
 
 import com.away1994.structure.lang.symbols.impl.ClassImpl;
+import com.away1994.structure.lang.symbols.impl.FileImpl;
 import com.away1994.structure.lang.symbols.impl.FunctionImpl;
 import com.away1994.structure.lang.symbols.impl.InterfaceImpl;
 import com.away1994.structure.lang.symbols.impl.variable.VariableImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.logging.Level;
@@ -36,20 +38,20 @@ public class SerializeTest {
         readLoggerConfigurationFromResourceFromClassClassLoader(LOGGING_PROPERTIES_PATH,
                 ParserTest.class);
 
-        ClassImpl clazz = new ClassImpl("ClassName", null);
+        ClassImpl clazz = new ClassImpl("ClassName", new FileImpl("fileName", null));
 
 
         clazz.iInterfaces.add(new InterfaceImpl("InterfaceName", null));
 
         clazz.superCls.add(new ClassImpl("SuperClassName", null));
 
-        clazz.iVariables.add(new VariableImpl(null, "VariableName"));
+        clazz.iVariables.add(new VariableImpl("VariableName", null));
 
-        clazz.sVariables.add(new VariableImpl(null, "VariableName1"));
+        clazz.sVariables.add(new VariableImpl("VariableName1", null));
 
-        clazz.iFunctions.add(new FunctionImpl(null, "methodSignature"));
+        clazz.iFunctions.add(new FunctionImpl("methodSignature", null));
 
-        clazz.sFunctions.add(new FunctionImpl(null, "methodSignature1"));
+        clazz.sFunctions.add(new FunctionImpl("methodSignature1", null));
 
         String string = new ObjectMapper().writeValueAsString(clazz);
 
@@ -63,13 +65,34 @@ public class SerializeTest {
         readLoggerConfigurationFromResourceFromClassClassLoader(LOGGING_PROPERTIES_PATH,
                 ParserTest.class);
 
-        ClassImpl clazz = new ClassImpl("", null);
+        readLoggerConfigurationFromResourceFromClassClassLoader(LOGGING_PROPERTIES_PATH,
+                ParserTest.class);
 
-        clazz.iInterfaces.add(new InterfaceImpl("1111", null));
+        ClassImpl clazz = new ClassImpl("ClassName", new FileImpl("fileName", null));
 
-        Object string = new ObjectMapper().reader(ClassImpl.class).readValue("{\"iInterfaces\": [\"1\"]}");
 
-        System.out.print(string);
+        clazz.iInterfaces.add(new InterfaceImpl("InterfaceName", null));
+
+        clazz.superCls.add(new ClassImpl("SuperClassName", null));
+
+        clazz.iVariables.add(new VariableImpl("VariableName", null));
+
+        clazz.sVariables.add(new VariableImpl("VariableName1", null));
+
+        clazz.iFunctions.add(new FunctionImpl("methodSignature", null));
+
+        clazz.sFunctions.add(new FunctionImpl("methodSignature1", null));
+
+        String string = new ObjectMapper().writeValueAsString(clazz);
+
+        Object val = new ObjectMapper().reader(ClassImpl.class).readValue(string);
+
+        String string1 = new ObjectMapper().writeValueAsString(clazz);
+
+        Assert.assertEquals(string, string1);
+
+        LOGGER.log(Level.SEVERE, string);
+        LOGGER.log(Level.SEVERE, string1);
     }
 
     @Test

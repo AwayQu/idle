@@ -6,6 +6,7 @@ import com.away1994.common.utils.log.LogUtils;
 import com.away1994.structure.lang.symbols.Symbol;
 import com.away1994.structure.lang.symbols.impl.*;
 import com.away1994.structure.lang.symbols.impl.variable.VariableImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -19,10 +20,6 @@ import static java.util.logging.Level.SEVERE;
 
 public class Parser {
     private static final transient Logger LOGGER = Logger.getLogger(Parser.class.getName());
-
-    private State currentState;
-
-    private Symbol currentSymbol;
 
     private ArrayList<Symbol> nextSymbols = new ArrayList<>();
 
@@ -54,9 +51,9 @@ public class Parser {
         ///
 
         while (nextSymbols.size() != 0) {
-            currentSymbol = nextSymbols.get(0);
+            Symbol currentSymbol = nextSymbols.get(0);
             nextSymbols.remove(0);
-            currentState = currentSymbol.state();
+            State currentState = currentSymbol.state();
             ArrayList<Symbol> symbols = null;
             switch (currentState) {
                 case PATH_STATE:
@@ -139,6 +136,7 @@ public class Parser {
     }
 
     public void write(Symbol symbol) {
+        ObjectMapper objectMapper = new ObjectMapper();
         String fileName = this.outputPath + "/" + symbol.identify();
         try {
 
@@ -148,10 +146,9 @@ public class Parser {
             if (file.exists()) {
                 LOGGER.log(SEVERE, LogUtils.buildLogString(ErrorConstants.DUPLICATED_IDENTIFY_ERROR, fileName));
             }
-            FileWriter fw = new FileWriter(fileName);
-            fw.write(symbol.description());
-            fw.flush();
-            fw.close();
+
+            FileWriter fw = new FileWriter(fileName + ".json");
+            objectMapper.writeValue(fw, symbol);
             LOGGER.log(FINE, LogUtils.buildLogString(FineConstants.CREATE_IDENTIFY_FILE_FINE, fileName));
         } catch (IOException e) {
             LOGGER.log(SEVERE, LogUtils.buildLogString(ErrorConstants.WRITE_TO_FILE_ERROR,

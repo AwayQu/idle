@@ -11,6 +11,9 @@ import java.io.IOException;
 public class VariableDeserializer extends JsonDeserializer<VariableImpl> {
     @Override
     public VariableImpl deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
-        return null;
+        String value = jsonParser.getText();
+        VariableImpl symbol = new VariableImpl();
+        symbol.setCachedIdentify(value);
+        return symbol;
     }
 }

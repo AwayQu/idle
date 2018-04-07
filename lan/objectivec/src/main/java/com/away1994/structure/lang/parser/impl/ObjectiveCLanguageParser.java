@@ -45,7 +45,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
             @Override
             public Object visitMethodDeclaration(ObjectiveCParser.MethodDeclarationContext ctx) {
                 String methodName = ctx.methodSelector().getText();
-                FunctionImpl f = new FunctionImpl(anInterface, methodName);
+                FunctionImpl f = new FunctionImpl(methodName, anInterface);
                 anInterface.getiFunctions().add(f);
                 return super.visitMethodDeclaration(ctx);
             }
@@ -69,7 +69,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
             }
         };
 
-        parseTreeVisitor.visit(variable.ruleContext);
+        parseTreeVisitor.visit(variable.getRuleContext());
         return symbols;
 
 
@@ -230,7 +230,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
                     name = name.substring(1);
                 }
 
-                VariableImpl variable = new VariableImpl(clazz, name);
+                VariableImpl variable = new VariableImpl(name, clazz);
                 variable.setRuleContext(ctx);
                 clazz.iVariables.add(variable);
                 variables.add(variable);
@@ -243,7 +243,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
 
                 String name = ctx.methodSelector().getText();
 
-                FunctionImpl function = new FunctionImpl(clazz, name);
+                FunctionImpl function = new FunctionImpl(name, clazz);
                 clazz.iFunctions.add(function);
                 functions.add(function);
                 return super.visitMethodDeclaration(ctx);
@@ -252,7 +252,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
             @Override
             public Object visitMethodDefinition(ObjectiveCParser.MethodDefinitionContext ctx) {
                 String name = ctx.methodSelector().getText();
-                FunctionImpl function = new FunctionImpl(clazz, name);
+                FunctionImpl function = new FunctionImpl(name, clazz);
                 clazz.iFunctions.add(function);
                 functions.add(function);
                 return super.visitMethodDefinition(ctx);
@@ -281,10 +281,10 @@ public class ObjectiveCLanguageParser implements LanguageParser {
             ArrayList<PathImpl> paths = new ArrayList<>();
             for (File f : fds) {
                 if (f.isFile()) {
-                    files.add(new FileImpl(path, f.getName()));
+                    files.add(new FileImpl(f.getName(), path));
                 } else if (f.isDirectory()) {
                     LOGGER.log(FINE, LogUtils.buildLogString(FineConstants.PARSE_DIRECTORY_FINE, f));
-                    paths.add(new PathImpl(path, f.getPath()));
+                    paths.add(new PathImpl(f.getPath(), path));
                 } else {
                     LOGGER.log(SEVERE, LogUtils.buildLogString(ErrorConstants.UNKNOWN_FILE_TYPE_ERROR, f));
                 }
@@ -311,7 +311,7 @@ public class ObjectiveCLanguageParser implements LanguageParser {
             @Override
             public Object visitEnumerator(ObjectiveCParser.EnumeratorContext ctx) {
                 String itemName = ctx.enumeratorIdentifier().getText();
-                VariableImpl variable = new VariableImpl(enumerator, itemName);
+                VariableImpl variable = new VariableImpl(itemName, enumerator);
                 enumerator.getValues().add(variable);
                 return super.visitEnumerator(ctx);
             }

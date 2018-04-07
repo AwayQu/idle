@@ -17,6 +17,12 @@ public final class ErrorConstants {
 
     public static final String NULL_POINTER_OWNER_ERROR = "[error-idle-003] : The owner of symbol \"{0}\" is empty.";
 
+    public static final String NULL_POINTER_NAME_ERROR = "[error-idle-004] : The name of symbol \"{0}\" is empty.";
+
+    public static final String OWNER_TYPE_ERROR = "[error-idle-005] : The type of symbol \"{0}\" is wrong.";
+
+    public static final String URL_ENCODE_PATH_ERROR = "[error-idle-006] : URLEncode error with \"{0}\".";
+
     private ErrorConstants() {
         super();
     }

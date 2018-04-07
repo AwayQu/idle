@@ -12,6 +12,11 @@ public interface Symbol {
 
 
     /**
+     * absolute unique string
+     */
+    public String absIdentify();
+
+    /**
      * @return description of a symbol
      */
     public String description();

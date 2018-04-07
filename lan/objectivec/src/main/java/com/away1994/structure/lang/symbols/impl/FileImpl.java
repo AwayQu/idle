@@ -1,69 +1,66 @@
 package com.away1994.structure.lang.symbols.impl;
 
+import com.away1994.common.utils.log.LogUtils;
+import com.away1994.structure.lang.io.seriablize.*;
 import com.away1994.structure.lang.parser.State;
 import com.away1994.structure.lang.symbols.Class;
 import com.away1994.structure.lang.symbols.File;
 import com.away1994.structure.lang.symbols.Interface;
 import com.away1994.structure.lang.symbols.Symbol;
 import com.away1994.structure.lang.symbols.variable.Variable;
-import org.antlr.v4.runtime.ParserRuleContext;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import static com.away1994.common.constants.log.ErrorConstants.OWNER_TYPE_ERROR;
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
-public class FileImpl implements File {
+@JsonIgnoreProperties("otherSymbols")
+public class FileImpl extends SymbolImpl implements File {
+
+    private static final transient Logger LOGGER = Logger.getLogger(FileImpl.class.getName());
+
+    public FileImpl() {
+    }
+
+    public FileImpl(String name, Symbol owner) {
+        super(name, owner);
+    }
 
     /**
      * owner always path
      */
-    public Symbol owner;
-
-
-    /**
-     * name of file
-     */
-    public String name;
-
-
-    /**
-     * all symbols in the file
-     */
-    public ArrayList<Symbol> symbols = new ArrayList<>();
 
 
     /**
      * classes in the file
      */
+    @JsonDeserialize(contentUsing = ClassDeserializer.class)
+    @JsonSerialize(contentUsing = ClassSerializer.class)
     public ArrayList<Class> classes = new ArrayList<>();
 
     /**
      * interface in the file
      */
+    @JsonDeserialize(contentUsing = InterfaceDeserializer.class)
+    @JsonSerialize(contentUsing = InterfaceSerializer.class)
     public ArrayList<Interface> interfaces = new ArrayList<>();
 
     /**
      * variables in the file
      */
+    @JsonDeserialize(contentUsing = VariableDeserializer.class)
+    @JsonSerialize(contentUsing = VariableSerializer.class)
     public ArrayList<Variable> variables = new ArrayList<>();
 
     /**
      * other symbols
      */
     public ArrayList<Symbol> otherSymbols = new ArrayList<>();
-
-    public FileImpl(Symbol owner, String name) {
-        this.owner = owner;
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     /**
      *
@@ -74,22 +71,17 @@ public class FileImpl implements File {
         return this.getName().substring(lastIndex + 1);
     }
 
-
-
     public String getFullPath() {
 
         if (owner instanceof PathImpl) {
             return ((PathImpl) this.owner).getPath() + "/" + this.name;
         } else {
+            LOGGER.log(Level.SEVERE, LogUtils.buildLogString(OWNER_TYPE_ERROR, this.name));
             return null;
         }
 
     }
 
-
-    public String identify() {
-        return  "$FILE(" +(this.name) + ")" + owner.identify();
-    }
 
     public String description() {
         StringBuilder sb = new StringBuilder();
@@ -111,16 +103,6 @@ public class FileImpl implements File {
     @Override
     public State state() {
         return State.FILE_STATE;
-    }
-
-    public ParserRuleContext ruleContext;
-
-    public void setRuleContext(ParserRuleContext ruleContext) {
-        this.ruleContext = ruleContext;
-    }
-
-    public ParserRuleContext getRuleContext() {
-        return ruleContext;
     }
 
 

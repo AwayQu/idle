@@ -3,25 +3,17 @@ package com.away1994.structure.lang.symbols.impl;
 import com.away1994.structure.lang.parser.State;
 import com.away1994.structure.lang.symbols.Function;
 import com.away1994.structure.lang.symbols.Symbol;
-import org.antlr.v4.runtime.ParserRuleContext;
 
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
-public class FunctionImpl implements Function {
+public class FunctionImpl extends SymbolImpl implements Function {
 
-    public Symbol owner;
-
-    /**
-     * signature of function
-     */
-    public String signature;
-
-
-    public FunctionImpl(Symbol owner, String signature) {
-        this.owner = owner;
-        this.signature = signature;
+    public FunctionImpl(String name, Symbol owner) {
+        super(name, owner);
     }
 
+    public FunctionImpl() {
+    }
 
     /**
      * TODO :
@@ -30,9 +22,7 @@ public class FunctionImpl implements Function {
      * contains classes
      */
 
-    public String identify() {
-        return  "$FUNCTION("+this.signature + ")" + owner.identify();
-    }
+
 
     public String description() {
 
@@ -41,7 +31,7 @@ public class FunctionImpl implements Function {
 
         sb.append("signature:");
         sb.append(LINE_SEPARATOR);
-        sb.append(this.signature);
+        sb.append(this.name);
         sb.append(LINE_SEPARATOR);
 
         sb.append("owner:");
@@ -57,14 +47,5 @@ public class FunctionImpl implements Function {
         return State.FUNCTION_STATE;
     }
 
-    public ParserRuleContext ruleContext;
-
-    public void setRuleContext(ParserRuleContext ruleContext) {
-        this.ruleContext = ruleContext;
-    }
-
-    public ParserRuleContext getRuleContext() {
-        return ruleContext;
-    }
 
 }

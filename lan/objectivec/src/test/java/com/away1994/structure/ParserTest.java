@@ -22,11 +22,11 @@ public class ParserTest {
     public void clearFile() {
         File file = new File(TEST_RESOURCES_PATH + "out/symbols");
         File[] files = file.listFiles();
-//        if (files != null) {
-//            for (File f: files) {
-//                f.delete();
-//            }
-//        }
+        if (files != null) {
+            for (File f: files) {
+                f.delete();
+            }
+        }
 
     }
 

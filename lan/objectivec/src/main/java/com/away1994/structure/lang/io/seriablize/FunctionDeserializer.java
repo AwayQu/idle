@@ -11,6 +11,9 @@ import java.io.IOException;
 public class FunctionDeserializer extends JsonDeserializer<FunctionImpl> {
     @Override
     public FunctionImpl deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
-        return null;
+        String value = jsonParser.getText();
+        FunctionImpl symbol = new FunctionImpl();
+        symbol.setCachedIdentify(value);
+        return symbol;
     }
 }

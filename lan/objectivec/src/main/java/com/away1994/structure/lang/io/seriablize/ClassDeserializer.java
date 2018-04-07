@@ -11,6 +11,10 @@ import java.io.IOException;
 public class ClassDeserializer extends JsonDeserializer<ClassImpl> {
     @Override
     public ClassImpl deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
-        return null;
+        String value = jsonParser.getText();
+
+        ClassImpl clazz = new ClassImpl();
+        clazz.setCachedIdentify(value);
+        return clazz;
     }
 }

@@ -1,62 +1,55 @@
 package com.away1994.structure.lang.symbols.impl;
 
-import com.away1994.common.utils.log.LogUtils;
-import com.away1994.structure.lang.io.seriablize.InterfaceDeserializer;
+import com.away1994.structure.lang.io.seriablize.*;
 import com.away1994.structure.lang.parser.State;
 import com.away1994.structure.lang.symbols.Function;
 import com.away1994.structure.lang.symbols.Interface;
 import com.away1994.structure.lang.symbols.Symbol;
 import com.away1994.structure.lang.symbols.variable.Variable;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.antlr.v4.runtime.ParserRuleContext;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.away1994.common.constants.log.ErrorConstants.NULL_POINTER_OWNER_ERROR;
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
-@JsonDeserialize(using = InterfaceDeserializer.class)
-public class InterfaceImpl implements Interface {
+public class InterfaceImpl extends SymbolImpl implements Interface {
 
     private static final transient Logger LOGGER = Logger.getLogger(InterfaceImpl.class.getName());
-    /**
-     * interface Name
-     */
-    public String name;
-
-    /**
-     * owner always file
-     */
-    public Symbol owner;
 
 
-
-
-
-
+    @JsonDeserialize(contentUsing = InterfaceDeserializer.class)
+    @JsonSerialize(contentUsing = InterfaceSerializer.class)
     public ArrayList<Interface> extendInterfaces = new ArrayList<>();
 
 
     /**
      * instance variables
      */
+    @JsonDeserialize(contentUsing = VariableDeserializer.class)
+    @JsonSerialize(contentUsing = VariableSerializer.class)
     public ArrayList<Variable> iVariables = new ArrayList<>();
 
     /**
      * static variables
      */
+    @JsonDeserialize(contentUsing = VariableDeserializer.class)
+    @JsonSerialize(contentUsing = VariableSerializer.class)
     public ArrayList<Variable> sVariables = new ArrayList<>();
 
     /**
      * instance functions
      */
+    @JsonDeserialize(contentUsing = FunctionDeserializer.class)
+    @JsonSerialize(contentUsing = FunctionSerializer.class)
     public ArrayList<Function> iFunctions = new ArrayList<>();
 
     /**
      * static functions
      */
+    @JsonDeserialize(contentUsing = FunctionDeserializer.class)
+    @JsonSerialize(contentUsing = FunctionSerializer.class)
     public ArrayList<Function> sFunctions = new ArrayList<>();
 
     public ArrayList<Variable> getiVariables() {
@@ -96,6 +89,8 @@ public class InterfaceImpl implements Interface {
         this.owner = owner;
     }
 
+    public InterfaceImpl() {
+    }
 
     public ArrayList<Interface> getExtendInterfaces() {
         return extendInterfaces;
@@ -103,19 +98,6 @@ public class InterfaceImpl implements Interface {
 
     public void setExtendInterfaces(ArrayList<Interface> extendInterfaces) {
         this.extendInterfaces = extendInterfaces;
-    }
-
-    public String identify() {
-        if (this.getCachedIdentify() != null) {
-            return this.getCachedIdentify();
-        }
-        String absIdentify = "$INTERFACE(" + this.name + ")";
-        if (this.owner == null) {
-            LOGGER.log(Level.SEVERE, LogUtils.buildLogString(NULL_POINTER_OWNER_ERROR, absIdentify));
-            return absIdentify;
-        } else {
-            return absIdentify + this.owner.identify();
-        }
     }
 
     public String description() {
@@ -172,31 +154,9 @@ public class InterfaceImpl implements Interface {
         return sb.toString();
     }
 
-
     @Override
     public State state() {
         return State.INTERFACE_STATE;
-    }
-
-    public ParserRuleContext ruleContext;
-
-    public void setRuleContext(ParserRuleContext ruleContext) {
-        this.ruleContext = ruleContext;
-    }
-
-    public ParserRuleContext getRuleContext() {
-        return ruleContext;
-    }
-
-
-    private String cachedIdentify;
-
-    public String getCachedIdentify() {
-        return cachedIdentify;
-    }
-
-    public void setCachedIdentify(String cachedIdentify) {
-        this.cachedIdentify = cachedIdentify;
     }
 
 }
