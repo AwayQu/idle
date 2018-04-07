@@ -1,5 +1,7 @@
 package com.away1994.structure.lang.aggregator.impl;
 
+import com.away1994.common.constants.log.ErrorConstants;
+import com.away1994.common.utils.log.LogUtils;
 import com.away1994.structure.lang.aggregator.Aggregator;
 import com.away1994.structure.lang.aggregator.Session;
 import com.away1994.structure.lang.io.Reader;
@@ -34,24 +36,6 @@ public class AggregatorImpl implements Aggregator {
         this.reader = new ReaderImpl(session);
 
         this.objectMapper.setAnnotationIntrospector(new JacksonAnnotationIntrospector() {
-//            @Override
-//            protected TypeResolverBuilder<?> _findTypeResolver(
-//                    MapperConfig<?> config, Annotated ann, JavaType baseType) {
-//                if (!ann.hasAnnotation(JsonSerialize.class)) {
-//                    return super._findTypeResolver(config, ann, baseType);
-//                }
-//                return null;
-//            }
-
-//            @Override
-//            public Object findSerializationContentConverter(AnnotatedMember a) {
-//                if (!a.hasAnnotation(JsonSerialize.class)) {
-//                    return super.findSerializationContentConverter(a);
-//                } else {
-//                    return null;
-//                }
-//            }
-
             @Override
             protected <A extends Annotation> A _findAnnotation(Annotated annotated, Class<A> annoClass) {
                 if (!annotated.hasAnnotation(JsonSerialize.class)) {
@@ -60,15 +44,6 @@ public class AggregatorImpl implements Aggregator {
                     return null;
                 }
             }
-
-//            @Override
-//            public Object findSerializer(Annotated a) {
-//                if (!a.hasAnnotation(JsonSerialize.class)) {
-//                    return super.findSerializer(a);
-//                } else {
-//                    return null;
-//                }
-//            }
         });
 
     }
@@ -95,9 +70,9 @@ public class AggregatorImpl implements Aggregator {
         try {
             value = this.objectMapper.writerWithView(Views.WebViewPublic.class).writeValueAsString(symbols);
         } catch (JsonProcessingException e) {
+            LOGGER.log(Level.SEVERE, LogUtils.buildLogString(ErrorConstants.WRITE_JSON_ERROR, e));
             e.printStackTrace();
         }
-        LOGGER.log(Level.INFO, "find symbol" + value);
         return value;
     }
 }
