@@ -1,6 +1,6 @@
 package com.away1994.structure.lang.symbols.impl;
 
-import com.away1994.structure.lang.io.seriablize.*;
+import com.away1994.structure.lang.io.seriablize.serializer.*;
 import com.away1994.structure.lang.parser.State;
 import com.away1994.structure.lang.symbols.Function;
 import com.away1994.structure.lang.symbols.Interface;

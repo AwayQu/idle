@@ -1,4 +1,4 @@
-package com.away1994.structure.lang.io.seriablize;
+package com.away1994.structure.lang.io.seriablize.serializer;
 
 import com.away1994.structure.lang.symbols.Symbol;
 import com.away1994.structure.lang.symbols.impl.SymbolImpl;

@@ -1,7 +1,7 @@
 package com.away1994.structure.lang.symbols.impl.variable;
 
-import com.away1994.structure.lang.io.seriablize.ClassDeserializer;
-import com.away1994.structure.lang.io.seriablize.ClassSerializer;
+import com.away1994.structure.lang.io.seriablize.serializer.ClassDeserializer;
+import com.away1994.structure.lang.io.seriablize.serializer.ClassSerializer;
 import com.away1994.structure.lang.parser.State;
 import com.away1994.structure.lang.symbols.Class;
 import com.away1994.structure.lang.symbols.Symbol;

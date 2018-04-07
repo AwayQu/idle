@@ -1,10 +1,12 @@
 package com.away1994.structure;
 
+import com.away1994.structure.lang.io.seriablize.views.Views;
 import com.away1994.structure.lang.symbols.impl.ClassImpl;
 import com.away1994.structure.lang.symbols.impl.FileImpl;
 import com.away1994.structure.lang.symbols.impl.FunctionImpl;
 import com.away1994.structure.lang.symbols.impl.InterfaceImpl;
 import com.away1994.structure.lang.symbols.impl.variable.VariableImpl;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
@@ -54,6 +56,34 @@ public class SerializeTest {
         clazz.sFunctions.add(new FunctionImpl("methodSignature1", null));
 
         String string = new ObjectMapper().writeValueAsString(clazz);
+
+        LOGGER.log(Level.SEVERE, string);
+    }
+
+    @Test
+    public void classSerializerFilterTest() throws Exception {
+        readLoggerConfigurationFromResourceFromClassClassLoader(LOGGING_PROPERTIES_PATH,
+                ParserTest.class);
+
+        ClassImpl clazz = new ClassImpl("ClassName", new FileImpl("fileName", null));
+
+
+        clazz.iInterfaces.add(new InterfaceImpl("InterfaceName", null));
+
+        clazz.superCls.add(new ClassImpl("SuperClassName", null));
+
+        clazz.iVariables.add(new VariableImpl("VariableName", null));
+
+        clazz.sVariables.add(new VariableImpl("VariableName1", null));
+
+        clazz.iFunctions.add(new FunctionImpl("methodSignature", null));
+
+        clazz.sFunctions.add(new FunctionImpl("methodSignature1", null));
+
+        String string = new ObjectMapper().writerWithView(Views.WebViewPublic.class).writeValueAsString(clazz);
+
+        String value = new ObjectMapper().disable(MapperFeature.USE_ANNOTATIONS).writerWithView(Views.WebViewPublic.class).writeValueAsString(clazz);
+
 
         LOGGER.log(Level.SEVERE, string);
     }

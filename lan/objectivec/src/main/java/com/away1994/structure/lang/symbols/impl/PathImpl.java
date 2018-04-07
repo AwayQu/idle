@@ -1,10 +1,10 @@
 package com.away1994.structure.lang.symbols.impl;
 
 import com.away1994.common.utils.log.LogUtils;
-import com.away1994.structure.lang.io.seriablize.FileDeserializer;
-import com.away1994.structure.lang.io.seriablize.FileSerializer;
-import com.away1994.structure.lang.io.seriablize.PathDeserializer;
-import com.away1994.structure.lang.io.seriablize.PathSerializer;
+import com.away1994.structure.lang.io.seriablize.serializer.FileDeserializer;
+import com.away1994.structure.lang.io.seriablize.serializer.FileSerializer;
+import com.away1994.structure.lang.io.seriablize.serializer.PathDeserializer;
+import com.away1994.structure.lang.io.seriablize.serializer.PathSerializer;
 import com.away1994.structure.lang.parser.State;
 import com.away1994.structure.lang.symbols.File;
 import com.away1994.structure.lang.symbols.Path;

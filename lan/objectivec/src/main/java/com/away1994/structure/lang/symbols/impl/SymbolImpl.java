@@ -1,11 +1,13 @@
 package com.away1994.structure.lang.symbols.impl;
 
 import com.away1994.common.utils.log.LogUtils;
-import com.away1994.structure.lang.io.seriablize.SymbolDeserializer;
-import com.away1994.structure.lang.io.seriablize.SymbolSerializer;
+import com.away1994.structure.lang.io.seriablize.serializer.SymbolDeserializer;
+import com.away1994.structure.lang.io.seriablize.serializer.SymbolSerializer;
+import com.away1994.structure.lang.io.seriablize.views.Views;
 import com.away1994.structure.lang.parser.State;
 import com.away1994.structure.lang.symbols.Symbol;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -26,10 +28,12 @@ public class SymbolImpl implements Symbol {
 
     private static final transient Logger LOGGER = Logger.getLogger(SymbolImpl.class.getName());
 
+    @JsonView(Views.WebViewPublic.class)
     public String name;
 
     @JsonSerialize(using = SymbolSerializer.class)
     @JsonDeserialize(using = SymbolDeserializer.class)
+    @JsonView(Views.WebViewPublic.class)
     public Symbol owner;
 
     public String getName() {
@@ -92,6 +96,7 @@ public class SymbolImpl implements Symbol {
         return State.PLACEHOLD_STATE;
     }
 
+    @JsonView(Views.Internal.class)
     private String cachedIdentify;
 
     public String getCachedIdentify() {

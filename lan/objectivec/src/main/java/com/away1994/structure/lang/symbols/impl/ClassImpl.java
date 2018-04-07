@@ -1,12 +1,14 @@
 package com.away1994.structure.lang.symbols.impl;
 
-import com.away1994.structure.lang.io.seriablize.*;
+import com.away1994.structure.lang.io.seriablize.serializer.*;
+import com.away1994.structure.lang.io.seriablize.views.Views;
 import com.away1994.structure.lang.parser.State;
 import com.away1994.structure.lang.symbols.Class;
 import com.away1994.structure.lang.symbols.Function;
 import com.away1994.structure.lang.symbols.Interface;
 import com.away1994.structure.lang.symbols.Symbol;
 import com.away1994.structure.lang.symbols.variable.Variable;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -31,6 +33,7 @@ public class ClassImpl extends SymbolImpl implements Class {
      */
     @JsonDeserialize(contentUsing = InterfaceDeserializer.class)
     @JsonSerialize(contentUsing = InterfaceSerializer.class)
+    @JsonView(Views.WebViewPublic.class)
     public ArrayList<Interface> iInterfaces = new ArrayList<>();
 
     /**
@@ -38,6 +41,7 @@ public class ClassImpl extends SymbolImpl implements Class {
      */
     @JsonDeserialize(contentUsing = ClassDeserializer.class)
     @JsonSerialize(contentUsing = ClassSerializer.class)
+    @JsonView(Views.WebViewPublic.class)
     public ArrayList<Class> superCls = new ArrayList<>();
 
     /**
@@ -45,6 +49,7 @@ public class ClassImpl extends SymbolImpl implements Class {
      */
     @JsonDeserialize(contentUsing = VariableDeserializer.class)
     @JsonSerialize(contentUsing = VariableSerializer.class)
+    @JsonView(Views.WebViewPublic.class)
     public ArrayList<Variable> iVariables = new ArrayList<>();
 
     /**
@@ -53,6 +58,7 @@ public class ClassImpl extends SymbolImpl implements Class {
 
     @JsonDeserialize(contentUsing = VariableDeserializer.class)
     @JsonSerialize(contentUsing = VariableSerializer.class)
+    @JsonView(Views.WebViewPublic.class)
     public ArrayList<Variable> sVariables = new ArrayList<>();
 
     /**
@@ -60,6 +66,7 @@ public class ClassImpl extends SymbolImpl implements Class {
      */
     @JsonDeserialize(contentUsing = FunctionDeserializer.class)
     @JsonSerialize(contentUsing = FunctionSerializer.class)
+    @JsonView(Views.WebViewPublic.class)
     public ArrayList<Function> iFunctions = new ArrayList<>();
 
     /**
@@ -67,6 +74,7 @@ public class ClassImpl extends SymbolImpl implements Class {
      */
     @JsonDeserialize(contentUsing = FunctionDeserializer.class)
     @JsonSerialize(contentUsing = FunctionSerializer.class)
+    @JsonView(Views.WebViewPublic.class)
     public ArrayList<Function> sFunctions = new ArrayList<>();
 
 

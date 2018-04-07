@@ -1,4 +1,4 @@
-package com.away1994.structure.lang.io.seriablize;
+package com.away1994.structure.lang.io.seriablize.serializer;
 
 import com.away1994.structure.lang.aggregator.impl.AggregatorImpl;
 import com.away1994.structure.lang.parser.State;
