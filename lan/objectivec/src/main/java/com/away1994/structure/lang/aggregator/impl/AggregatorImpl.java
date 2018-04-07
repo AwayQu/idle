@@ -26,7 +26,7 @@ public class AggregatorImpl implements Aggregator {
     @Override
     public AggregateInfo getClassDependencyInfo(String className, int depth) {
 
-        Collection<ClassImpl> symbols = reader.getSymbols(className, State.CLASS_STATE.getDescription());
+        Collection<ClassImpl> symbols = reader.getSymbols(className, State.CLASS_STATE);
         LOGGER.log(Level.INFO, "find symbol" + symbols);
         return null;
     }

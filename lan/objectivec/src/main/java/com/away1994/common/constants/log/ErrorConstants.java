@@ -23,6 +23,7 @@ public final class ErrorConstants {
 
     public static final String URL_ENCODE_PATH_ERROR = "[error-idle-006] : URLEncode error with \"{0}\".";
 
+    public static final String READ_TO_FILE_ERROR = "[error-idle-007] : The read file \"{0}\", is fail with exception \"{1}\".";
     private ErrorConstants() {
         super();
     }

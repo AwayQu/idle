@@ -62,6 +62,8 @@ type -> type of variable
 
 ## TODO
 
- [x] encode and decode objects
+ [x] encode and decode objects [finish]
 
- [x] find and aggregate info
+ [x] find and aggregate info 
+    [ x ] aggregate different class
+    [ x ] search info with full identify

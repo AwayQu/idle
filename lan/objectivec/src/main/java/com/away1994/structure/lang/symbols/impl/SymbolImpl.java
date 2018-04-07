@@ -110,4 +110,20 @@ public class SymbolImpl implements Symbol {
     public ParserRuleContext getRuleContext() {
         return ruleContext;
     }
+
+
+    public Symbol extractNameAndOwnerCachedIdentify() {
+        if (this.getCachedIdentify() == null) {
+            return null;
+        }
+        String des = this.state().getDescription();
+        if (this.getCachedIdentify().startsWith(des)) {
+            String subId = des.substring(des.length());
+            int nextIndex = subId.indexOf('$');
+            String name = subId.substring(1, nextIndex - 1);
+            String ownerId = subId.substring(nextIndex);
+
+        }
+        return null;
+    }
 }
