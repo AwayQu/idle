@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
@@ -90,6 +91,14 @@ public class EnumeratorImpl extends SymbolImpl implements Enumerator {
         return State.ENUM_STATE;
     }
 
+
+    @Override
+    public Collection<Symbol> allSymbols() {
+        ArrayList<Symbol> symbols = new ArrayList<>();
+        symbols.add(type);
+        symbols.addAll(values);
+        return symbols;
+    }
 
 
 }

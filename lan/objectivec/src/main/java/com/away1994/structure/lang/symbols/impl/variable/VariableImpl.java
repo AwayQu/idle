@@ -10,6 +10,9 @@ import com.away1994.structure.lang.symbols.variable.Variable;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
 public class VariableImpl extends SymbolImpl implements Variable {
@@ -67,4 +70,10 @@ public class VariableImpl extends SymbolImpl implements Variable {
     }
 
 
+    @Override
+    public Collection<Symbol> allSymbols() {
+        ArrayList<Symbol> symbols = new ArrayList<>();
+        symbols.add(type);
+        return symbols;
+    }
 }

@@ -2,6 +2,8 @@ package com.away1994.structure.lang.symbols;
 
 import com.away1994.structure.lang.parser.State;
 
+import java.util.Collection;
+
 public interface Symbol {
 
     /**
@@ -24,4 +26,6 @@ public interface Symbol {
 
     public State state();
 
+
+    public Collection<Symbol> allSymbols();
 }

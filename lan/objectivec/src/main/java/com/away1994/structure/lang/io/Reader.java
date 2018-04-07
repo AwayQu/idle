@@ -14,4 +14,6 @@ public interface Reader {
      * @return a collection of symbols
      */
     public <T extends Symbol> Collection<T> getSymbols(String name, State type);
+
+    public <T extends Symbol> T getSymbol(T symbol);
 }

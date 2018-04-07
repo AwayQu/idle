@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -119,4 +120,11 @@ public class PathImpl extends SymbolImpl implements Path {
         return State.PATH_STATE;
     }
 
+    @Override
+    public Collection<Symbol> allSymbols() {
+        ArrayList<Symbol> symbols = new ArrayList<>();
+        symbols.addAll(files);
+        symbols.addAll(paths);
+        return symbols;
+    }
 }

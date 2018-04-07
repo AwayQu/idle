@@ -4,6 +4,9 @@ import com.away1994.structure.lang.parser.State;
 import com.away1994.structure.lang.symbols.Function;
 import com.away1994.structure.lang.symbols.Symbol;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
 public class FunctionImpl extends SymbolImpl implements Function {
@@ -47,5 +50,9 @@ public class FunctionImpl extends SymbolImpl implements Function {
         return State.FUNCTION_STATE;
     }
 
-
+    @Override
+    public Collection<Symbol> allSymbols() {
+        ArrayList<Symbol> symbols = new ArrayList<>();
+        return symbols;
+    }
 }

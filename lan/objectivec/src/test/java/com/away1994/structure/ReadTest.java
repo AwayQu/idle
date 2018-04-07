@@ -46,7 +46,7 @@ public class ReadTest {
         Session session = new SessionImpl(null, TEST_RESOURCES_PATH + "out/symbols");
 
         AggregatorImpl aggregator = new AggregatorImpl(session);
-        aggregator.getClassDependencyInfo("Hello", 0);
+        aggregator.getClassDependencyInfo("Hello", 1);
 
     }
 }

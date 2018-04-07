@@ -43,4 +43,25 @@ public enum State {
         this.clazz = clazz;
         this.description = description;
     }
+
+    public static State getState(String identify) {
+
+        if (identify.startsWith(PATH_STATE.getDescription())) {
+            return PATH_STATE;
+        } else if (identify.startsWith(FILE_STATE.getDescription())) {
+            return FILE_STATE;
+        } else if (identify.startsWith(CLASS_STATE.getDescription())) {
+            return CLASS_STATE;
+        } else if (identify.startsWith(VARIABLE_STATE.getDescription())) {
+            return VARIABLE_STATE;
+        } else if (identify.startsWith(INTERFACE_STATE.getDescription())) {
+            return INTERFACE_STATE;
+        } else if (identify.startsWith(FUNCTION_STATE.getDescription())) {
+            return FUNCTION_STATE;
+        } else if (identify.startsWith(ENUM_STATE.getDescription())) {
+            return ENUM_STATE;
+        }else {
+            return PLACEHOLD_STATE;
+        }
+    }
 }

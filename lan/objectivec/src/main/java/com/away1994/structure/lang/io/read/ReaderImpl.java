@@ -55,4 +55,15 @@ public class ReaderImpl implements Reader {
         return symbols;
     }
 
+    @Override
+    public <T extends Symbol> T getSymbol(T s) {
+        File f = new File(this.session.symbolsPath() + "/" + s.identify() + ".json");
+        Symbol symbol = null;
+        try {
+            symbol = new ObjectMapper().readerForUpdating(s).readValue(f);
+        } catch (IOException e) {
+            LOGGER.log(SEVERE, LogUtils.buildLogString(READ_TO_FILE_ERROR, new Object[]{f.getName(), e}));
+        }
+        return (T) symbol;
+    }
 }

@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -105,5 +106,14 @@ public class FileImpl extends SymbolImpl implements File {
         return State.FILE_STATE;
     }
 
+
+    @Override
+    public Collection<Symbol> allSymbols() {
+        ArrayList<Symbol> symbols = new ArrayList<>();
+        symbols.addAll(classes);
+        symbols.addAll(interfaces);
+        symbols.addAll(variables);
+        return symbols;
+    }
 
 }

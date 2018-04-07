@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
@@ -139,4 +140,16 @@ public class ClassImpl extends SymbolImpl implements Class {
         return State.CLASS_STATE;
     }
 
+
+    @Override
+    public Collection<Symbol> allSymbols() {
+        ArrayList<Symbol> symbols = new ArrayList<>();
+        symbols.addAll(iInterfaces );
+        symbols.addAll(superCls );
+        symbols.addAll(iVariables );
+        symbols.addAll(sVariables );
+        symbols.addAll(iFunctions );
+        symbols.addAll(sFunctions );
+        return symbols;
+    }
 }

@@ -10,6 +10,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -125,5 +127,10 @@ public class SymbolImpl implements Symbol {
 
         }
         return null;
+    }
+
+    @Override
+    public Collection<Symbol> allSymbols() {
+        return new ArrayList<>();
     }
 }
