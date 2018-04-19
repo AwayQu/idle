@@ -10,11 +10,15 @@ import com.away1994.tsp.constants.TestConstants;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import static com.away1994.common.constants.CommonConstants.LOGGING_PROPERTIES_PATH;
 import static com.away1994.common.utils.log.LogUtils.readLoggerConfigurationFromResourceFromClassClassLoader;
 import static com.away1994.tsp.constants.TestConstants.TEST_RESOURCES_PATH;
 
 public class ReadTest {
+    private static final transient Logger LOGGER = Logger.getLogger(ReadTest.class.getName());
 
     @Before
     public void parseFiles() throws Exception {
@@ -38,6 +42,18 @@ public class ReadTest {
 //        }
 //
 //    }
+    @Test
+    public void findAllClassTest() throws Exception {
+        readLoggerConfigurationFromResourceFromClassClassLoader(LOGGING_PROPERTIES_PATH,
+                ReadTest.class);
+
+        Session session = new SessionImpl(null, TEST_RESOURCES_PATH + "out/symbols");
+
+        AggregatorImpl aggregator = new AggregatorImpl(session);
+        String res = aggregator.getClassDiagram(1);
+
+        LOGGER.log(Level.SEVERE, res);
+    }
 
     @Test
     public void findClassTest() throws Exception {
@@ -46,7 +62,9 @@ public class ReadTest {
         Session session = new SessionImpl(null, TEST_RESOURCES_PATH + "out/symbols");
 
         AggregatorImpl aggregator = new AggregatorImpl(session);
-        aggregator.getClassDependencyInfo("Hello", 1);
+        String res = aggregator.getClassDependencyInfo("Hello", 1);
+
+        LOGGER.log(Level.SEVERE, res);
 
     }
 }

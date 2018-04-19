@@ -4,4 +4,5 @@ public interface Aggregator {
 
     public String getClassDependencyInfo(String className, int depth);
 
+
 }

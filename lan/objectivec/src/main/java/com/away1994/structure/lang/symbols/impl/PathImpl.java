@@ -5,7 +5,7 @@ import com.away1994.structure.lang.io.seriablize.serializer.FileDeserializer;
 import com.away1994.structure.lang.io.seriablize.serializer.FileSerializer;
 import com.away1994.structure.lang.io.seriablize.serializer.PathDeserializer;
 import com.away1994.structure.lang.io.seriablize.serializer.PathSerializer;
-import com.away1994.structure.lang.parser.State;
+import com.away1994.structure.lang.parser.Type;
 import com.away1994.structure.lang.symbols.File;
 import com.away1994.structure.lang.symbols.Path;
 import com.away1994.structure.lang.symbols.Symbol;
@@ -116,8 +116,8 @@ public class PathImpl extends SymbolImpl implements Path {
     }
 
     @Override
-    public State state() {
-        return State.PATH_STATE;
+    public Type state() {
+        return Type.PATH_STATE;
     }
 
     @Override

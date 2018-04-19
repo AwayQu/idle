@@ -1,6 +1,6 @@
 package com.away1994.structure.lang.symbols.impl;
 
-import com.away1994.structure.lang.parser.State;
+import com.away1994.structure.lang.parser.Type;
 import com.away1994.structure.lang.symbols.Function;
 import com.away1994.structure.lang.symbols.Symbol;
 
@@ -46,8 +46,8 @@ public class FunctionImpl extends SymbolImpl implements Function {
     }
 
     @Override
-    public State state() {
-        return State.FUNCTION_STATE;
+    public Type state() {
+        return Type.FUNCTION_STATE;
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.away1994.structure.lang.symbols.impl;
 
 import com.away1994.structure.lang.io.seriablize.serializer.*;
 import com.away1994.structure.lang.io.seriablize.views.Views;
-import com.away1994.structure.lang.parser.State;
+import com.away1994.structure.lang.parser.Type;
 import com.away1994.structure.lang.symbols.Class;
 import com.away1994.structure.lang.symbols.Function;
 import com.away1994.structure.lang.symbols.Interface;
@@ -144,8 +144,8 @@ public class ClassImpl extends SymbolImpl implements Class {
     }
 
     @Override
-    public State state() {
-        return State.CLASS_STATE;
+    public Type state() {
+        return Type.CLASS_STATE;
     }
 
 

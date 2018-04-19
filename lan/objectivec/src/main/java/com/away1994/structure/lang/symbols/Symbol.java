@@ -1,6 +1,6 @@
 package com.away1994.structure.lang.symbols;
 
-import com.away1994.structure.lang.parser.State;
+import com.away1994.structure.lang.parser.Type;
 
 import java.util.Collection;
 
@@ -24,7 +24,7 @@ public interface Symbol {
     public String description();
 
 
-    public State state();
+    public Type state();
 
 
     public Collection<Symbol> allSymbols();

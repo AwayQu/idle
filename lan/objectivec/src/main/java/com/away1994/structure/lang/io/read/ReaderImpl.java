@@ -4,7 +4,7 @@ package com.away1994.structure.lang.io.read;
 import com.away1994.common.utils.log.LogUtils;
 import com.away1994.structure.lang.aggregator.Session;
 import com.away1994.structure.lang.io.Reader;
-import com.away1994.structure.lang.parser.State;
+import com.away1994.structure.lang.parser.Type;
 import com.away1994.structure.lang.symbols.Symbol;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -29,8 +29,28 @@ public class ReaderImpl implements Reader {
     }
 
     @Override
-    public <T extends Symbol> Collection<T> getSymbols(String name, State type) {
+    public <T extends Symbol> Collection<T> getSymbols(String name, Type type) {
+        return this.getSymbols(type, type.getDescription() + "(" + name + ")");
+    }
 
+    @Override
+    public <T extends Symbol> T getSymbol(T s) {
+        File f = new File(this.session.symbolsPath() + "/" + s.identify() + ".json");
+        Symbol symbol = null;
+        try {
+            symbol = new ObjectMapper().readerForUpdating(s).readValue(f);
+        } catch (IOException e) {
+            LOGGER.log(SEVERE, LogUtils.buildLogString(READ_TO_FILE_ERROR, new Object[]{f.getName(), e}));
+        }
+        return (T) symbol;
+    }
+
+    @Override
+    public <T extends Symbol> Collection<T> getSymbols(Type type) {
+        return this.getSymbols(type, type.getDescription() + "(");
+    }
+
+    private <T extends Symbol> Collection<T> getSymbols(Type type, String match) {
         ArrayList<T> symbols = new ArrayList<>();
         File file = new File(this.session.symbolsPath());
 
@@ -39,7 +59,7 @@ public class ReaderImpl implements Reader {
             return null;
         for (File f : files) {
 
-            if (f.getName().startsWith(type.getDescription() + "(" + name + ")")) {
+            if (f.getName().startsWith(match)) {
                 LOGGER.log(INFO, "find class" + f.getName());
                 Symbol symbol = null;
                 try {
@@ -53,17 +73,7 @@ public class ReaderImpl implements Reader {
 
 
         return symbols;
-    }
 
-    @Override
-    public <T extends Symbol> T getSymbol(T s) {
-        File f = new File(this.session.symbolsPath() + "/" + s.identify() + ".json");
-        Symbol symbol = null;
-        try {
-            symbol = new ObjectMapper().readerForUpdating(s).readValue(f);
-        } catch (IOException e) {
-            LOGGER.log(SEVERE, LogUtils.buildLogString(READ_TO_FILE_ERROR, new Object[]{f.getName(), e}));
-        }
-        return (T) symbol;
+
     }
 }

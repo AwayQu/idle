@@ -2,7 +2,7 @@ package com.away1994.structure.lang.symbols.impl.variable;
 
 import com.away1994.structure.lang.io.seriablize.serializer.ClassDeserializer;
 import com.away1994.structure.lang.io.seriablize.serializer.ClassSerializer;
-import com.away1994.structure.lang.parser.State;
+import com.away1994.structure.lang.parser.Type;
 import com.away1994.structure.lang.symbols.Class;
 import com.away1994.structure.lang.symbols.Symbol;
 import com.away1994.structure.lang.symbols.impl.SymbolImpl;
@@ -65,8 +65,8 @@ public class VariableImpl extends SymbolImpl implements Variable {
     }
 
     @Override
-    public State state() {
-        return State.VARIABLE_STATE;
+    public Type state() {
+        return Type.VARIABLE_STATE;
     }
 
 

@@ -4,7 +4,7 @@ import com.away1994.structure.lang.symbols.Symbol;
 import com.away1994.structure.lang.symbols.impl.*;
 import com.away1994.structure.lang.symbols.impl.variable.VariableImpl;
 
-public enum State {
+public enum Type {
 
 
     PATH_STATE("$PATH", PathImpl.class),
@@ -27,7 +27,7 @@ public enum State {
     private Class<? extends Symbol> clazz;
     private String description;
 
-    State(final String description) {
+    Type(final String description) {
         this.description = description;
     }
 
@@ -39,12 +39,12 @@ public enum State {
         return clazz;
     }
 
-    State(String description, Class<? extends Symbol> clazz) {
+    Type(String description, Class<? extends Symbol> clazz) {
         this.clazz = clazz;
         this.description = description;
     }
 
-    public static State getState(String identify) {
+    public static Type getState(String identify) {
 
         if (identify.startsWith(PATH_STATE.getDescription())) {
             return PATH_STATE;

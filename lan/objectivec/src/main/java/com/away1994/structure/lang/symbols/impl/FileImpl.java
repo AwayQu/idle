@@ -2,7 +2,7 @@ package com.away1994.structure.lang.symbols.impl;
 
 import com.away1994.common.utils.log.LogUtils;
 import com.away1994.structure.lang.io.seriablize.serializer.*;
-import com.away1994.structure.lang.parser.State;
+import com.away1994.structure.lang.parser.Type;
 import com.away1994.structure.lang.symbols.Class;
 import com.away1994.structure.lang.symbols.File;
 import com.away1994.structure.lang.symbols.Interface;
@@ -102,8 +102,8 @@ public class FileImpl extends SymbolImpl implements File {
     }
 
     @Override
-    public State state() {
-        return State.FILE_STATE;
+    public Type state() {
+        return Type.FILE_STATE;
     }
 
 

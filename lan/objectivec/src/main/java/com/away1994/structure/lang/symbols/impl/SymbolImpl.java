@@ -4,7 +4,7 @@ import com.away1994.common.utils.log.LogUtils;
 import com.away1994.structure.lang.io.seriablize.serializer.SymbolDeserializer;
 import com.away1994.structure.lang.io.seriablize.serializer.SymbolSerializer;
 import com.away1994.structure.lang.io.seriablize.views.Views;
-import com.away1994.structure.lang.parser.State;
+import com.away1994.structure.lang.parser.Type;
 import com.away1994.structure.lang.symbols.Symbol;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -92,8 +92,8 @@ public class SymbolImpl implements Symbol {
     }
 
     @Override
-    public State state() {
-        return State.PLACEHOLD_STATE;
+    public Type state() {
+        return Type.PLACEHOLD_STATE;
     }
 
     @JsonView(Views.Internal.class)

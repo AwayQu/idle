@@ -4,7 +4,7 @@ import com.away1994.structure.lang.io.seriablize.serializer.ClassDeserializer;
 import com.away1994.structure.lang.io.seriablize.serializer.ClassSerializer;
 import com.away1994.structure.lang.io.seriablize.serializer.VariableDeserializer;
 import com.away1994.structure.lang.io.seriablize.serializer.VariableSerializer;
-import com.away1994.structure.lang.parser.State;
+import com.away1994.structure.lang.parser.Type;
 import com.away1994.structure.lang.symbols.Class;
 import com.away1994.structure.lang.symbols.Enumerator;
 import com.away1994.structure.lang.symbols.Symbol;
@@ -87,8 +87,8 @@ public class EnumeratorImpl extends SymbolImpl implements Enumerator {
     }
 
     @Override
-    public State state() {
-        return State.ENUM_STATE;
+    public Type state() {
+        return Type.ENUM_STATE;
     }
 
 

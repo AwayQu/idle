@@ -53,7 +53,7 @@ public class Parser {
         while (nextSymbols.size() != 0) {
             Symbol currentSymbol = nextSymbols.get(0);
             nextSymbols.remove(0);
-            State currentState = currentSymbol.state();
+            Type currentState = currentSymbol.state();
             ArrayList<Symbol> symbols = null;
             switch (currentState) {
                 case PATH_STATE:
