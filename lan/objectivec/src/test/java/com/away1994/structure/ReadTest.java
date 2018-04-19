@@ -2,6 +2,7 @@ package com.away1994.structure;
 
 import com.away1994.structure.lang.aggregator.Session;
 import com.away1994.structure.lang.aggregator.impl.AggregatorImpl;
+import com.away1994.structure.lang.aggregator.impl.ClassDiagram;
 import com.away1994.structure.lang.aggregator.impl.SessionImpl;
 import com.away1994.structure.lang.parser.Parser;
 import com.away1994.structure.lang.parser.impl.ObjectiveCLanguageParser;
@@ -50,9 +51,9 @@ public class ReadTest {
         Session session = new SessionImpl(null, TEST_RESOURCES_PATH + "out/symbols");
 
         AggregatorImpl aggregator = new AggregatorImpl(session);
-        String res = aggregator.getClassDiagram(1);
+        ClassDiagram classDiagram = aggregator.getClassDiagram(1);
 
-        LOGGER.log(Level.SEVERE, res);
+        LOGGER.log(Level.SEVERE, "" + classDiagram);
     }
 
     @Test

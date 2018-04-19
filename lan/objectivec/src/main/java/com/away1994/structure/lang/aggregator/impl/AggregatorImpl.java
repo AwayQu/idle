@@ -55,7 +55,7 @@ public class AggregatorImpl implements Aggregator {
     }
 
 
-    public String getClassDiagram(int depth) {
+    public ClassDiagram getClassDiagram(int depth) {
         /// TODO: Objective-C class info merge
         currentSession = session;
 
@@ -151,7 +151,7 @@ public class AggregatorImpl implements Aggregator {
             LOGGER.log(Level.SEVERE, LogUtils.buildLogString(ErrorConstants.WRITE_JSON_ERROR, e));
             e.printStackTrace();
         }
-        return value;
+        return classDiagram;
 
     }
 

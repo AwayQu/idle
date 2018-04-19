@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/java/example/calculator/calculator.iml" filepath="$PROJECT_DIR$/java/example/calculator/calculator.iml" />
       <module fileurl="file://$PROJECT_DIR$/g4/g4.iml" filepath="$PROJECT_DIR$/g4/g4.iml" />
       <module fileurl="file://$PROJECT_DIR$/idlecommand/idlecommand.iml" filepath="$PROJECT_DIR$/idlecommand/idlecommand.iml" />
+      <module fileurl="file://$PROJECT_DIR$/idlerest/idlerest.iml" filepath="$PROJECT_DIR$/idlerest/idlerest.iml" />
       <module fileurl="file://$PROJECT_DIR$/java/java.iml" filepath="$PROJECT_DIR$/java/java.iml" />
       <module fileurl="file://$PROJECT_DIR$/lan.iml" filepath="$PROJECT_DIR$/lan.iml" />
       <module fileurl="file://$PROJECT_DIR$/java/example/minijava/minijava.iml" filepath="$PROJECT_DIR$/java/example/minijava/minijava.iml" />

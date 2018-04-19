@@ -9,6 +9,7 @@
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/objectivec/pom.xml" />
+        <option value="$PROJECT_DIR$/idlerest/pom.xml" />
       </list>
     </option>
   </component>
