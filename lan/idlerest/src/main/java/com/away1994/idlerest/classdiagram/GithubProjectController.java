@@ -1,26 +1,65 @@
 package com.away1994.idlerest.classdiagram;
 
+import com.away1994.idlerest.PathUtils;
+import com.away1994.idlerest.bean.Response;
+import com.away1994.idlerest.config.BaseConfiguration;
 import com.away1994.structure.lang.aggregator.Session;
 import com.away1994.structure.lang.aggregator.impl.AggregatorImpl;
 import com.away1994.structure.lang.aggregator.impl.ClassDiagram;
 import com.away1994.structure.lang.aggregator.impl.SessionImpl;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.away1994.structure.lang.parser.Parser;
+import com.away1994.structure.lang.parser.impl.ObjectiveCLanguageParser;
+import com.away1994.structure.lang.symbols.impl.PathImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.concurrent.atomic.AtomicLong;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class GithubProjectController {
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
+
+    public static class Project {
+        public String url;
+    }
+
+    @Autowired
+    private BaseConfiguration configuration;
+
+    /**
+     * save user input project url
+     *
+     * @param projectURL
+     * @param project
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/github/project", method = RequestMethod.POST)
+    public Response project(@RequestBody Project proj, @CookieValue(value = "project", defaultValue = "") String project,
+                            HttpServletResponse response, HttpServletRequest request) {
+        if (proj.url == null) {
+            return new Response(Response.CODE_FAIL, Response.MSG_FAIL);
+        }
+        String projectURL = proj.url;
+        response.addCookie(new Cookie("project", projectURL));
+
+        Parser parser = new Parser(new PathImpl(PathUtils.append(configuration.getProjectPath(), projectURL)),
+                new ObjectiveCLanguageParser());
+        parser.setOutputPath(PathUtils.append(configuration.getSymbolsPath(), projectURL));
+        parser.runParseStateMachine();
+
+        return new Response(Response.CODE_SUCCESS, Response.MSG_SUCCESS);
+    }
+
 
     @RequestMapping(value = "/github", method = RequestMethod.GET)
-    public ClassDiagram github(@RequestParam(value="name", defaultValue="World") String name) {
-        Session session = new SessionImpl(null, "/Users/away/Desktop/symbols");
+    public ClassDiagram github(@CookieValue(value = "project", defaultValue = "") String project) {
 
-        AggregatorImpl aggregator = new AggregatorImpl(session);
+        Session idleSession = new SessionImpl(PathUtils.append(configuration.getProjectPath(), project),
+                PathUtils.append(configuration.getSymbolsPath(), project));
+
+        AggregatorImpl aggregator = new AggregatorImpl(idleSession);
         ClassDiagram res = aggregator.getClassDiagram(1);
         return res;
     }

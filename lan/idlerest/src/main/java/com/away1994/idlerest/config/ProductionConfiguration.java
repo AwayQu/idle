@@ -7,9 +7,20 @@ import org.springframework.context.annotation.Profile;
 @Profile("prod")
 public class ProductionConfiguration extends BaseConfiguration {
 
-    public String config = "prodTest";
+    private String projectPath = "/www/tmp/projects";
+    private String symbolsPath = "/www/tmp/symbols";
 
     public ProductionConfiguration() {
         System.out.print("1111");
+    }
+
+    @Override
+    public String getProjectPath() {
+        return projectPath;
+    }
+
+    @Override
+    public String getSymbolsPath() {
+        return symbolsPath;
     }
 }

@@ -22,7 +22,10 @@ public class Application {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/github").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/github").allowedOrigins("http://localhost:3000", "http://127.0.0.1:3000");
+                registry.addMapping("/github").allowCredentials(true); // cookie upload permission
+                registry.addMapping("/github/project").allowedOrigins("http://localhost:3000", "http://127.0.0.1:3000");
+                registry.addMapping("/github/project").allowCredentials(true); // cookie upload permission
             }
         };
     }
