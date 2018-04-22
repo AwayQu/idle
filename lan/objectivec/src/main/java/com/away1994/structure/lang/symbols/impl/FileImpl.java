@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 import static com.away1994.common.constants.log.ErrorConstants.OWNER_TYPE_ERROR;
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
-@JsonIgnoreProperties("otherSymbols")
+@JsonIgnoreProperties({"otherSymbols", "extension", "fullPath"})
 public class FileImpl extends SymbolImpl implements File {
 
     private static final transient Logger LOGGER = Logger.getLogger(FileImpl.class.getName());

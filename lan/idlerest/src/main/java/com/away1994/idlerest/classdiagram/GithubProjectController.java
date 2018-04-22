@@ -1,11 +1,12 @@
 package com.away1994.idlerest.classdiagram;
 
-import com.away1994.idlerest.PathUtils;
 import com.away1994.idlerest.bean.Response;
 import com.away1994.idlerest.config.BaseConfiguration;
+import com.away1994.structure.lang.PathUtils;
 import com.away1994.structure.lang.aggregator.Session;
 import com.away1994.structure.lang.aggregator.impl.AggregatorImpl;
 import com.away1994.structure.lang.aggregator.impl.ClassDiagram;
+import com.away1994.structure.lang.aggregator.impl.FileTree;
 import com.away1994.structure.lang.aggregator.impl.SessionImpl;
 import com.away1994.structure.lang.parser.Parser;
 import com.away1994.structure.lang.parser.impl.ObjectiveCLanguageParser;
@@ -30,7 +31,7 @@ public class GithubProjectController {
     /**
      * save user input project url
      *
-     * @param projectURL
+     * @param proj
      * @param project
      * @param response
      * @return
@@ -53,6 +54,7 @@ public class GithubProjectController {
     }
 
 
+
     @RequestMapping(value = "/github", method = RequestMethod.GET)
     public ClassDiagram github(@CookieValue(value = "project", defaultValue = "") String project) {
 
@@ -62,5 +64,16 @@ public class GithubProjectController {
         AggregatorImpl aggregator = new AggregatorImpl(idleSession);
         ClassDiagram res = aggregator.getClassDiagram(1);
         return res;
+    }
+
+    @RequestMapping(value="/fileTree", method = RequestMethod.GET)
+    public FileTree fileTree(@CookieValue(value = "project", defaultValue= "") String project) {
+
+        Session idleSession = new SessionImpl(PathUtils.append(configuration.getProjectPath(), project),
+                PathUtils.append(configuration.getSymbolsPath(), project));
+
+        AggregatorImpl aggregator = new AggregatorImpl(idleSession);
+
+        return aggregator.getFileTree();
     }
 }
