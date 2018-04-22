@@ -70,121 +70,10 @@ public class AggregatorImpl implements Aggregator {
         awakeSymbols(depth, iSymbols);
 
 
-        ClassDiagram classDiagram = new ClassDiagram();
-
-        //region generate all nodes and edges
-        for (ClassImpl clazz : symbols) {
-            ClassDiagram.ClassNode classNode = new ClassDiagram.ClassNode();
-
-            classNode.setIdentify(clazz.identify());
-            classNode.setClassName(clazz.getName());
-            for (Variable variable : clazz.iVariables) {
-                if (variable instanceof VariableImpl) {
-                    String attribute = ((VariableImpl) variable).getName();
-                    if (attribute != null)
-                        classNode.getAttributes().add(attribute);
-                }
-            }
-
-            for (Function function : clazz.iFunctions) {
-                if (function instanceof FunctionImpl) {
-                    String method = ((FunctionImpl) function).getName();
-                    if (method != null)
-                        classNode.getMethods().add(method);
-                }
-            }
-
-            classDiagram.getClasses().add(classNode);
-
-            for (com.away1994.structure.lang.symbols.Class superClazz : clazz.superCls) {
-                if (superClazz instanceof ClassImpl) {
-                    ClassDiagram.RelationEdge relationEdge = new ClassDiagram.RelationEdge();
-                    relationEdge.setFromClassName(clazz.getName());
-                    relationEdge.setFromIdentify(clazz.identify());
-                    relationEdge.setToClassName(((ClassImpl) superClazz).getName());
-                    relationEdge.setToIdentify(superClazz.identify());
-                    relationEdge.setRelation(ClassDiagram.Relation.RELATION_REALIZATION.getRelation());
-                    classDiagram.getRelations().add(relationEdge);
-                }
-            }
-
-            for (Interface interfaces : clazz.iInterfaces) {
-                if (interfaces instanceof InterfaceImpl) {
-                    ClassDiagram.RelationEdge relationEdge = new ClassDiagram.RelationEdge();
-                    relationEdge.setFromClassName(clazz.getName());
-                    relationEdge.setFromIdentify(clazz.identify());
-                    relationEdge.setRelation(ClassDiagram.Relation.RELATION_GENERALIZATION.getRelation());
-                    relationEdge.setToClassName(((InterfaceImpl) interfaces).getName());
-                    relationEdge.setToIdentify(interfaces.identify());
-                    classDiagram.getRelations().add(relationEdge);
-                }
-            }
-
-
-        }
-        //endregion
-
-        for (InterfaceImpl interfaces : iSymbols) {
-            ClassDiagram.ClassNode classNode = new ClassDiagram.ClassNode();
-
-            classNode.setIdentify(interfaces.identify());
-            classNode.setClassName(interfaces.getName());
-            for (Variable variable : interfaces.iVariables) {
-                if (variable instanceof VariableImpl) {
-                    String attribute = ((VariableImpl) variable).getName();
-                    if (attribute != null)
-                        classNode.getAttributes().add(attribute);
-                }
-            }
-
-            for (Function function : interfaces.iFunctions) {
-                if (function instanceof FunctionImpl) {
-                    String method = ((FunctionImpl) function).getName();
-                    if (method != null)
-                        classNode.getMethods().add(method);
-                }
-            }
-
-            classDiagram.getClasses().add(classNode);
-
-
-            for (Interface interfaces1 : interfaces.extendInterfaces) {
-                if (interfaces1 instanceof InterfaceImpl) {
-                    ClassDiagram.RelationEdge relationEdge = new ClassDiagram.RelationEdge();
-                    relationEdge.setFromClassName(((InterfaceImpl) interfaces1).getName());
-                    relationEdge.setFromIdentify(interfaces1.identify());
-                    relationEdge.setRelation(ClassDiagram.Relation.RELATION_GENERALIZATION.getRelation());
-                    relationEdge.setToClassName(((InterfaceImpl) interfaces).getName());
-                    relationEdge.setToIdentify(interfaces.identify());
-                    classDiagram.getRelations().add(relationEdge);
-                }
-            }
-        }
-
-        //region check no exist node
-        HashMap<String, ClassDiagram.ClassNode> map = new HashMap();
-        for (ClassDiagram.ClassNode node : classDiagram.getClasses()) {
-            map.put(node.getIdentify(), node);
-        }
-
-        for (ClassDiagram.RelationEdge relationEdge : classDiagram.relations) {
-            if (map.get(relationEdge.getFromIdentify()) == null) {
-                String symbolName = IdentifyUtils.getSymbolName(relationEdge.getFromIdentify());
-                if (fixNodeData(classDiagram, map, symbolName)) {
-                    relationEdge.setFromIdentify(symbolName);
-                    relationEdge.setFromClassName(symbolName);
-                }
-            }
-
-            if (map.get(relationEdge.getToIdentify()) == null) {
-                String symbolName = IdentifyUtils.getSymbolName(relationEdge.getToIdentify());
-                if (fixNodeData(classDiagram, map, symbolName)) {
-                    relationEdge.setToIdentify(symbolName);
-                    relationEdge.setToClassName(symbolName);
-                }
-            }
-        }
-        //endregion
+        ArrayList<Symbol> symbols1 = new ArrayList<>();
+        symbols1.addAll(symbols);
+        symbols1.addAll(iSymbols);
+        ClassDiagram classDiagram = getClassDiagram(symbols1, null);
 
 
         String value = null;
@@ -196,6 +85,23 @@ public class AggregatorImpl implements Aggregator {
         }
         return classDiagram;
 
+    }
+
+
+    @Override
+    public ClassDiagram getClassDiagram(ArrayList<String> identifyList, int depth) {
+        ArrayList<Symbol> symbols = new ArrayList<>();
+        for (String id : identifyList) {
+            Symbol s = reader.getSymbol(id);
+            if (s != null) {
+                symbols.add(s);
+            }
+        }
+        awakeSymbols(depth, symbols);
+
+        ClassDiagram diagram = this.getClassDiagram(symbols, null);
+
+        return diagram;
     }
 
     @Override
@@ -237,33 +143,6 @@ public class AggregatorImpl implements Aggregator {
 
     }
 
-    private <T extends Symbol> void awakeSymbols(int depth, Collection<T> symbols) {
-        ArrayList<Symbol> toAwakeSymbols = new ArrayList<>();
-        toAwakeSymbols.addAll(symbols);
-
-        while ((depth >= 0 || depth == -1000) && toAwakeSymbols.size() > 0) {
-            ArrayList<Symbol> t = new ArrayList<>();
-            for (Symbol s : toAwakeSymbols) {
-                reader.getSymbol(s);
-                t.addAll(s.allSymbols());
-            }
-            depth--;
-            toAwakeSymbols = t;
-        }
-    }
-
-    private Boolean fixNodeData(ClassDiagram classDiagram, HashMap<String, ClassDiagram.ClassNode> map, String symbolName) {
-        ClassDiagram.ClassNode node = map.get(symbolName);
-        if (node == null) {
-            node = new ClassDiagram.ClassNode();
-            node.setClassName(symbolName);
-            node.setIdentify(symbolName);
-        }
-        map.put(symbolName, node);
-        classDiagram.getClasses().add(node);
-        return true;
-
-    }
 
     @Override
     public String getClassDependencyInfo(String className, int depth) {
@@ -292,4 +171,163 @@ public class AggregatorImpl implements Aggregator {
         }
         return value;
     }
+
+    private <T extends Symbol> void awakeSymbols(int depth, Collection<T> symbols) {
+        ArrayList<Symbol> toAwakeSymbols = new ArrayList<>();
+        toAwakeSymbols.addAll(symbols);
+
+        while ((depth >= 0 || depth == -1000) && toAwakeSymbols.size() > 0) {
+            ArrayList<Symbol> t = new ArrayList<>();
+            for (Symbol s : toAwakeSymbols) {
+                reader.getSymbol(s);
+                t.addAll(s.allSymbols());
+            }
+            depth--;
+            toAwakeSymbols = t;
+        }
+    }
+
+    private Boolean fixNodeData(ClassDiagram classDiagram, HashMap<String, ClassDiagram.ClassNode> map, String symbolName) {
+        ClassDiagram.ClassNode node = map.get(symbolName);
+        if (node == null) {
+            node = new ClassDiagram.ClassNode();
+            node.setClassName(symbolName);
+            node.setIdentify(symbolName);
+        }
+        map.put(symbolName, node);
+        classDiagram.getClasses().add(node);
+        return true;
+
+    }
+
+
+    private ClassDiagram getClassDiagram(Collection<Symbol> symbols, ClassDiagram cd) {
+
+        ClassDiagram classDiagram = cd != null ? cd : new ClassDiagram();
+
+        //region generate all nodes and edges
+        for (Symbol s : symbols) {
+            if (s instanceof ClassImpl)
+                parseClass(classDiagram, (ClassImpl) s);
+            if (s instanceof InterfaceImpl)
+                parseInterface(classDiagram, (InterfaceImpl) s);
+            if (s instanceof FileImpl) {
+                getClassDiagram(s.allSymbols(), classDiagram);
+            }
+        }
+        //endregion
+
+        //region check no exist node
+        HashMap<String, ClassDiagram.ClassNode> map = new HashMap();
+        for (ClassDiagram.ClassNode node : classDiagram.getClasses()) {
+            map.put(node.getIdentify(), node);
+        }
+
+        for (ClassDiagram.RelationEdge relationEdge : classDiagram.relations) {
+            if (map.get(relationEdge.getFromIdentify()) == null) {
+                String symbolName = IdentifyUtils.getSymbolName(relationEdge.getFromIdentify());
+                if (fixNodeData(classDiagram, map, symbolName)) {
+                    relationEdge.setFromIdentify(symbolName);
+                    relationEdge.setFromClassName(symbolName);
+                }
+            }
+
+            if (map.get(relationEdge.getToIdentify()) == null) {
+                String symbolName = IdentifyUtils.getSymbolName(relationEdge.getToIdentify());
+                if (fixNodeData(classDiagram, map, symbolName)) {
+                    relationEdge.setToIdentify(symbolName);
+                    relationEdge.setToClassName(symbolName);
+                }
+            }
+        }
+        //endregion
+        return classDiagram;
+    }
+
+    private void parseInterface(ClassDiagram classDiagram, InterfaceImpl interfaces) {
+        ClassDiagram.ClassNode classNode = new ClassDiagram.ClassNode();
+
+        classNode.setIdentify(interfaces.identify());
+        classNode.setClassName(interfaces.getName());
+        for (Variable variable : interfaces.iVariables) {
+            if (variable instanceof VariableImpl) {
+                String attribute = ((VariableImpl) variable).getName();
+                if (attribute != null)
+                    classNode.getAttributes().add(attribute);
+            }
+        }
+
+        for (Function function : interfaces.iFunctions) {
+            if (function instanceof FunctionImpl) {
+                String method = ((FunctionImpl) function).getName();
+                if (method != null)
+                    classNode.getMethods().add(method);
+            }
+        }
+
+        classDiagram.getClasses().add(classNode);
+
+
+        for (Interface interfaces1 : interfaces.extendInterfaces) {
+            if (interfaces1 instanceof InterfaceImpl) {
+                ClassDiagram.RelationEdge relationEdge = new ClassDiagram.RelationEdge();
+                relationEdge.setFromClassName(((InterfaceImpl) interfaces1).getName());
+                relationEdge.setFromIdentify(interfaces1.identify());
+                relationEdge.setRelation(ClassDiagram.Relation.RELATION_GENERALIZATION.getRelation());
+                relationEdge.setToClassName(interfaces.getName());
+                relationEdge.setToIdentify(interfaces.identify());
+                classDiagram.getRelations().add(relationEdge);
+            }
+        }
+    }
+
+    private void parseClass(ClassDiagram classDiagram, ClassImpl clazz) {
+        ClassDiagram.ClassNode classNode = new ClassDiagram.ClassNode();
+
+        classNode.setIdentify(clazz.identify());
+        classNode.setClassName(clazz.getName());
+        for (Variable variable : clazz.iVariables) {
+            if (variable instanceof VariableImpl) {
+                String attribute = ((VariableImpl) variable).getName();
+                if (attribute != null)
+                    classNode.getAttributes().add(attribute);
+            }
+        }
+
+        for (Function function : clazz.iFunctions) {
+            if (function instanceof FunctionImpl) {
+                String method = ((FunctionImpl) function).getName();
+                if (method != null)
+                    classNode.getMethods().add(method);
+            }
+        }
+
+        classDiagram.getClasses().add(classNode);
+
+        for (com.away1994.structure.lang.symbols.Class superClazz : clazz.superCls) {
+            if (superClazz instanceof ClassImpl) {
+                ClassDiagram.RelationEdge relationEdge = new ClassDiagram.RelationEdge();
+                relationEdge.setFromClassName(clazz.getName());
+                relationEdge.setFromIdentify(clazz.identify());
+                relationEdge.setToClassName(((ClassImpl) superClazz).getName());
+                relationEdge.setToIdentify(superClazz.identify());
+                relationEdge.setRelation(ClassDiagram.Relation.RELATION_REALIZATION.getRelation());
+                classDiagram.getRelations().add(relationEdge);
+            }
+        }
+
+        for (Interface interfaces : clazz.iInterfaces) {
+            if (interfaces instanceof InterfaceImpl) {
+                ClassDiagram.RelationEdge relationEdge = new ClassDiagram.RelationEdge();
+                relationEdge.setFromClassName(clazz.getName());
+                relationEdge.setFromIdentify(clazz.identify());
+                relationEdge.setRelation(ClassDiagram.Relation.RELATION_GENERALIZATION.getRelation());
+                relationEdge.setToClassName(((InterfaceImpl) interfaces).getName());
+                relationEdge.setToIdentify(interfaces.identify());
+                classDiagram.getRelations().add(relationEdge);
+            }
+        }
+    }
+
+
 }

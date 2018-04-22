@@ -28,6 +28,7 @@ public class ReaderImpl implements Reader {
         this.session = session;
     }
 
+
     @Override
     public <T extends Symbol> Collection<T> getSymbols(String name, Type type) {
         return this.getSymbols(type, type.getDescription() + "(" + name + ")");
@@ -48,6 +49,18 @@ public class ReaderImpl implements Reader {
     @Override
     public <T extends Symbol> Collection<T> getSymbols(Type type) {
         return this.getSymbols(type, type.getDescription() + "(");
+    }
+
+    @Override
+    public <T extends Symbol> T getSymbol(String identify) {
+        File file = new File(this.session.symbolsPath() + "/" + identify + ".json");
+        Symbol symbol = null;
+        try {
+            symbol = new ObjectMapper().reader(Type.getState(identify).getClazz()).readValue(file);
+        } catch (IOException e) {
+            LOGGER.log(SEVERE, LogUtils.buildLogString(READ_TO_FILE_ERROR, new Object[]{file.getName(), e}));
+        }
+        return (T) symbol;
     }
 
     private <T extends Symbol> Collection<T> getSymbols(Type type, String match) {

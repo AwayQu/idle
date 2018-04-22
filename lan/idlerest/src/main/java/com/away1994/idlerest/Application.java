@@ -7,6 +7,8 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import java.util.ArrayList;
+
 @SpringBootApplication
 public class Application {
 
@@ -22,10 +24,16 @@ public class Application {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/github").allowedOrigins("http://localhost:3000", "http://127.0.0.1:3000");
-                registry.addMapping("/github").allowCredentials(true); // cookie upload permission
-                registry.addMapping("/github/project").allowedOrigins("http://localhost:3000", "http://127.0.0.1:3000");
-                registry.addMapping("/github/project").allowCredentials(true); // cookie upload permission
+                ArrayList<String> arrayList = new ArrayList<>();
+                arrayList.add("/github");
+                arrayList.add("/github/diagram/files");
+                arrayList.add("/github/fileTree");
+                arrayList.add("/github/project");
+
+                for (String url : arrayList) {
+                    registry.addMapping(url).allowedOrigins("http://localhost:3000", "http://127.0.0.1:3000");
+                    registry.addMapping(url).allowCredentials(true); // cookie upload permission
+                }
             }
         };
     }

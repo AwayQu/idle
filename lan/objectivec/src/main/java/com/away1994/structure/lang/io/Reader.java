@@ -18,4 +18,6 @@ public interface Reader {
     public <T extends Symbol> T getSymbol(T symbol);
 
     public <T extends Symbol> Collection<T> getSymbols(Type type);
+
+    public <T extends Symbol> T getSymbol(String identify);
 }

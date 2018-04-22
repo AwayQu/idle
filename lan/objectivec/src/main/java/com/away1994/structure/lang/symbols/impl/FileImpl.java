@@ -83,6 +83,29 @@ public class FileImpl extends SymbolImpl implements File {
 
     }
 
+    public ArrayList<Class> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(ArrayList<Class> classes) {
+        this.classes = classes;
+    }
+
+    public ArrayList<Interface> getInterfaces() {
+        return interfaces;
+    }
+
+    public void setInterfaces(ArrayList<Interface> interfaces) {
+        this.interfaces = interfaces;
+    }
+
+    public ArrayList<Variable> getVariables() {
+        return variables;
+    }
+
+    public void setVariables(ArrayList<Variable> variables) {
+        this.variables = variables;
+    }
 
     public String description() {
         StringBuilder sb = new StringBuilder();

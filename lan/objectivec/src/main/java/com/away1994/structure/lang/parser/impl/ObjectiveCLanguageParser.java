@@ -189,6 +189,11 @@ public class ObjectiveCLanguageParser implements LanguageParser {
 
         parseTreeVisitor.visit(parseTree);
 
+
+        file.getClasses().addAll(classes);
+        file.getInterfaces().addAll(interfaces);
+        // TODO: add variable
+        // TODO: add Enumerator
         symbols.addAll(classes);
         symbols.addAll(interfaces);
         symbols.addAll(enumerators);
