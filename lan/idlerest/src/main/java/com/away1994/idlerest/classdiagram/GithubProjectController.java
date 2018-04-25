@@ -3,12 +3,12 @@ package com.away1994.idlerest.classdiagram;
 import com.away1994.idlerest.bean.IdentifyList;
 import com.away1994.idlerest.bean.Response;
 import com.away1994.idlerest.config.BaseConfiguration;
-import com.away1994.structure.lang.PathUtils;
 import com.away1994.structure.lang.aggregator.Session;
 import com.away1994.structure.lang.aggregator.impl.AggregatorImpl;
 import com.away1994.structure.lang.aggregator.impl.ClassDiagram;
 import com.away1994.structure.lang.aggregator.impl.FileTree;
 import com.away1994.structure.lang.aggregator.impl.SessionImpl;
+import com.away1994.structure.utils.PathUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package com.away1994.structure.lang;
+package com.away1994.structure.utils;
 
 public class PathUtils {
     public static String append(String path, String project) {

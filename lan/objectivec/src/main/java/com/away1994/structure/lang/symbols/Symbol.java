@@ -28,4 +28,15 @@ public interface Symbol {
 
 
     public Collection<Symbol> allSymbols();
+
+
+    public void setName(String name);
+
+    public String getName();
+
+    public void setIdentify(String identify);
+
+    public void merge(Symbol s);
+
+
 }

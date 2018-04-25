@@ -12,6 +12,9 @@ public final class InfoConstants {
 
     public static final String VISIT_CLASS_INFO = "[info-idle-001] : Visited the [\"{0}\"] class";
 
+    public static final String READ_RELATIVE_SYMBOL = "[info-idle-002] : READ RELATIVE SYMBOL [\"{0}\"], IDENTIFY: [\"{1}\"]" +
+            "";
+
     private InfoConstants() {
         super();
     }

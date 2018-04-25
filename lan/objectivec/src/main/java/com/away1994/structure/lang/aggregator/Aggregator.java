@@ -7,8 +7,6 @@ import java.util.ArrayList;
 
 public interface Aggregator {
 
-    public String getClassDependencyInfo(String className, int depth);
-
     public ClassDiagram getClassDiagram(int depth);
 
     public ClassDiagram getClassDiagram(ArrayList<String> identifyList, int depth);

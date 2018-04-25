@@ -1,12 +1,12 @@
 package com.away1994.structure.lang.aggregator.impl;
 
 import com.away1994.common.constants.log.ErrorConstants;
+import com.away1994.common.constants.log.InfoConstants;
 import com.away1994.common.utils.log.LogUtils;
 import com.away1994.structure.lang.aggregator.Aggregator;
 import com.away1994.structure.lang.aggregator.Session;
 import com.away1994.structure.lang.io.Reader;
 import com.away1994.structure.lang.io.read.ReaderImpl;
-import com.away1994.structure.lang.io.seriablize.views.Views;
 import com.away1994.structure.lang.parser.Type;
 import com.away1994.structure.lang.symbols.Function;
 import com.away1994.structure.lang.symbols.Interface;
@@ -15,6 +15,7 @@ import com.away1994.structure.lang.symbols.impl.*;
 import com.away1994.structure.lang.symbols.impl.variable.VariableImpl;
 import com.away1994.structure.lang.symbols.variable.Variable;
 import com.away1994.structure.utils.IdentifyUtils;
+import com.away1994.structure.utils.PathUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -55,6 +56,14 @@ public class AggregatorImpl implements Aggregator {
     }
 
 
+    /**
+     * 1.聚合同一个类 散落在各个文件中的实现 （生产真正的类节点）
+     * 2.区分相对引用 和 绝对引用 通过相对引用找到聚合的类 （awake所有的identify）
+     * 3.将awake之后的所有节点，转化为node 和 edge
+     *
+     * @param depth
+     * @return
+     */
     @Override
     public ClassDiagram getClassDiagram(int depth) {
         /// TODO: Objective-C class info merge
@@ -62,18 +71,24 @@ public class AggregatorImpl implements Aggregator {
 
         Collection<ClassImpl> symbols = reader.getSymbols(Type.CLASS_STATE);
 
-
         awakeSymbols(depth, symbols);
 
         Collection<InterfaceImpl> iSymbols = reader.getSymbols(Type.INTERFACE_STATE);
 
         awakeSymbols(depth, iSymbols);
 
+        Collection<EnumeratorImpl> eSymbols = reader.getSymbols(Type.ENUM_STATE);
+
+        awakeSymbols(depth, eSymbols);
 
         ArrayList<Symbol> symbols1 = new ArrayList<>();
         symbols1.addAll(symbols);
         symbols1.addAll(iSymbols);
-        ClassDiagram classDiagram = getClassDiagram(symbols1, null);
+        symbols1.addAll(eSymbols);
+
+        Collection<Symbol> mergedSymbols = mergeSymbols(symbols1);
+
+        ClassDiagram classDiagram = getClassDiagram(mergedSymbols, null);
 
 
         String value = null;
@@ -130,7 +145,7 @@ public class AggregatorImpl implements Aggregator {
         for (PathImpl p : iSymbols) {
             FileTree.FD fd = new FileTree.FD();
             fd.setIdentify(p.identify());
-            fd.setName(com.away1994.structure.lang.PathUtils.getFileName(p.getName()));
+            fd.setName(PathUtils.getFileName(p.getName()));
             fd.setType(FileTree.Type.FOLDER_TYPE.getType());
             if (p.getOwner() != null) {
                 fd.setParent(p.getOwner().identify());
@@ -144,34 +159,15 @@ public class AggregatorImpl implements Aggregator {
     }
 
 
-    @Override
-    public String getClassDependencyInfo(String className, int depth) {
-        currentSession = session;
-        Collection<ClassImpl> symbols = reader.getSymbols(className, Type.CLASS_STATE);
-
-        ArrayList<Symbol> toAwakeSymbols = new ArrayList<>();
-        toAwakeSymbols.addAll(symbols);
-
-        while (depth >= 0 && toAwakeSymbols.size() > 0) {
-            ArrayList<Symbol> t = new ArrayList<>();
-            for (Symbol s : toAwakeSymbols) {
-                reader.getSymbol(s);
-                t.addAll(s.allSymbols());
-            }
-            depth--;
-            toAwakeSymbols = t;
-        }
-
-        String value = null;
-        try {
-            value = this.objectMapper.writerWithView(Views.WebViewPublic.class).writeValueAsString(symbols);
-        } catch (JsonProcessingException e) {
-            LOGGER.log(Level.SEVERE, LogUtils.buildLogString(ErrorConstants.WRITE_JSON_ERROR, e));
-            e.printStackTrace();
-        }
-        return value;
-    }
-
+    /**
+     * awakeSymbols from symbol list
+     * TODO: 1. 需要将absolute 引用 转向指向 对应符号
+     * 2. identify 需要区分为 相对引用（无文件存储，需要建立文件联系的） 和 绝对引用 （不需要建立联系的）
+     *
+     * @param depth
+     * @param symbols
+     * @param <T>
+     */
     private <T extends Symbol> void awakeSymbols(int depth, Collection<T> symbols) {
         ArrayList<Symbol> toAwakeSymbols = new ArrayList<>();
         toAwakeSymbols.addAll(symbols);
@@ -179,7 +175,17 @@ public class AggregatorImpl implements Aggregator {
         while ((depth >= 0 || depth == -1000) && toAwakeSymbols.size() > 0) {
             ArrayList<Symbol> t = new ArrayList<>();
             for (Symbol s : toAwakeSymbols) {
-                reader.getSymbol(s);
+                if (s == null) {
+                    continue;
+                }
+                if (reader.isSymbolExist(s)) {
+                    reader.getSymbol(s);
+                } else {
+                    String name = IdentifyUtils.getSymbolName(s.identify());
+                    LOGGER.log(Level.INFO, LogUtils.buildLogString(InfoConstants.READ_RELATIVE_SYMBOL, new String[]{name, s.identify()}));
+                    s.setName(name);
+                    s.setIdentify(name);
+                }
                 t.addAll(s.allSymbols());
             }
             depth--;
@@ -187,10 +193,10 @@ public class AggregatorImpl implements Aggregator {
         }
     }
 
-    private Boolean fixNodeData(ClassDiagram classDiagram, HashMap<String, ClassDiagram.ClassNode> map, String symbolName) {
-        ClassDiagram.ClassNode node = map.get(symbolName);
+    private Boolean fixNodeData(ClassDiagram classDiagram, HashMap<String, ClassDiagram.Node> map, String symbolName) {
+        ClassDiagram.Node node = map.get(symbolName);
         if (node == null) {
-            node = new ClassDiagram.ClassNode();
+            node = new ClassDiagram.Node();
             node.setClassName(symbolName);
             node.setIdentify(symbolName);
         }
@@ -214,12 +220,28 @@ public class AggregatorImpl implements Aggregator {
             if (s instanceof FileImpl) {
                 getClassDiagram(s.allSymbols(), classDiagram);
             }
+            if (s instanceof EnumeratorImpl) {
+                parseEnum(classDiagram, (EnumeratorImpl) s);
+            }
         }
         //endregion
 
+
         //region check no exist node
-        HashMap<String, ClassDiagram.ClassNode> map = new HashMap();
-        for (ClassDiagram.ClassNode node : classDiagram.getClasses()) {
+        checkNoExistNode(classDiagram);
+        //endregion
+        return classDiagram;
+    }
+
+    /**
+     * classDiagram 类图
+     * 存在一部分edge 的 v or w 没有对应的node， 补上这部分node
+     *
+     * @param classDiagram
+     */
+    private void checkNoExistNode(ClassDiagram classDiagram) {
+        HashMap<String, ClassDiagram.Node> map = new HashMap();
+        for (ClassDiagram.Node node : classDiagram.getClasses()) {
             map.put(node.getIdentify(), node);
         }
 
@@ -240,20 +262,42 @@ public class AggregatorImpl implements Aggregator {
                 }
             }
         }
-        //endregion
-        return classDiagram;
+    }
+
+    /**
+     * 解析enum
+     *
+     * @param classDiagram
+     * @param enumerator
+     */
+    private void parseEnum(ClassDiagram classDiagram, EnumeratorImpl enumerator) {
+        /// TODO: use cache or create
+        ClassDiagram.Node node = new ClassDiagram.Node();
+        node.setType(ClassDiagram.NodeType.Node_TYPE_ENUM.getType());
+        node.setIdentify(enumerator.identify());
+        node.setClassName(enumerator.getName());
+        for (Variable variable : enumerator.values) {
+            if (variable instanceof VariableImpl) {
+                String attribute = ((VariableImpl) variable).getName();
+                if (attribute != null)
+                    node.getAttributes().add(attribute);
+            }
+        }
+
+        classDiagram.getClasses().add(node);
+
     }
 
     private void parseInterface(ClassDiagram classDiagram, InterfaceImpl interfaces) {
-        ClassDiagram.ClassNode classNode = new ClassDiagram.ClassNode();
-
-        classNode.setIdentify(interfaces.identify());
-        classNode.setClassName(interfaces.getName());
+        ClassDiagram.Node node = new ClassDiagram.Node();
+        node.setType(ClassDiagram.NodeType.NODE_TYPE_INTERFACE.getType());
+        node.setIdentify(interfaces.identify());
+        node.setClassName(interfaces.getName());
         for (Variable variable : interfaces.iVariables) {
             if (variable instanceof VariableImpl) {
                 String attribute = ((VariableImpl) variable).getName();
                 if (attribute != null)
-                    classNode.getAttributes().add(attribute);
+                    node.getAttributes().add(attribute);
             }
         }
 
@@ -261,11 +305,11 @@ public class AggregatorImpl implements Aggregator {
             if (function instanceof FunctionImpl) {
                 String method = ((FunctionImpl) function).getName();
                 if (method != null)
-                    classNode.getMethods().add(method);
+                    node.getMethods().add(method);
             }
         }
 
-        classDiagram.getClasses().add(classNode);
+        classDiagram.getClasses().add(node);
 
 
         for (Interface interfaces1 : interfaces.extendInterfaces) {
@@ -282,15 +326,16 @@ public class AggregatorImpl implements Aggregator {
     }
 
     private void parseClass(ClassDiagram classDiagram, ClassImpl clazz) {
-        ClassDiagram.ClassNode classNode = new ClassDiagram.ClassNode();
+        ClassDiagram.Node node = new ClassDiagram.Node();
 
-        classNode.setIdentify(clazz.identify());
-        classNode.setClassName(clazz.getName());
+        node.setType(ClassDiagram.NodeType.NODE_TYPE_CLASS.getType());
+        node.setIdentify(clazz.identify());
+        node.setClassName(clazz.getName());
         for (Variable variable : clazz.iVariables) {
             if (variable instanceof VariableImpl) {
                 String attribute = ((VariableImpl) variable).getName();
                 if (attribute != null)
-                    classNode.getAttributes().add(attribute);
+                    node.getAttributes().add(attribute);
             }
         }
 
@@ -298,11 +343,11 @@ public class AggregatorImpl implements Aggregator {
             if (function instanceof FunctionImpl) {
                 String method = ((FunctionImpl) function).getName();
                 if (method != null)
-                    classNode.getMethods().add(method);
+                    node.getMethods().add(method);
             }
         }
 
-        classDiagram.getClasses().add(classNode);
+        classDiagram.getClasses().add(node);
 
         for (com.away1994.structure.lang.symbols.Class superClazz : clazz.superCls) {
             if (superClazz instanceof ClassImpl) {
@@ -329,5 +374,19 @@ public class AggregatorImpl implements Aggregator {
         }
     }
 
+    public Collection<Symbol> mergeSymbols(ArrayList<Symbol> symbols) {
+        HashMap<String, Symbol> sMaps = new HashMap<>();
+
+        for (Symbol s: symbols) {
+            Symbol n = sMaps.get(s.getName());
+            if ( n != null) {
+                n.merge(s);
+            } else {
+                sMaps.put(s.getName(), s);
+            }
+        }
+
+        return sMaps.values();
+    }
 
 }

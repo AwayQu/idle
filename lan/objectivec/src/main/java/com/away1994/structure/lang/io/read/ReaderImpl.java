@@ -7,13 +7,16 @@ import com.away1994.structure.lang.io.Reader;
 import com.away1994.structure.lang.parser.Type;
 import com.away1994.structure.lang.symbols.Symbol;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.istack.internal.NotNull;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
 
+import static com.away1994.common.constants.log.ErrorConstants.NOT_FOUND_FILE_ERROR;
 import static com.away1994.common.constants.log.ErrorConstants.READ_TO_FILE_ERROR;
 import static java.util.logging.Level.INFO;
 import static java.util.logging.Level.SEVERE;
@@ -34,12 +37,24 @@ public class ReaderImpl implements Reader {
         return this.getSymbols(type, type.getDescription() + "(" + name + ")");
     }
 
+    public <T extends Symbol> File getSymbolFile(@NotNull T s) {
+        return new File(this.session.symbolsPath() + "/" + s.identify() + ".json");
+    }
+
+    public <T extends Symbol> Boolean isSymbolExist(@NotNull T s) {
+        return this.getSymbolFile(s).exists();
+    }
     @Override
-    public <T extends Symbol> T getSymbol(T s) {
-        File f = new File(this.session.symbolsPath() + "/" + s.identify() + ".json");
+    public <T extends Symbol> T getSymbol(@NotNull T s) {
+        File f = getSymbolFile(s);
+        if (!f.exists()) {
+            return null;
+        }
         Symbol symbol = null;
         try {
             symbol = new ObjectMapper().readerForUpdating(s).readValue(f);
+        } catch (FileNotFoundException e) {
+            LOGGER.log(SEVERE, LogUtils.buildLogString(NOT_FOUND_FILE_ERROR, new Object[]{f.getName(), e}));
         } catch (IOException e) {
             LOGGER.log(SEVERE, LogUtils.buildLogString(READ_TO_FILE_ERROR, new Object[]{f.getName(), e}));
         }

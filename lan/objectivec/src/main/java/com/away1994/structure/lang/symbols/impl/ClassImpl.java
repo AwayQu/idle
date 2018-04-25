@@ -18,7 +18,6 @@ import java.util.Collection;
 import static com.away1994.tsp.constants.CommonConstants.LINE_SEPARATOR;
 
 
-
 public class ClassImpl extends SymbolImpl implements Class {
 
     public ClassImpl() {
@@ -93,7 +92,6 @@ public class ClassImpl extends SymbolImpl implements Class {
         sb.append(LINE_SEPARATOR);
 
 
-
         sb.append("superCls:");
         sb.append(LINE_SEPARATOR);
 
@@ -152,12 +150,28 @@ public class ClassImpl extends SymbolImpl implements Class {
     @Override
     public Collection<Symbol> allSymbols() {
         ArrayList<Symbol> symbols = new ArrayList<>();
-        symbols.addAll(iInterfaces );
-        symbols.addAll(superCls );
-        symbols.addAll(iVariables );
-        symbols.addAll(sVariables );
-        symbols.addAll(iFunctions );
-        symbols.addAll(sFunctions );
+        symbols.addAll(iInterfaces);
+        symbols.addAll(superCls);
+        symbols.addAll(iVariables);
+        symbols.addAll(sVariables);
+        symbols.addAll(iFunctions);
+        symbols.addAll(sFunctions);
         return symbols;
+    }
+
+    @Override
+    public void merge(Symbol s) {
+        super.merge(s);
+        if (s instanceof ClassImpl) {
+            // TODO: 去除 合并后 重复的方法 和 变量
+            ClassImpl c = (ClassImpl) s;
+            this.superCls.addAll(c.superCls);
+            this.iInterfaces.addAll(c.iInterfaces);
+            this.iVariables.addAll(c.iVariables);
+            this.sVariables.addAll(c.sVariables);
+            this.iFunctions.addAll(c.iFunctions);
+            this.sFunctions.addAll(c.sFunctions);
+        }
+
     }
 }

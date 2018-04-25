@@ -8,6 +8,11 @@ public class IdentifyUtils {
             return null;
         }
         int start = identify.indexOf("(");
+        /// like NSObject
+        if (start == -1) {
+            return identify;
+        }
+
         String subId = identify.substring(start);
         int nextIndex = subId.indexOf('$');
         String name = subId.substring(1, nextIndex - 1);

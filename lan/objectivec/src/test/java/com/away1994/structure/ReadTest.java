@@ -56,16 +56,4 @@ public class ReadTest {
         LOGGER.log(Level.SEVERE, "" + classDiagram);
     }
 
-    @Test
-    public void findClassTest() throws Exception {
-        readLoggerConfigurationFromResourceFromClassClassLoader(LOGGING_PROPERTIES_PATH,
-                ReadTest.class);
-        Session session = new SessionImpl(null, TEST_RESOURCES_PATH + "out/symbols");
-
-        AggregatorImpl aggregator = new AggregatorImpl(session);
-        String res = aggregator.getClassDependencyInfo("Hello", 1);
-
-        LOGGER.log(Level.SEVERE, res);
-
-    }
 }

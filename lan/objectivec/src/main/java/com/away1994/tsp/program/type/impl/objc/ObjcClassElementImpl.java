@@ -209,7 +209,6 @@ public class ObjcClassElementImpl extends AbstractTypeElement implements ClassEl
             ClassesDiagramElement e = new CDEClassImpl(this.getName());
             for (VariableElement variable : this.getProperties()) {
                 e.addItem(variable.getClassesDiagramItem());
-                ;
             }
             for (MethodElement method : this.getImplementMethods()) {
                 e.addItem(method.getClassesDiagramItem());

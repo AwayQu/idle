@@ -2,7 +2,9 @@ package com.away1994.structure.lang.io;
 
 import com.away1994.structure.lang.parser.Type;
 import com.away1994.structure.lang.symbols.Symbol;
+import com.sun.istack.internal.NotNull;
 
+import java.io.File;
 import java.util.Collection;
 
 public interface Reader {
@@ -20,4 +22,8 @@ public interface Reader {
     public <T extends Symbol> Collection<T> getSymbols(Type type);
 
     public <T extends Symbol> T getSymbol(String identify);
+
+    public <T extends Symbol> File getSymbolFile(@NotNull T s);
+
+    public <T extends Symbol> Boolean isSymbolExist(@NotNull T s);
 }

@@ -40,6 +40,7 @@ public class SymbolImpl implements Symbol {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -58,6 +59,11 @@ public class SymbolImpl implements Symbol {
     public SymbolImpl(String name, Symbol owner) {
         this.name = name;
         this.owner = owner;
+    }
+
+    @Override
+    public void setIdentify(String identify) {
+        this.setCachedIdentify(identify);
     }
 
     public SymbolImpl(String cachedIdentify) {
@@ -137,5 +143,10 @@ public class SymbolImpl implements Symbol {
     @Override
     public Collection<Symbol> allSymbols() {
         return new ArrayList<>();
+    }
+
+    @Override
+    public void merge(Symbol s) {
+
     }
 }

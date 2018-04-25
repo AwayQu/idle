@@ -7,6 +7,7 @@ import com.away1994.structure.lang.parser.LanguageParser;
 import com.away1994.structure.lang.symbols.Function;
 import com.away1994.structure.lang.symbols.Symbol;
 import com.away1994.structure.lang.symbols.impl.*;
+import com.away1994.structure.lang.symbols.impl.objectivec.ObjcClassImpl;
 import com.away1994.structure.lang.symbols.impl.variable.VariableImpl;
 import com.away1994.structure.lang.symbols.variable.Variable;
 import com.away1994.tsp.g4.ObjcG4Util;
@@ -110,7 +111,8 @@ public class ObjectiveCLanguageParser implements LanguageParser {
 
                 String name = ctx.classNameGeneric().className().getText();
 
-                ClassImpl clazz = new ClassImpl(name, file);
+                ObjcClassImpl clazz = new ObjcClassImpl(name, file);
+                clazz.setDeclarantType(ObjcClassImpl.DeclarationType.INTERFACE);
                 clazz.setRuleContext(ctx);
                 classes.add(clazz);
 
@@ -123,7 +125,8 @@ public class ObjectiveCLanguageParser implements LanguageParser {
             @Override
             public Object visitClassImplementation(ObjectiveCParser.ClassImplementationContext ctx) {
                 String name = ctx.classNameGeneric().className().getText();
-                ClassImpl clazz = new ClassImpl(name, file);
+                ObjcClassImpl clazz = new ObjcClassImpl(name, file);
+                clazz.setDeclarantType(ObjcClassImpl.DeclarationType.IMPLEMENTATION);
                 clazz.setRuleContext(ctx);
 
                 LOGGER.log(FINE, LogUtils.buildLogString(PARSE_CLASS_FINE, name));
@@ -138,8 +141,16 @@ public class ObjectiveCLanguageParser implements LanguageParser {
                 Boolean isAnonymous = ctx.categoryName() == null;
 
                 String name = ctx.classNameGeneric().className().getText();
-                name = isAnonymous ? name + "()" : name + ctx.categoryName().getText();
-                ClassImpl clazz = new ClassImpl(name, file);
+
+                ObjcClassImpl clazz = new ObjcClassImpl(name, file);
+
+                if (isAnonymous) {
+                    clazz.setDeclarantType(ObjcClassImpl.DeclarationType.ANONYMOUS_CATEGORY);
+                } else {
+                    clazz.setDeclarantType(ObjcClassImpl.DeclarationType.NAMED_CATEGORY);
+                    clazz.setCategoryName(ctx.categoryName().getText());
+                }
+
                 clazz.setRuleContext(ctx);
 
                 LOGGER.log(FINE, LogUtils.buildLogString(PARSE_CLASS_FINE, name));
@@ -150,9 +161,15 @@ public class ObjectiveCLanguageParser implements LanguageParser {
 
             @Override
             public Object visitCategoryImplementation(ObjectiveCParser.CategoryImplementationContext ctx) {
+
                 String name = ctx.classNameGeneric().className().getText();
-                ClassImpl clazz = new ClassImpl(name, file);
+
+                ObjcClassImpl clazz = new ObjcClassImpl(name, file);
+
+                clazz.setDeclarantType(ObjcClassImpl.DeclarationType.CATEGORY_IMPLEMENTATION);
+
                 clazz.setRuleContext(ctx);
+
                 classes.add(clazz);
 
                 LOGGER.log(FINE, LogUtils.buildLogString(PARSE_CLASS_FINE, name));

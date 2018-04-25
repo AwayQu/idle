@@ -27,6 +27,7 @@ public final class ErrorConstants {
 
     public static final String WRITE_JSON_ERROR = "[error-idle-008] : Write json , is fail with exception \"{1}\".";
 
+    public static final String NOT_FOUND_FILE_ERROR = "[error-idle-009] : The read file \"{0}\", is not exist \"{1}\".";
 
     private ErrorConstants() {
         super();

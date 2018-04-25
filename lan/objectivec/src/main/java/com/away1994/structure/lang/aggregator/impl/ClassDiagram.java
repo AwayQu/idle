@@ -24,11 +24,51 @@ public class ClassDiagram {
         }
     }
 
-    public static class ClassNode {
+    public enum NodeType {
+        Node_TYPE_ENUM("enumerator"),
+        NODE_TYPE_CLASS("class"),
+        NODE_TYPE_INTERFACE("interface");
+
+        private String type;
+
+        NodeType(String type) {
+            this.type = type;
+        }
+
+        public String getType() {
+            return type;
+        }
+    }
+
+    public static class Node {
+        /**
+         * 节点名称
+         */
         public String className;
+        /**
+         * 属性
+         */
         public ArrayList<String> attributes = new ArrayList<>();
+        /**
+         * 方法 TODO, 增加描述
+         */
         public ArrayList<String> methods = new ArrayList<>();
+        /**
+         * 节点ID
+         */
         public String identify;
+        /**
+         * 节点类型 NodeType.getType()
+         */
+        public String type;
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
 
         public String getClassName() {
             return className;
@@ -111,14 +151,14 @@ public class ClassDiagram {
         }
     }
 
-    public ArrayList<ClassNode> classes = new ArrayList<>();
+    public ArrayList<Node> classes = new ArrayList<>();
     public ArrayList<RelationEdge> relations = new ArrayList<>();
 
-    public ArrayList<ClassNode> getClasses() {
+    public ArrayList<Node> getClasses() {
         return classes;
     }
 
-    public void setClasses(ArrayList<ClassNode> classes) {
+    public void setClasses(ArrayList<Node> classes) {
         this.classes = classes;
     }
 
