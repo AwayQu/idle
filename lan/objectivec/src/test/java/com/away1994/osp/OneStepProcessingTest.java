@@ -73,8 +73,6 @@ public class OneStepProcessingTest {
         System.out.println(tree.toStringTree(parser));
 
 
-
-
     }
 
 
@@ -106,8 +104,6 @@ public class OneStepProcessingTest {
 //        ParseTree tree = parser.translationUnit();
 
 //        System.out.println(tree.toStringTree(parser));
-
-
 
 
     }

@@ -38,6 +38,18 @@ public class ParserTest {
         parser.runParseStateMachine();
     }
 
+    @Test
+    public void parserRAC() throws Exception {
+        readLoggerConfigurationFromResourceFromClassClassLoader(LOGGING_PROPERTIES_PATH,
+                ParserTest.class);
+
+        Parser parser = new Parser(new PathImpl(TestConstants.ReactiveCocoa_PROJECT_PATH),
+                new ObjectiveCLanguageParser());
+        parser.setOutputPath(TEST_RESOURCES_PATH + "out/symbols");
+        parser.runParseStateMachine();
+    }
+
+
 
     @Test
     public void parserAFNTest() throws Exception {

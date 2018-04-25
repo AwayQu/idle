@@ -112,9 +112,22 @@ public class AggregatorImpl implements Aggregator {
                 symbols.add(s);
             }
         }
+
         awakeSymbols(depth, symbols);
 
-        ClassDiagram diagram = this.getClassDiagram(symbols, null);
+        ArrayList<Symbol> toMergeSymbols = new ArrayList<>();
+        for (Symbol s : symbols) {
+            if (s instanceof FileImpl) {
+                toMergeSymbols.addAll(s.allSymbols());
+            } else {
+                toMergeSymbols.add(s);
+            }
+        }
+
+
+        Collection<Symbol> mergedSymbols = mergeSymbols(toMergeSymbols);
+
+        ClassDiagram diagram = this.getClassDiagram(mergedSymbols, null);
 
         return diagram;
     }
@@ -217,9 +230,6 @@ public class AggregatorImpl implements Aggregator {
                 parseClass(classDiagram, (ClassImpl) s);
             if (s instanceof InterfaceImpl)
                 parseInterface(classDiagram, (InterfaceImpl) s);
-            if (s instanceof FileImpl) {
-                getClassDiagram(s.allSymbols(), classDiagram);
-            }
             if (s instanceof EnumeratorImpl) {
                 parseEnum(classDiagram, (EnumeratorImpl) s);
             }
@@ -377,9 +387,9 @@ public class AggregatorImpl implements Aggregator {
     public Collection<Symbol> mergeSymbols(ArrayList<Symbol> symbols) {
         HashMap<String, Symbol> sMaps = new HashMap<>();
 
-        for (Symbol s: symbols) {
+        for (Symbol s : symbols) {
             Symbol n = sMaps.get(s.getName());
-            if ( n != null) {
+            if (n != null) {
                 n.merge(s);
             } else {
                 sMaps.put(s.getName(), s);
