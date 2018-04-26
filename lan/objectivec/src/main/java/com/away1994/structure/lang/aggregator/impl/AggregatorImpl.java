@@ -26,6 +26,7 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -56,131 +57,233 @@ public class AggregatorImpl implements Aggregator {
     }
 
 
-    /**
-     * 1.聚合同一个类 散落在各个文件中的实现 （生产真正的类节点）
-     * 2.区分相对引用 和 绝对引用 通过相对引用找到聚合的类 （awake所有的identify）
-     * 3.将awake之后的所有节点，转化为node 和 edge
-     *
-     * @param depth
-     * @return
-     */
     @Override
-    public ClassDiagram getClassDiagram(int depth) {
-        /// TODO: Objective-C class info merge
-        currentSession = session;
+    public ArrayList<ClassDiagram> getClassDiagrams(int depth) {
+        ClassDiagram diagram = this.getClassDiagram(depth);
 
-        Collection<ClassImpl> symbols = reader.getSymbols(Type.CLASS_STATE);
+        ArrayList<ClassDiagram> diagrams = getClassDiagrams(diagram);
 
-        awakeSymbols(depth, symbols);
-
-        Collection<InterfaceImpl> iSymbols = reader.getSymbols(Type.INTERFACE_STATE);
-
-        awakeSymbols(depth, iSymbols);
-
-        Collection<EnumeratorImpl> eSymbols = reader.getSymbols(Type.ENUM_STATE);
-
-        awakeSymbols(depth, eSymbols);
-
-        ArrayList<Symbol> symbols1 = new ArrayList<>();
-        symbols1.addAll(symbols);
-        symbols1.addAll(iSymbols);
-        symbols1.addAll(eSymbols);
-
-        Collection<Symbol> mergedSymbols = mergeSymbols(symbols1);
-
-        ClassDiagram classDiagram = getClassDiagram(mergedSymbols, null);
-
-
-        String value = null;
-        try {
-            value = this.objectMapper.writeValueAsString(classDiagram);
-        } catch (JsonProcessingException e) {
-            LOGGER.log(Level.SEVERE, LogUtils.buildLogString(ErrorConstants.WRITE_JSON_ERROR, e));
-            e.printStackTrace();
-        }
-        return classDiagram;
-
-    }
-
-
-    @Override
-    public ClassDiagram getClassDiagram(ArrayList<String> identifyList, int depth) {
-        ArrayList<Symbol> symbols = new ArrayList<>();
-        for (String id : identifyList) {
-            Symbol s = reader.getSymbol(id);
-            if (s != null) {
-                symbols.add(s);
-            }
-        }
-
-        awakeSymbols(depth, symbols);
-
-        ArrayList<Symbol> toMergeSymbols = new ArrayList<>();
-        for (Symbol s : symbols) {
-            if (s instanceof FileImpl) {
-                toMergeSymbols.addAll(s.allSymbols());
-            } else {
-                toMergeSymbols.add(s);
-            }
-        }
-
-
-        Collection<Symbol> mergedSymbols = mergeSymbols(toMergeSymbols);
-
-        ClassDiagram diagram = this.getClassDiagram(mergedSymbols, null);
-
-        return diagram;
+        return diagrams;
     }
 
     @Override
-    public FileTree getFileTree() {
-        int depth = 1;
-        Collection<FileImpl> symbols = reader.getSymbols(Type.FILE_STATE);
+    public ArrayList<ClassDiagram> getClassDiagrams(ArrayList<String> identifyList, int depth) {
 
-        awakeSymbols(depth, symbols);
+        ClassDiagram diagram = this.getClassDiagram(identifyList, depth);
 
-        Collection<PathImpl> iSymbols = reader.getSymbols(Type.PATH_STATE);
+        ArrayList<ClassDiagram> diagrams = getClassDiagrams(diagram);
 
-        awakeSymbols(depth, iSymbols);
-
-        FileTree fileTree = new FileTree();
-        for (FileImpl f : symbols) {
-            FileTree.FD fd = new FileTree.FD();
-            fd.setIdentify(f.identify());
-            fd.setName(f.getName());
-            fd.setType(FileTree.Type.FILE_TYPE.getType());
-            if (f.getOwner() != null) {
-                fd.setParent(f.getOwner().identify());
-            }
-            fileTree.getFds().add(fd);
-        }
-
-        for (PathImpl p : iSymbols) {
-            FileTree.FD fd = new FileTree.FD();
-            fd.setIdentify(p.identify());
-            fd.setName(PathUtils.getFileName(p.getName()));
-            fd.setType(FileTree.Type.FOLDER_TYPE.getType());
-            if (p.getOwner() != null) {
-                fd.setParent(p.getOwner().identify());
-            }
-            fileTree.getFds().add(fd);
-        }
-
-
-        return fileTree;
-
+        return diagrams;
     }
 
+    private ArrayList<ClassDiagram> getClassDiagrams(ClassDiagram diagram) {
+        HashSet<ClassDiagram.RelationEdge> relationEdges = new HashSet<>(diagram.getRelations());
+        HashSet<ClassDiagram.Node> nodes = new HashSet<>(diagram.getClasses());
+
+        HashMap<String, ClassDiagram.Node> keyedNodes = new HashMap<>();
+
+        for (ClassDiagram.Node n : nodes) {
+            keyedNodes.put(n.identify, n);
+        }
+
+        ArrayList<ClassDiagram> diagrams = new ArrayList<>();
+
+        ClassDiagram d = new ClassDiagram();
+        diagrams.add(d);
+        HashSet<ClassDiagram.RelationEdge> nextRes = new HashSet<>(relationEdges);
+        while (nextRes.size() != 0) {
+            HashSet<ClassDiagram.RelationEdge> t = new HashSet<ClassDiagram.RelationEdge>(nextRes);
+            Boolean added = false;
+            for (ClassDiagram.RelationEdge e : t) {
+                if (d.getClasses().size() == 0) {
+                    ClassDiagram.Node node1 = keyedNodes.get(e.getFromIdentify());
+                    ClassDiagram.Node node2 = keyedNodes.get(e.getToIdentify());
+                    if (node1 != null) {
+                        d.getClasses().add(node1);
+                        nodes.remove(node1);
+                    } else {
+                        LOGGER.log(Level.SEVERE, "error");
+                    }
+                    if (node2 != null) {
+                        d.getClasses().add(node2);
+                        nodes.remove(node1);
+                    } else {
+                        LOGGER.log(Level.SEVERE, "error");
+                    }
+
+                    d.getRelations().add(e);
+                    nextRes.remove(e);
+                    added = true;
+                } else {
+                    ClassDiagram.Node node1 = keyedNodes.get(e.getFromIdentify());
+                    ClassDiagram.Node node2 = keyedNodes.get(e.getToIdentify());
+                    if ((node1 != null && d.getClasses().contains(node1)) ||
+                            (node2 != null && d.getClasses().contains(node2))) {
+
+                        ClassDiagram.Node toRemove = null;
+                        if ((d.getClasses().contains(node1) && node1 != null) &&
+                                (node2 != null && !d.getClasses().contains(node2))) {
+                            toRemove = node2;
+                        }
+
+                        if ((d.getClasses().contains(node2) && node2 != null) &&
+                                (node1 != null && !d.getClasses().contains(node1))) {
+                            toRemove = node1;
+                        }
+
+                        if (toRemove != null) {
+                            d.getClasses().add(toRemove);
+                            nodes.remove(toRemove);
+                            d.getRelations().add(e);
+                            nextRes.remove(e);
+                            added = true;
+                        }
+
+                    }
+                }
+            }
+
+            if (!added) {
+                d = new ClassDiagram();
+                diagrams.add(d);
+            }
+        }
+
+        if (nodes.size() > 0) {
+            assert nextRes.size() == 0;
+            d = new ClassDiagram();
+            diagrams.add(d);
+            d.getClasses().addAll(nodes);
+        }
+        return diagrams;
+    }
 
     /**
-     * awakeSymbols from symbol list
-     * TODO: 1. 需要将absolute 引用 转向指向 对应符号
-     * 2. identify 需要区分为 相对引用（无文件存储，需要建立文件联系的） 和 绝对引用 （不需要建立联系的）
-     *
-     * @param depth
-     * @param symbols
-     * @param <T>
-     */
+         * 1.聚合同一个类 散落在各个文件中的实现 （生产真正的类节点）
+         * 2.区分相对引用 和 绝对引用 通过相对引用找到聚合的类 （awake所有的identify）
+         * 3.将awake之后的所有节点，转化为node 和 edge
+         *
+         * @param depth
+         * @return
+         */
+        @Override
+        public ClassDiagram getClassDiagram ( int depth){
+            /// TODO: Objective-C class info merge
+            currentSession = session;
+
+            Collection<ClassImpl> symbols = reader.getSymbols(Type.CLASS_STATE);
+
+            awakeSymbols(depth, symbols);
+
+            Collection<InterfaceImpl> iSymbols = reader.getSymbols(Type.INTERFACE_STATE);
+
+            awakeSymbols(depth, iSymbols);
+
+            Collection<EnumeratorImpl> eSymbols = reader.getSymbols(Type.ENUM_STATE);
+
+            awakeSymbols(depth, eSymbols);
+
+            ArrayList<Symbol> symbols1 = new ArrayList<>();
+            symbols1.addAll(symbols);
+            symbols1.addAll(iSymbols);
+            symbols1.addAll(eSymbols);
+
+            Collection<Symbol> mergedSymbols = mergeSymbols(symbols1);
+
+            ClassDiagram classDiagram = getClassDiagram(mergedSymbols, null);
+
+
+            String value = null;
+            try {
+                value = this.objectMapper.writeValueAsString(classDiagram);
+            } catch (JsonProcessingException e) {
+                LOGGER.log(Level.SEVERE, LogUtils.buildLogString(ErrorConstants.WRITE_JSON_ERROR, e));
+                e.printStackTrace();
+            }
+            return classDiagram;
+
+        }
+
+
+        @Override
+        public ClassDiagram getClassDiagram (ArrayList < String > identifyList,int depth){
+            ArrayList<Symbol> symbols = new ArrayList<>();
+            for (String id : identifyList) {
+                Symbol s = reader.getSymbol(id);
+                if (s != null) {
+                    symbols.add(s);
+                }
+            }
+
+            awakeSymbols(depth, symbols);
+
+            ArrayList<Symbol> toMergeSymbols = new ArrayList<>();
+            for (Symbol s : symbols) {
+                if (s instanceof FileImpl) {
+                    toMergeSymbols.addAll(s.allSymbols());
+                } else {
+                    toMergeSymbols.add(s);
+                }
+            }
+
+
+            Collection<Symbol> mergedSymbols = mergeSymbols(toMergeSymbols);
+
+            ClassDiagram diagram = this.getClassDiagram(mergedSymbols, null);
+
+            return diagram;
+        }
+
+        @Override
+        public FileTree getFileTree () {
+            int depth = 1;
+            Collection<FileImpl> symbols = reader.getSymbols(Type.FILE_STATE);
+
+            awakeSymbols(depth, symbols);
+
+            Collection<PathImpl> iSymbols = reader.getSymbols(Type.PATH_STATE);
+
+            awakeSymbols(depth, iSymbols);
+
+            FileTree fileTree = new FileTree();
+            for (FileImpl f : symbols) {
+                FileTree.FD fd = new FileTree.FD();
+                fd.setIdentify(f.identify());
+                fd.setName(f.getName());
+                fd.setType(FileTree.Type.FILE_TYPE.getType());
+                if (f.getOwner() != null) {
+                    fd.setParent(f.getOwner().identify());
+                }
+                fileTree.getFds().add(fd);
+            }
+
+            for (PathImpl p : iSymbols) {
+                FileTree.FD fd = new FileTree.FD();
+                fd.setIdentify(p.identify());
+                fd.setName(PathUtils.getFileName(p.getName()));
+                fd.setType(FileTree.Type.FOLDER_TYPE.getType());
+                if (p.getOwner() != null) {
+                    fd.setParent(p.getOwner().identify());
+                }
+                fileTree.getFds().add(fd);
+            }
+
+
+            return fileTree;
+
+        }
+
+
+        /**
+         * awakeSymbols from symbol list
+         * TODO: 1. 需要将absolute 引用 转向指向 对应符号
+         * 2. identify 需要区分为 相对引用（无文件存储，需要建立文件联系的） 和 绝对引用 （不需要建立联系的）
+         *
+         * @param depth
+         * @param symbols
+         * @param <T>
+         */
+
     private <T extends Symbol> void awakeSymbols(int depth, Collection<T> symbols) {
         ArrayList<Symbol> toAwakeSymbols = new ArrayList<>();
         toAwakeSymbols.addAll(symbols);

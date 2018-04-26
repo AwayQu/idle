@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 
 @RestController
 public class GithubProjectController {
@@ -52,14 +53,24 @@ public class GithubProjectController {
     }
 
     @RequestMapping(value = "/github/diagram/files", method = RequestMethod.POST)
-    public ClassDiagram files(@RequestBody IdentifyList identifyList, @CookieValue(value = "project", defaultValue = "") String project) {
+    public ArrayList<ClassDiagram> files(@RequestBody IdentifyList identifyList, @CookieValue(value = "project", defaultValue = "") String project) {
         Session idleSession = new SessionImpl(PathUtils.append(configuration.getProjectPath(), project),
                 PathUtils.append(configuration.getSymbolsPath(), project));
 
         AggregatorImpl aggregator = new AggregatorImpl(idleSession);
-        ClassDiagram res = aggregator.getClassDiagram(identifyList.getIdentifies(), 2);
+        ArrayList<ClassDiagram> res = aggregator.getClassDiagrams(identifyList.getIdentifies(), 2);
         return res;
     }
+//
+//    @RequestMapping(value = "/github/diagram/files", method = RequestMethod.POST)
+//    public ClassDiagram files(@RequestBody IdentifyList identifyList, @CookieValue(value = "project", defaultValue = "") String project) {
+//        Session idleSession = new SessionImpl(PathUtils.append(configuration.getProjectPath(), project),
+//                PathUtils.append(configuration.getSymbolsPath(), project));
+//
+//        AggregatorImpl aggregator = new AggregatorImpl(idleSession);
+//        ClassDiagram res = aggregator.getClassDiagram(identifyList.getIdentifies(), 2);
+//        return res;
+//    }
 
 
     @RequestMapping(value = "/github", method = RequestMethod.POST)
