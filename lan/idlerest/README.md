@@ -11,3 +11,8 @@ cd idlerest
 mvn package -Dmaven.test.skip=true
 
 ```
+
+
+### deploy
+
+https://www.mkyong.com/spring-boot/spring-boot-deploy-war-file-to-tomcat/
