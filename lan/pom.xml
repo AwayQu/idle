@@ -12,6 +12,7 @@
     <modules>
         <module>idlecommand</module>
         <module>objectivec</module>
+        <module>idlerest</module>
     </modules>
 
     <dependencyManagement>
