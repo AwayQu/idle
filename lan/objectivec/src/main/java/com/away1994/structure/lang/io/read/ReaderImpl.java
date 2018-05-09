@@ -7,7 +7,6 @@ import com.away1994.structure.lang.io.Reader;
 import com.away1994.structure.lang.parser.Type;
 import com.away1994.structure.lang.symbols.Symbol;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.istack.internal.NotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,15 +36,15 @@ public class ReaderImpl implements Reader {
         return this.getSymbols(type, type.getDescription() + "(" + name + ")");
     }
 
-    public <T extends Symbol> File getSymbolFile(@NotNull T s) {
+    public <T extends Symbol> File getSymbolFile( T s) {
         return new File(this.session.symbolsPath() + "/" + s.identify() + ".json");
     }
 
-    public <T extends Symbol> Boolean isSymbolExist(@NotNull T s) {
+    public <T extends Symbol> Boolean isSymbolExist( T s) {
         return this.getSymbolFile(s).exists();
     }
     @Override
-    public <T extends Symbol> T getSymbol(@NotNull T s) {
+    public <T extends Symbol> T getSymbol(T s) {
         File f = getSymbolFile(s);
         if (!f.exists()) {
             return null;
