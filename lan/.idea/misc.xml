@@ -3,6 +3,7 @@
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="ejb" url="file://$PROJECT_DIR$/objectivec" />
     <file type="javaeeApplication" url="file://$PROJECT_DIR$/idlecommand" />
+    <file type="web" url="file://$PROJECT_DIR$/idlerest" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
