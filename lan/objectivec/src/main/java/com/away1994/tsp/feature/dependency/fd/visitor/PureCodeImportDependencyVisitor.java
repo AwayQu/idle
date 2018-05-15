@@ -4,8 +4,8 @@
 package com.away1994.tsp.feature.dependency.fd.visitor;
 
 import com.away1994.tsp.feature.dependency.fd.ImportDependency;
-import com.away1994.tsp.gen.ObjectiveCParser;
-import com.away1994.tsp.gen.ObjectiveCParserBaseVisitor;
+import com.away1994.tsp.gen.objectivec.ObjectiveCParser;
+import com.away1994.tsp.gen.objectivec.ObjectiveCParserBaseVisitor;
 
 public class PureCodeImportDependencyVisitor extends ObjectiveCParserBaseVisitor<ImportDependency.FileNode> {
 

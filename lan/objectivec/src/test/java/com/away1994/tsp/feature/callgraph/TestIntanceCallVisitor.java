@@ -1,7 +1,7 @@
 package com.away1994.tsp.feature.callgraph;
 
-import com.away1994.tsp.gen.ObjectiveCParser;
-import com.away1994.tsp.gen.ObjectiveCParserBaseVisitor;
+import com.away1994.tsp.gen.objectivec.ObjectiveCParser;
+import com.away1994.tsp.gen.objectivec.ObjectiveCParserBaseVisitor;
 
 public class TestIntanceCallVisitor extends ObjectiveCParserBaseVisitor {
 

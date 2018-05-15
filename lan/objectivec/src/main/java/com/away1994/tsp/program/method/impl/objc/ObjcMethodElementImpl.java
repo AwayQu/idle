@@ -1,6 +1,6 @@
 package com.away1994.tsp.program.method.impl.objc;
 
-import com.away1994.tsp.gen.ObjectiveCParser;
+import com.away1994.tsp.gen.objectivec.ObjectiveCParser;
 import com.away1994.tsp.program.method.AbstractMethodElement;
 import com.away1994.tsp.program.method.MethodTag;
 import org.antlr.v4.runtime.tree.ParseTree;

@@ -3,7 +3,7 @@ package com.away1994.tsp.feature.dependency.fd;
 import com.away1994.tsp.feature.dependency.fd.visitor.DirectiveImportDependencyVisitor;
 import com.away1994.tsp.feature.dependency.fd.visitor.PureCodeImportDependencyVisitor;
 import com.away1994.tsp.g4.ObjcG4Util;
-import com.away1994.tsp.gen.ObjectiveCPreprocessorParser;
+import com.away1994.tsp.gen.objectivec.ObjectiveCPreprocessorParser;
 import com.away1994.tsp.visitor.ObjectiveCPreprocessor;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.tree.ParseTree;

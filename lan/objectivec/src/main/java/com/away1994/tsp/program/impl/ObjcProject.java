@@ -8,8 +8,8 @@ import com.away1994.tsp.feature.plantuml.classes.relation.ClassesDiagramRelation
 import com.away1994.tsp.feature.structure.ps.graph.ProjectStructureGraph;
 import com.away1994.tsp.feature.structure.ps.scan.FileScan;
 import com.away1994.tsp.feature.uml.classdiagram.visitor.ClassDiagramFileVisitor;
-import com.away1994.tsp.gen.ObjectiveCParser;
-import com.away1994.tsp.gen.ObjectiveCParserBaseVisitor;
+import com.away1994.tsp.gen.objectivec.ObjectiveCParser;
+import com.away1994.tsp.gen.objectivec.ObjectiveCParserBaseVisitor;
 import com.away1994.tsp.language.Lan;
 import com.away1994.tsp.program.AbstractProject;
 import com.away1994.tsp.program.type.ClassElement;

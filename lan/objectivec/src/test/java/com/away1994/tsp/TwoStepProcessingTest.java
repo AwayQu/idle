@@ -2,10 +2,10 @@ package com.away1994.tsp; /**
  * Created by away on 13/08/2017.
  */
 
-import com.away1994.tsp.gen.ObjectiveCLexer;
-import com.away1994.tsp.gen.ObjectiveCParser;
-import com.away1994.tsp.gen.ObjectiveCPreprocessorLexer;
-import com.away1994.tsp.gen.ObjectiveCPreprocessorParser;
+import com.away1994.tsp.gen.objectivec.ObjectiveCLexer;
+import com.away1994.tsp.gen.objectivec.ObjectiveCParser;
+import com.away1994.tsp.gen.objectivec.ObjectiveCPreprocessorLexer;
+import com.away1994.tsp.gen.objectivec.ObjectiveCPreprocessorParser;
 import com.away1994.tsp.visitor.ObjectiveCPreprocessor;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;

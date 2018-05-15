@@ -5,7 +5,7 @@ import com.away1994.tsp.feature.plantuml.classes.element.impl.CDEEnumImpl;
 import com.away1994.tsp.feature.plantuml.classes.element.item.CDItemTag;
 import com.away1994.tsp.feature.plantuml.classes.element.item.ClassesDiagramItem;
 import com.away1994.tsp.feature.plantuml.classes.element.item.impl.CDItemImpl;
-import com.away1994.tsp.gen.ObjectiveCParser;
+import com.away1994.tsp.gen.objectivec.ObjectiveCParser;
 import com.away1994.tsp.program.type.AbstractTypeElement;
 import com.away1994.tsp.program.type.EnumElement;
 

@@ -4,8 +4,8 @@ import com.away1994.tsp.feature.callgraph.builder.CGBuilder;
 import com.away1994.tsp.feature.callgraph.node.CallGraph;
 import com.away1994.tsp.feature.callgraph.node.CallGraphNode;
 import com.away1994.tsp.feature.callgraph.node.Declaration;
-import com.away1994.tsp.gen.ObjectiveCParser;
-import com.away1994.tsp.gen.ObjectiveCParserBaseVisitor;
+import com.away1994.tsp.gen.objectivec.ObjectiveCParser;
+import com.away1994.tsp.gen.objectivec.ObjectiveCParserBaseVisitor;
 
 public class CallVisitor extends ObjectiveCParserBaseVisitor<CGBuilder> {
 

@@ -1,8 +1,8 @@
 package com.away1994.osp;
 
-import com.away1994.gen.ObjectiveCLexer;
-import com.away1994.gen.ObjectiveCParser;
-import com.away1994.gen.ObjectiveCPreprocessorParser;
+import com.away1994.gen.objectivec.ObjectiveCLexer;
+import com.away1994.gen.objectivec.ObjectiveCParser;
+import com.away1994.gen.objectivec.ObjectiveCPreprocessorParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;

@@ -1,7 +1,7 @@
 package com.away1994.tsp.visitor;
 
-import com.away1994.tsp.gen.ObjectiveCPreprocessorParser;
-import com.away1994.tsp.gen.ObjectiveCPreprocessorParserBaseVisitor;
+import com.away1994.tsp.gen.objectivec.ObjectiveCPreprocessorParser;
+import com.away1994.tsp.gen.objectivec.ObjectiveCPreprocessorParserBaseVisitor;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 import java.util.HashMap;

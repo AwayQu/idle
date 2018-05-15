@@ -6,7 +6,7 @@ import com.away1994.tsp.feature.plantuml.classes.element.impl.CDEInterfaceImpl;
 import com.away1994.tsp.feature.plantuml.classes.relation.ClassesDiagramRelation;
 import com.away1994.tsp.feature.plantuml.classes.relation.impl.CDRExtendImpl;
 import com.away1994.tsp.feature.plantuml.classes.relation.impl.CDRImplementImpl;
-import com.away1994.tsp.gen.ObjectiveCParser;
+import com.away1994.tsp.gen.objectivec.ObjectiveCParser;
 import com.away1994.tsp.program.method.MethodElement;
 import com.away1994.tsp.program.method.MethodTag;
 import com.away1994.tsp.program.method.impl.objc.ObjcMethodElementImpl;

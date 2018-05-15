@@ -4,8 +4,8 @@
 package com.away1994.tsp.feature.dependency.fd.visitor;
 
 import com.away1994.tsp.feature.dependency.fd.ImportDependency;
-import com.away1994.tsp.gen.ObjectiveCPreprocessorParser;
-import com.away1994.tsp.gen.ObjectiveCPreprocessorParserBaseVisitor;
+import com.away1994.tsp.gen.objectivec.ObjectiveCPreprocessorParser;
+import com.away1994.tsp.gen.objectivec.ObjectiveCPreprocessorParserBaseVisitor;
 
 public class DirectiveImportDependencyVisitor extends ObjectiveCPreprocessorParserBaseVisitor<ImportDependency.FileNode> {
     @Override

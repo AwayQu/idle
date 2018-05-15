@@ -1,7 +1,7 @@
 package com.away1994.tsp.feature.uml.classdiagram.visitor;
 
-import com.away1994.tsp.gen.ObjectiveCParser;
-import com.away1994.tsp.gen.ObjectiveCParserBaseVisitor;
+import com.away1994.tsp.gen.objectivec.ObjectiveCParser;
+import com.away1994.tsp.gen.objectivec.ObjectiveCParserBaseVisitor;
 
 import java.util.List;
 
