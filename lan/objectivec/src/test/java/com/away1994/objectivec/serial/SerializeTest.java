@@ -1,5 +1,6 @@
-package com.away1994.structure;
+package com.away1994.objectivec.serial;
 
+import com.away1994.objectivec.parser.ParserTest;
 import com.away1994.structure.lang.io.seriablize.views.Views;
 import com.away1994.structure.lang.symbols.impl.ClassImpl;
 import com.away1994.structure.lang.symbols.impl.FileImpl;

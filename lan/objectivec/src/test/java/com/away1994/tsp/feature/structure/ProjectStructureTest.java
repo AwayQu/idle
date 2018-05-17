@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.io.FileWriter;
 
-import static com.away1994.tsp.constants.TestConstants.TEST_RESOURCES_PATH;
+import static com.away1994.constants.TestConstants.TEST_RESOURCES_PATH;
 
 public class ProjectStructureTest {
 

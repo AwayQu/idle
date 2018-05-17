@@ -1,4 +1,4 @@
-package com.away1994.tsp.g4;
+package com.away1994.structure.lang.parser.impl.objectivec;
 
 import com.away1994.tsp.gen.objectivec.ObjectiveCLexer;
 import com.away1994.tsp.gen.objectivec.ObjectiveCParser;

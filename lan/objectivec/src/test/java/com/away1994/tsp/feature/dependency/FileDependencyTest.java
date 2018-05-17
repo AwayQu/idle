@@ -11,8 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.away1994.tsp.constants.TestConstants.ACTIVITY_PROJECT_PATH;
-import static com.away1994.tsp.constants.TestConstants.TEST_RESOURCES_PATH;
+import static com.away1994.constants.TestConstants.ACTIVITY_PROJECT_PATH;
+import static com.away1994.constants.TestConstants.TEST_RESOURCES_PATH;
 
 public class FileDependencyTest {
     @Test

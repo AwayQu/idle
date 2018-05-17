@@ -3,7 +3,7 @@ package com.away1994.tsp.feature.uml.classdiagram.visitor;
 import com.away1994.tsp.basic.file.AbstractFileVisitor;
 import com.away1994.tsp.basic.file.DirectoryNode;
 import com.away1994.tsp.basic.file.FileNode;
-import com.away1994.tsp.g4.ObjcG4Util;
+import com.away1994.structure.lang.parser.impl.objectivec.ObjcG4Util;
 import com.away1994.tsp.language.Language;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;

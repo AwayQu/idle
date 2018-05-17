@@ -8,18 +8,18 @@ import com.away1994.tsp.feature.structure.ps.scan.FileScan;
 import com.away1994.tsp.feature.uml.classdiagram.visitor.ClassDiagramFileVisitor;
 import com.away1994.tsp.feature.uml.classdiagram.visitor.ClassVisitor;
 import com.away1994.tsp.feature.uml.classdiagram.visitor.ObjcClassVisitor;
-import com.away1994.tsp.g4.ObjcG4Util;
+import com.away1994.structure.lang.parser.impl.objectivec.ObjcG4Util;
 import com.away1994.tsp.g4.Output;
 import com.away1994.tsp.language.Lan;
-import com.away1994.tsp.visitor.TestObjcBaseVisitor;
+import com.away1994.objectivec.g4.TestObjcBaseVisitor;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 
 import java.util.HashMap;
 
-import static com.away1994.tsp.constants.TestConstants.IOS_HELLO_PROJECT_PATH;
-import static com.away1994.tsp.constants.TestConstants.TEST_RESOURCES_PATH;
+import static com.away1994.constants.TestConstants.IOS_HELLO_PROJECT_PATH;
+import static com.away1994.constants.TestConstants.TEST_RESOURCES_PATH;
 
 public class ClassDiagramTest {
     @Test

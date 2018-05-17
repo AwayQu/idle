@@ -1,4 +1,4 @@
-package com.away1994.tsp.visitor;
+package com.away1994.objectivec.g4;
 
 import com.away1994.tsp.gen.objectivec.ObjectiveCParser;
 import com.away1994.tsp.gen.objectivec.ObjectiveCParserBaseVisitor;

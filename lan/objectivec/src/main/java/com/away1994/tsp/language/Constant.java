@@ -3,7 +3,7 @@ package com.away1994.tsp.language;
 public class Constant {
     public static String LANGUAGE_OBJECTIVE_C = "ObjectiveC";
     public static String LANGUAGE_PYTHON = "python";
-    public static String LANGUAGE_JAVA = "java";
+    public static String LANGUAGE_JAVA8 = "java8";
 
     public static String EXTENSION_H = "h";
     public static String EXTENSION_M = "m";

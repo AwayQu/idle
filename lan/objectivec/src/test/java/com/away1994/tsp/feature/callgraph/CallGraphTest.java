@@ -2,14 +2,14 @@ package com.away1994.tsp.feature.callgraph;
 
 import com.away1994.tsp.feature.callgraph.node.CallGraph;
 import com.away1994.tsp.feature.callgraph.visitor.CallVisitor;
-import com.away1994.tsp.g4.ObjcG4Util;
+import com.away1994.structure.lang.parser.impl.objectivec.ObjcG4Util;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
-import static com.away1994.tsp.constants.TestConstants.TEST_RESOURCES_PATH;
+import static com.away1994.constants.TestConstants.TEST_RESOURCES_PATH;
 
 public class CallGraphTest {
 

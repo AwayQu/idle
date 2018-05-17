@@ -1,4 +1,4 @@
-package com.away1994.osp;
+package com.away1994.objectivec.g4;
 
 import com.away1994.gen.objectivec.ObjectiveCLexer;
 import com.away1994.gen.objectivec.ObjectiveCParser;

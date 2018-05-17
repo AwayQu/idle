@@ -21,8 +21,8 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.TreeSet;
 
-import static com.away1994.tsp.constants.TestConstants.IOS_HELLO_PROJECT_PATH;
-import static com.away1994.tsp.constants.TestConstants.TEST_RESOURCES_PATH;
+import static com.away1994.constants.TestConstants.IOS_HELLO_PROJECT_PATH;
+import static com.away1994.constants.TestConstants.TEST_RESOURCES_PATH;
 
 public class PlantUMLTest {
 

@@ -1,13 +1,13 @@
-package com.away1994.structure;
+package com.away1994.objectivec.parser;
 
 import com.away1994.structure.lang.aggregator.Session;
 import com.away1994.structure.lang.aggregator.impl.AggregatorImpl;
 import com.away1994.structure.lang.aggregator.impl.ClassDiagram;
 import com.away1994.structure.lang.aggregator.impl.SessionImpl;
 import com.away1994.structure.lang.parser.Parser;
-import com.away1994.structure.lang.parser.impl.ObjectiveCLanguageParser;
+import com.away1994.structure.lang.parser.impl.objectivec.ObjectiveCLanguageParser;
 import com.away1994.structure.lang.symbols.impl.PathImpl;
-import com.away1994.tsp.constants.TestConstants;
+import com.away1994.constants.TestConstants;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 import static com.away1994.common.constants.CommonConstants.LOGGING_PROPERTIES_PATH;
 import static com.away1994.common.utils.log.LogUtils.readLoggerConfigurationFromResourceFromClassClassLoader;
-import static com.away1994.tsp.constants.TestConstants.TEST_RESOURCES_PATH;
+import static com.away1994.constants.TestConstants.TEST_RESOURCES_PATH;
 
 public class ReadTest {
     private static final transient Logger LOGGER = Logger.getLogger(ReadTest.class.getName());

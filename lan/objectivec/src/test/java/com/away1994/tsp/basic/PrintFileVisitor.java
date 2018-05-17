@@ -13,7 +13,7 @@ public class PrintFileVisitor extends BaseNodeVisitor<String> implements FileVis
 
     public String getIndent() {
         StringBuilder sb = new StringBuilder("");
-        for (int i =0; i< this.getDepth(); i++) {
+        for (int i = 0; i < this.getDepth(); i++) {
             sb.append("----");
         }
 
