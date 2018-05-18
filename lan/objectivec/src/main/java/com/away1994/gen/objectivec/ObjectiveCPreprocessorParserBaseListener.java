@@ -15,6 +15,42 @@ public class ObjectiveCPreprocessorParserBaseListener implements ObjectiveCPrepr
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterObjectiveCDocument(ObjectiveCPreprocessorParser.ObjectiveCDocumentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitObjectiveCDocument(ObjectiveCPreprocessorParser.ObjectiveCDocumentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterText(ObjectiveCPreprocessorParser.TextContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitText(ObjectiveCPreprocessorParser.TextContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCode(ObjectiveCPreprocessorParser.CodeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCode(ObjectiveCPreprocessorParser.CodeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterPreprocessorImport(ObjectiveCPreprocessorParser.PreprocessorImportContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -75,18 +111,6 @@ public class ObjectiveCPreprocessorParserBaseListener implements ObjectiveCPrepr
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPreprocessorWarning(ObjectiveCPreprocessorParser.PreprocessorWarningContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPreprocessorWarning(ObjectiveCPreprocessorParser.PreprocessorWarningContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterPreprocessorDefine(ObjectiveCPreprocessorParser.PreprocessorDefineContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -99,13 +123,13 @@ public class ObjectiveCPreprocessorParserBaseListener implements ObjectiveCPrepr
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDirectiveText(ObjectiveCPreprocessorParser.DirectiveTextContext ctx) { }
+	@Override public void enterDirective_text(ObjectiveCPreprocessorParser.Directive_textContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDirectiveText(ObjectiveCPreprocessorParser.DirectiveTextContext ctx) { }
+	@Override public void exitDirective_text(ObjectiveCPreprocessorParser.Directive_textContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

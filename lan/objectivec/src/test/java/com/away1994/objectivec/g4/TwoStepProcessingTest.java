@@ -2,11 +2,11 @@ package com.away1994.objectivec.g4; /**
  * Created by away on 13/08/2017.
  */
 
-import com.away1994.tsp.gen.objectivec.ObjectiveCLexer;
-import com.away1994.tsp.gen.objectivec.ObjectiveCParser;
-import com.away1994.tsp.gen.objectivec.ObjectiveCPreprocessorLexer;
-import com.away1994.tsp.gen.objectivec.ObjectiveCPreprocessorParser;
-import com.away1994.tsp.visitor.ObjectiveCPreprocessor;
+import com.away1994.gen.objectivec.ObjectiveCLexer;
+import com.away1994.gen.objectivec.ObjectiveCParser;
+import com.away1994.gen.objectivec.ObjectiveCPreprocessorLexer;
+import com.away1994.gen.objectivec.ObjectiveCPreprocessorParser;
+import com.away1994.dist.visitor.ObjectiveCPreprocessor;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;

@@ -1,8 +1,8 @@
 package com.away1994.commandline;
 
-import com.away1994.tsp.g4.Output;
-import com.away1994.tsp.program.Project;
-import com.away1994.tsp.program.impl.ObjcProject;
+import com.away1994.dist.g4.Output;
+import com.away1994.dist.program.Project;
+import com.away1994.dist.program.impl.ObjcProject;
 import io.airlift.airline.*;
 
 import java.io.File;
@@ -59,7 +59,7 @@ public class IDLE {
 
             project.readProject();
 
-            com.away1994.tsp.feature.plantuml.classes.ClassesDiagram diagram = project.getClassesDiagram();
+            com.away1994.dist.feature.plantuml.classes.ClassesDiagram diagram = project.getClassesDiagram();
             try {
                 String out = output != null ? output: "./" + file.getName() + ".puml";
                 Output.writeToFile(out, diagram.getPUTextDescription());

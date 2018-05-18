@@ -1,12 +1,12 @@
 package com.away1994.objectivec.serial;
 
 import com.away1994.objectivec.parser.ParserTest;
-import com.away1994.structure.lang.io.seriablize.views.Views;
-import com.away1994.structure.lang.symbols.impl.ClassImpl;
-import com.away1994.structure.lang.symbols.impl.FileImpl;
-import com.away1994.structure.lang.symbols.impl.FunctionImpl;
-import com.away1994.structure.lang.symbols.impl.InterfaceImpl;
-import com.away1994.structure.lang.symbols.impl.variable.VariableImpl;
+import com.away1994.lang.io.seriablize.views.Views;
+import com.away1994.lang.symbols.impl.ClassImpl;
+import com.away1994.lang.symbols.impl.FileImpl;
+import com.away1994.lang.symbols.impl.FunctionImpl;
+import com.away1994.lang.symbols.impl.InterfaceImpl;
+import com.away1994.lang.symbols.impl.variable.VariableImpl;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;

@@ -1,7 +1,7 @@
 package com.away1994.java8.g4;
 
-import com.away1994.tsp.gen.java8.Java8BaseVisitor;
-import com.away1994.tsp.gen.java8.Java8Parser;
+import com.away1994.gen.java8.Java8BaseVisitor;
+import com.away1994.gen.java8.Java8Parser;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 public class TestJava8BaseVisitor extends Java8BaseVisitor<String> {

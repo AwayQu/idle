@@ -7,6 +7,36 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface ObjectiveCPreprocessorParserListener extends ParseTreeListener {
 	/**
+	 * Enter a parse tree produced by {@link ObjectiveCPreprocessorParser#objectiveCDocument}.
+	 * @param ctx the parse tree
+	 */
+	void enterObjectiveCDocument(ObjectiveCPreprocessorParser.ObjectiveCDocumentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ObjectiveCPreprocessorParser#objectiveCDocument}.
+	 * @param ctx the parse tree
+	 */
+	void exitObjectiveCDocument(ObjectiveCPreprocessorParser.ObjectiveCDocumentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ObjectiveCPreprocessorParser#text}.
+	 * @param ctx the parse tree
+	 */
+	void enterText(ObjectiveCPreprocessorParser.TextContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ObjectiveCPreprocessorParser#text}.
+	 * @param ctx the parse tree
+	 */
+	void exitText(ObjectiveCPreprocessorParser.TextContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ObjectiveCPreprocessorParser#code}.
+	 * @param ctx the parse tree
+	 */
+	void enterCode(ObjectiveCPreprocessorParser.CodeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ObjectiveCPreprocessorParser#code}.
+	 * @param ctx the parse tree
+	 */
+	void exitCode(ObjectiveCPreprocessorParser.CodeContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code preprocessorImport}
 	 * labeled alternative in {@link ObjectiveCPreprocessorParser#directive}.
 	 * @param ctx the parse tree
@@ -67,18 +97,6 @@ public interface ObjectiveCPreprocessorParserListener extends ParseTreeListener 
 	 */
 	void exitPreprocessorError(ObjectiveCPreprocessorParser.PreprocessorErrorContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code preprocessorWarning}
-	 * labeled alternative in {@link ObjectiveCPreprocessorParser#directive}.
-	 * @param ctx the parse tree
-	 */
-	void enterPreprocessorWarning(ObjectiveCPreprocessorParser.PreprocessorWarningContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code preprocessorWarning}
-	 * labeled alternative in {@link ObjectiveCPreprocessorParser#directive}.
-	 * @param ctx the parse tree
-	 */
-	void exitPreprocessorWarning(ObjectiveCPreprocessorParser.PreprocessorWarningContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code preprocessorDefine}
 	 * labeled alternative in {@link ObjectiveCPreprocessorParser#directive}.
 	 * @param ctx the parse tree
@@ -91,84 +109,84 @@ public interface ObjectiveCPreprocessorParserListener extends ParseTreeListener 
 	 */
 	void exitPreprocessorDefine(ObjectiveCPreprocessorParser.PreprocessorDefineContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ObjectiveCPreprocessorParser#directiveText}.
+	 * Enter a parse tree produced by {@link ObjectiveCPreprocessorParser#directive_text}.
 	 * @param ctx the parse tree
 	 */
-	void enterDirectiveText(ObjectiveCPreprocessorParser.DirectiveTextContext ctx);
+	void enterDirective_text(ObjectiveCPreprocessorParser.Directive_textContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ObjectiveCPreprocessorParser#directiveText}.
+	 * Exit a parse tree produced by {@link ObjectiveCPreprocessorParser#directive_text}.
 	 * @param ctx the parse tree
 	 */
-	void exitDirectiveText(ObjectiveCPreprocessorParser.DirectiveTextContext ctx);
+	void exitDirective_text(ObjectiveCPreprocessorParser.Directive_textContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code preprocessorParenthesis}
-	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessorExpression}.
+	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessor_expression}.
 	 * @param ctx the parse tree
 	 */
 	void enterPreprocessorParenthesis(ObjectiveCPreprocessorParser.PreprocessorParenthesisContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code preprocessorParenthesis}
-	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessorExpression}.
+	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessor_expression}.
 	 * @param ctx the parse tree
 	 */
 	void exitPreprocessorParenthesis(ObjectiveCPreprocessorParser.PreprocessorParenthesisContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code preprocessorNot}
-	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessorExpression}.
+	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessor_expression}.
 	 * @param ctx the parse tree
 	 */
 	void enterPreprocessorNot(ObjectiveCPreprocessorParser.PreprocessorNotContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code preprocessorNot}
-	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessorExpression}.
+	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessor_expression}.
 	 * @param ctx the parse tree
 	 */
 	void exitPreprocessorNot(ObjectiveCPreprocessorParser.PreprocessorNotContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code preprocessorBinary}
-	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessorExpression}.
+	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessor_expression}.
 	 * @param ctx the parse tree
 	 */
 	void enterPreprocessorBinary(ObjectiveCPreprocessorParser.PreprocessorBinaryContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code preprocessorBinary}
-	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessorExpression}.
+	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessor_expression}.
 	 * @param ctx the parse tree
 	 */
 	void exitPreprocessorBinary(ObjectiveCPreprocessorParser.PreprocessorBinaryContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code preprocessorConstant}
-	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessorExpression}.
+	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessor_expression}.
 	 * @param ctx the parse tree
 	 */
 	void enterPreprocessorConstant(ObjectiveCPreprocessorParser.PreprocessorConstantContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code preprocessorConstant}
-	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessorExpression}.
+	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessor_expression}.
 	 * @param ctx the parse tree
 	 */
 	void exitPreprocessorConstant(ObjectiveCPreprocessorParser.PreprocessorConstantContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code preprocessorConditionalSymbol}
-	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessorExpression}.
+	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessor_expression}.
 	 * @param ctx the parse tree
 	 */
 	void enterPreprocessorConditionalSymbol(ObjectiveCPreprocessorParser.PreprocessorConditionalSymbolContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code preprocessorConditionalSymbol}
-	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessorExpression}.
+	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessor_expression}.
 	 * @param ctx the parse tree
 	 */
 	void exitPreprocessorConditionalSymbol(ObjectiveCPreprocessorParser.PreprocessorConditionalSymbolContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code preprocessorDefined}
-	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessorExpression}.
+	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessor_expression}.
 	 * @param ctx the parse tree
 	 */
 	void enterPreprocessorDefined(ObjectiveCPreprocessorParser.PreprocessorDefinedContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code preprocessorDefined}
-	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessorExpression}.
+	 * labeled alternative in {@link ObjectiveCPreprocessorParser#preprocessor_expression}.
 	 * @param ctx the parse tree
 	 */
 	void exitPreprocessorDefined(ObjectiveCPreprocessorParser.PreprocessorDefinedContext ctx);

@@ -1,8 +1,8 @@
 package com.away1994.java8.parser;
 
-import com.away1994.structure.lang.parser.Parser;
-import com.away1994.structure.lang.parser.impl.java.JavaLanguageParser;
-import com.away1994.structure.lang.symbols.impl.PathImpl;
+import com.away1994.lang.parser.Parser;
+import com.away1994.lang.parser.impl.java.JavaLanguageParser;
+import com.away1994.lang.symbols.impl.PathImpl;
 import com.away1994.constants.TestConstants;
 import org.junit.Before;
 

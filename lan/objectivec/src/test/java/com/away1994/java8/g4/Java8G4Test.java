@@ -1,7 +1,7 @@
 package com.away1994.java8.g4;
 
-import com.away1994.tsp.gen.java8.Java8Lexer;
-import com.away1994.tsp.gen.java8.Java8Parser;
+import com.away1994.gen.java8.Java8Lexer;
+import com.away1994.gen.java8.Java8Parser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;

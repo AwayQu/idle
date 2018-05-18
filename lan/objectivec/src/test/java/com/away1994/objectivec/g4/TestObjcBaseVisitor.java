@@ -1,7 +1,7 @@
 package com.away1994.objectivec.g4;
 
-import com.away1994.tsp.gen.objectivec.ObjectiveCParser;
-import com.away1994.tsp.gen.objectivec.ObjectiveCParserBaseVisitor;
+import com.away1994.gen.objectivec.ObjectiveCParser;
+import com.away1994.gen.objectivec.ObjectiveCParserBaseVisitor;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 public class TestObjcBaseVisitor extends ObjectiveCParserBaseVisitor<String> {
