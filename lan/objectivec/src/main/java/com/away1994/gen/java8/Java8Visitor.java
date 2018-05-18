@@ -256,6 +256,12 @@ public interface Java8Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitClassDeclaration(Java8Parser.ClassDeclarationContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link Java8Parser#className}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClassName(Java8Parser.ClassNameContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link Java8Parser#normalClassDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -562,6 +568,12 @@ public interface Java8Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExplicitConstructorInvocation(Java8Parser.ExplicitConstructorInvocationContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link Java8Parser#enumName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEnumName(Java8Parser.EnumNameContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link Java8Parser#enumDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -603,6 +615,12 @@ public interface Java8Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitInterfaceDeclaration(Java8Parser.InterfaceDeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Java8Parser#normalInterfaceName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNormalInterfaceName(Java8Parser.NormalInterfaceNameContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Java8Parser#normalInterfaceDeclaration}.
 	 * @param ctx the parse tree

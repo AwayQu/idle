@@ -158,8 +158,12 @@ public class Java8G4Test {
 
     @Test
     public void java8InterfaceVisitTest() throws Exception {
-        String simpleClass = "public interface Node {\n" +
+        String simpleClass = "public interface Node extends SuperNode {\n" +
                 "\n" +
+                "    public Node node;\n" +
+
+                "\n" +
+
                 "    public Node getParent();\n" +
                 "\n" +
                 "    public Node getChild(int idx);\n" +
@@ -182,7 +186,7 @@ public class Java8G4Test {
                 "\n" +
                 "import java.util.ArrayList;\n" +
                 "\n" +
-                "public class Java8 extends Language {\n" +
+                "public class Java10 extends Language {\n" +
                 "    public Java8() {\n" +
                 "        this.name = Constant.LANGUAGE_JAVA8;\n" +
                 "\n" +

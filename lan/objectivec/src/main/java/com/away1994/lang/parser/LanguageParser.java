@@ -23,5 +23,6 @@ public interface LanguageParser {
 
     public ArrayList<Symbol> parseEnumerator(EnumeratorImpl enumerator);
 
+    public Options options();
 
 }

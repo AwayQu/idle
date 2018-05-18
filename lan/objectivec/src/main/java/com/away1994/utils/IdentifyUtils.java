@@ -15,7 +15,12 @@ public class IdentifyUtils {
 
         String subId = identify.substring(start);
         int nextIndex = subId.indexOf('$');
-        String name = subId.substring(1, nextIndex - 1);
+        String name = null;
+        try {
+            name = subId.substring(1, nextIndex - 1);
+        } catch (Exception e) {
+           System.out.println(e);
+        }
 //            String ownerId = subId.substring(nextIndex);
 
         return name;

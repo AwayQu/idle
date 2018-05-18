@@ -417,6 +417,16 @@ public interface Java8Listener extends ParseTreeListener {
 	 */
 	void exitClassDeclaration(Java8Parser.ClassDeclarationContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link Java8Parser#className}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassName(Java8Parser.ClassNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Java8Parser#className}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassName(Java8Parser.ClassNameContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link Java8Parser#normalClassDeclaration}.
 	 * @param ctx the parse tree
 	 */
@@ -927,6 +937,16 @@ public interface Java8Listener extends ParseTreeListener {
 	 */
 	void exitExplicitConstructorInvocation(Java8Parser.ExplicitConstructorInvocationContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link Java8Parser#enumName}.
+	 * @param ctx the parse tree
+	 */
+	void enterEnumName(Java8Parser.EnumNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Java8Parser#enumName}.
+	 * @param ctx the parse tree
+	 */
+	void exitEnumName(Java8Parser.EnumNameContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link Java8Parser#enumDeclaration}.
 	 * @param ctx the parse tree
 	 */
@@ -996,6 +1016,16 @@ public interface Java8Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInterfaceDeclaration(Java8Parser.InterfaceDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Java8Parser#normalInterfaceName}.
+	 * @param ctx the parse tree
+	 */
+	void enterNormalInterfaceName(Java8Parser.NormalInterfaceNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Java8Parser#normalInterfaceName}.
+	 * @param ctx the parse tree
+	 */
+	void exitNormalInterfaceName(Java8Parser.NormalInterfaceNameContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Java8Parser#normalInterfaceDeclaration}.
 	 * @param ctx the parse tree

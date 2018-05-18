@@ -1435,4 +1435,22 @@ public class TestJava8BaseVisitor extends Java8BaseVisitor<String> {
         this.printCTXText(ctx, this.getMethodName());
         return super.visitCastExpression(ctx);
     }
+
+    @Override
+    public String visitClassName(Java8Parser.ClassNameContext ctx) {
+        this.printCTXText(ctx, this.getMethodName());
+        return super.visitClassName(ctx);
+    }
+
+    @Override
+    public String visitEnumName(Java8Parser.EnumNameContext ctx) {
+        this.printCTXText(ctx, this.getMethodName());
+        return super.visitEnumName(ctx);
+    }
+
+    @Override
+    public String visitNormalInterfaceName(Java8Parser.NormalInterfaceNameContext ctx) {
+        this.printCTXText(ctx, this.getMethodName());
+        return super.visitNormalInterfaceName(ctx);
+    }
 }

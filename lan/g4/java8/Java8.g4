@@ -273,8 +273,11 @@ classDeclaration
 	|	enumDeclaration
 	;
 
+className
+	: Identifier;
+
 normalClassDeclaration
-	:	classModifier* 'class' Identifier typeParameters? superclass? superinterfaces? classBody
+	:	classModifier* 'class' className typeParameters? superclass? superinterfaces? classBody
 	;
 
 classModifier
@@ -447,7 +450,7 @@ result
 	;
 
 methodDeclarator
-	:	Identifier '(' formalParameterList? ')' dims?
+	:	methodName '(' formalParameterList? ')' dims?
 	;
 
 formalParameterList
@@ -535,8 +538,11 @@ explicitConstructorInvocation
 	|	primary '.' typeArguments? 'super' '(' argumentList? ')' ';'
 	;
 
+enumName
+   : Identifier;
+
 enumDeclaration
-	:	classModifier* 'enum' Identifier superinterfaces? enumBody
+	:	classModifier* 'enum' enumName superinterfaces? enumBody
 	;
 
 enumBody
@@ -568,8 +574,11 @@ interfaceDeclaration
 	|	annotationTypeDeclaration
 	;
 
+normalInterfaceName
+	: Identifier;
+
 normalInterfaceDeclaration
-	:	interfaceModifier* 'interface' Identifier typeParameters? extendsInterfaces? interfaceBody
+	:	interfaceModifier* 'interface' normalInterfaceName typeParameters? extendsInterfaces? interfaceBody
 	;
 
 interfaceModifier

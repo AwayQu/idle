@@ -14,8 +14,11 @@ public final class FineConstants {
 
     public static final String PARSE_FILE_FINE = "[fine-idle-003] : Parse the file \"{0}\".";
 
-    public static final String PARSE_CLASS_FINE = "[fine-idle-003] : Parse the class \"{0}\".";
+    public static final String PARSE_CLASS_FINE = "[fine-idle-004] : Parse the class \"{0}\".";
 
+    public static final String PARSE_IGNORE_DIRECTORY_FINE = "[fine-idle-005] : Parse ignore the directory \"{0}\".";
+
+    public static final String PARSE_IGNORE_FILE_FINE = "[fine-idle-006] : Parse ignore the file \"{0}\".";
 
 
     private FineConstants() {

@@ -1,31 +1,28 @@
 package com.away1994.lang.parser.impl.objectivec;
 
-import com.away1994.common.constants.log.ErrorConstants;
-import com.away1994.common.constants.log.FineConstants;
 import com.away1994.common.utils.log.LogUtils;
+import com.away1994.dist.language.Lan;
+import com.away1994.gen.objectivec.ObjectiveCParser;
+import com.away1994.gen.objectivec.ObjectiveCParserBaseVisitor;
 import com.away1994.lang.parser.LanguageParser;
+import com.away1994.lang.parser.impl.LanguageParserImpl;
 import com.away1994.lang.symbols.Function;
 import com.away1994.lang.symbols.Symbol;
 import com.away1994.lang.symbols.impl.*;
 import com.away1994.lang.symbols.impl.objectivec.ObjcClassImpl;
 import com.away1994.lang.symbols.impl.variable.VariableImpl;
 import com.away1994.lang.symbols.variable.Variable;
-import com.away1994.gen.objectivec.ObjectiveCParser;
-import com.away1994.gen.objectivec.ObjectiveCParserBaseVisitor;
-import com.away1994.dist.language.Lan;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import static com.away1994.common.constants.log.FineConstants.PARSE_CLASS_FINE;
 import static com.away1994.common.constants.log.FineConstants.PARSE_FILE_FINE;
 import static java.util.logging.Level.FINE;
-import static java.util.logging.Level.SEVERE;
 
-public class ObjectiveCLanguageParser implements LanguageParser {
+public class ObjectiveCLanguageParser extends LanguageParserImpl implements LanguageParser {
 
     private static final transient Logger LOGGER = Logger.getLogger(ObjectiveCLanguageParser.class.getName());
 
@@ -34,6 +31,9 @@ public class ObjectiveCLanguageParser implements LanguageParser {
 
         AbstractParseTreeVisitor parseTreeVisitor = new ObjectiveCParserBaseVisitor() {
 
+            /**
+             *  super class
+             */
             @Override
             public Object visitProtocolName(ObjectiveCParser.ProtocolNameContext ctx) {
                 String protocol = ctx.getText();
@@ -42,6 +42,9 @@ public class ObjectiveCLanguageParser implements LanguageParser {
                 return super.visitProtocolName(ctx);
             }
 
+            /**
+             * methods
+             */
             @Override
             public Object visitMethodDeclaration(ObjectiveCParser.MethodDeclarationContext ctx) {
                 String methodName = ctx.methodSelector().getText();
@@ -225,6 +228,9 @@ public class ObjectiveCLanguageParser implements LanguageParser {
         ArrayList<Variable> variables = new ArrayList<>();
 
         AbstractParseTreeVisitor parseTreeVisitor = new ObjectiveCParserBaseVisitor() {
+            /**
+             * super class
+             */
             @Override
             public Object visitSuperclassName(ObjectiveCParser.SuperclassNameContext ctx) {
                 String name = ctx.getText();
@@ -233,6 +239,9 @@ public class ObjectiveCLanguageParser implements LanguageParser {
                 return super.visitSuperclassName(ctx);
             }
 
+            /**
+             * extends interface
+             */
             @Override
             public Object visitProtocolList(ObjectiveCParser.ProtocolListContext ctx) {
                 /// implements protocols
@@ -245,6 +254,9 @@ public class ObjectiveCLanguageParser implements LanguageParser {
                 return super.visitProtocolList(ctx);
             }
 
+            /**
+             * properties
+             */
             @Override
             public Object visitPropertyDeclaration(ObjectiveCParser.PropertyDeclarationContext ctx) {
                 String name = ctx.structDeclaration().structDeclaratorList().getText();
@@ -260,6 +272,9 @@ public class ObjectiveCLanguageParser implements LanguageParser {
                 return super.visitPropertyDeclaration(ctx);
             }
 
+            /**
+             * methods
+             */
             @Override
             public Object visitMethodDeclaration(ObjectiveCParser.MethodDeclarationContext ctx) {
 
@@ -271,6 +286,9 @@ public class ObjectiveCLanguageParser implements LanguageParser {
                 return super.visitMethodDeclaration(ctx);
             }
 
+            /**
+             * methods
+             */
             @Override
             public Object visitMethodDefinition(ObjectiveCParser.MethodDefinitionContext ctx) {
                 String name = ctx.methodSelector().getText();
@@ -284,42 +302,6 @@ public class ObjectiveCLanguageParser implements LanguageParser {
         parseTreeVisitor.visit(clazz.getRuleContext());
         symbols.addAll(functions);
         symbols.addAll(variables);
-
-        return symbols;
-    }
-
-    public ArrayList<Symbol> parsePath(PathImpl path) {
-        /**
-         * TODO: use coroutine
-         */
-        ArrayList<Symbol> symbols = new ArrayList<>();
-        File dir = new File(path.getPath());
-
-        assert dir.isDirectory();
-
-        File[] fds = dir.listFiles();
-        if (fds != null) {
-            ArrayList<FileImpl> files = new ArrayList<>();
-            ArrayList<PathImpl> paths = new ArrayList<>();
-            for (File f : fds) {
-                if (f.isFile()) {
-                    files.add(new FileImpl(f.getName(), path));
-                } else if (f.isDirectory()) {
-                    LOGGER.log(FINE, LogUtils.buildLogString(FineConstants.PARSE_DIRECTORY_FINE, f));
-                    paths.add(new PathImpl(f.getPath(), path));
-                } else {
-                    LOGGER.log(SEVERE, LogUtils.buildLogString(ErrorConstants.UNKNOWN_FILE_TYPE_ERROR, f));
-                }
-            }
-            path.getFiles().addAll(files);
-            path.getPaths().addAll(paths);
-
-            symbols.addAll(files);
-            symbols.addAll(paths);
-        } else {
-            LOGGER.log(FINE, FineConstants.EMPTY_DIRECTORY_FINE);
-        }
-
 
         return symbols;
     }
