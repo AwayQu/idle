@@ -130,6 +130,17 @@ public class ClassDiagram {
             result = 31 * result + (getType() != null ? getType().hashCode() : 0);
             return result;
         }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "className='" + className + '\'' +
+                    ", attributes=" + attributes +
+                    ", methods=" + methods +
+                    ", identify='" + identify + '\'' +
+                    ", type='" + type + '\'' +
+                    '}';
+        }
     }
 
     public static class RelationEdge {
@@ -206,6 +217,17 @@ public class ClassDiagram {
             result = 31 * result + (getRelation() != null ? getRelation().hashCode() : 0);
             return result;
         }
+
+        @Override
+        public String toString() {
+            return "RelationEdge{" +
+                    "fromIdentify='" + fromIdentify + '\'' +
+                    ", fromClassName='" + fromClassName + '\'' +
+                    ", toIdentify='" + toIdentify + '\'' +
+                    ", toClassName='" + toClassName + '\'' +
+                    ", relation='" + relation + '\'' +
+                    '}';
+        }
     }
 
     public ArrayList<Node> classes = new ArrayList<>();
@@ -225,5 +247,13 @@ public class ClassDiagram {
 
     public void setRelations(ArrayList<RelationEdge> relations) {
         this.relations = relations;
+    }
+
+    @Override
+    public String toString() {
+        return "ClassDiagram{" +
+                "classes=" + classes +
+                ", relations=" + relations +
+                '}';
     }
 }

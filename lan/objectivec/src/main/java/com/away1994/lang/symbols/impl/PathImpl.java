@@ -32,6 +32,7 @@ public class PathImpl extends SymbolImpl implements Path {
     }
 
     public PathImpl(String path) {
+        this.owner = new SymbolPlaceholder();
         this.setPath(path);
     }
 

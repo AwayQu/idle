@@ -14,6 +14,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -148,5 +149,21 @@ public class SymbolImpl implements Symbol {
     @Override
     public void merge(Symbol s) {
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SymbolImpl symbol = (SymbolImpl) o;
+        return Objects.equals(getName(), symbol.getName()) &&
+                Objects.equals(getOwner(), symbol.getOwner()) &&
+                Objects.equals(getCachedIdentify(), symbol.getCachedIdentify());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getName(), getOwner(), getCachedIdentify());
     }
 }

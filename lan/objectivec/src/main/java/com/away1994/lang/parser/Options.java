@@ -6,6 +6,9 @@ public class Options {
     private ArrayList<String> ignorePaths = new ArrayList<>();
 
     private ArrayList<String> ignoreFiles = new ArrayList<>();
+
+    private Boolean verbose = false;
+
     public Options() {
     }
 
@@ -23,5 +26,13 @@ public class Options {
 
     public void setIgnorePaths(ArrayList<String> ignorePaths) {
         this.ignorePaths = ignorePaths;
+    }
+
+    public Boolean getVerbose() {
+        return verbose;
+    }
+
+    public void setVerbose(Boolean verbose) {
+        this.verbose = verbose;
     }
 }

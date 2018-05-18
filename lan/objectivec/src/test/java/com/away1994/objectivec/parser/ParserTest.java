@@ -1,5 +1,6 @@
 package com.away1994.objectivec.parser;
 
+import com.away1994.lang.parser.Options;
 import com.away1994.lang.parser.Parser;
 import com.away1994.lang.parser.impl.objectivec.ObjectiveCLanguageParser;
 import com.away1994.lang.symbols.impl.PathImpl;
@@ -20,7 +21,7 @@ public class ParserTest {
         File file = new File(TEST_RESOURCES_PATH + "out/symbols");
         File[] files = file.listFiles();
         if (files != null) {
-            for (File f: files) {
+            for (File f : files) {
                 f.delete();
             }
         }
@@ -32,8 +33,15 @@ public class ParserTest {
         readLoggerConfigurationFromResourceFromClassClassLoader(LOGGING_PROPERTIES_PATH,
                 ParserTest.class);
 
+        ObjectiveCLanguageParser languageParser = new ObjectiveCLanguageParser();
+        Options options = new Options();
+        options.setVerbose(true);
+        languageParser.setOptions(options);
+
         Parser parser = new Parser(new PathImpl(TestConstants.IOS_HELLO_PROJECT_PATH),
-                new ObjectiveCLanguageParser());
+                languageParser);
+
+
         parser.setOutputPath(TEST_RESOURCES_PATH + "out/symbols");
         parser.runParseStateMachine();
     }
@@ -43,24 +51,32 @@ public class ParserTest {
         readLoggerConfigurationFromResourceFromClassClassLoader(LOGGING_PROPERTIES_PATH,
                 ParserTest.class);
 
+        ObjectiveCLanguageParser languageParser = new ObjectiveCLanguageParser();
+        Options options = new Options();
+        options.setVerbose(true);
+        languageParser.setOptions(options);
+
         Parser parser = new Parser(new PathImpl(TestConstants.ReactiveCocoa_PROJECT_PATH),
-                new ObjectiveCLanguageParser());
+                languageParser);
         parser.setOutputPath(TEST_RESOURCES_PATH + "out/symbols");
         parser.runParseStateMachine();
     }
-
 
 
     @Test
     public void parserAFNTest() throws Exception {
         readLoggerConfigurationFromResourceFromClassClassLoader(LOGGING_PROPERTIES_PATH,
                 ParserTest.class);
+        ObjectiveCLanguageParser languageParser = new ObjectiveCLanguageParser();
+        Options options = new Options();
+        options.setVerbose(true);
+        languageParser.setOptions(options);
+
         Parser parser = new Parser(new PathImpl(TestConstants.AFNetworking_PROJECT_PATH),
-                new ObjectiveCLanguageParser());
+                languageParser);
         parser.setOutputPath(TEST_RESOURCES_PATH + "out/symbols");
         parser.runParseStateMachine();
     }
-
 
 
 }

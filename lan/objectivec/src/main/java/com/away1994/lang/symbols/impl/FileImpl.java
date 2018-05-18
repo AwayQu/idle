@@ -8,7 +8,7 @@ import com.away1994.lang.symbols.File;
 import com.away1994.lang.symbols.Interface;
 import com.away1994.lang.symbols.Symbol;
 import com.away1994.lang.symbols.variable.Variable;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 import static com.away1994.common.constants.log.ErrorConstants.OWNER_TYPE_ERROR;
 import static com.away1994.dist.constants.CommonConstants.LINE_SEPARATOR;
 
-@JsonIgnoreProperties({"otherSymbols", "extension", "fullPath"})
 public class FileImpl extends SymbolImpl implements File {
 
     private static final transient Logger LOGGER = Logger.getLogger(FileImpl.class.getName());
@@ -61,17 +60,20 @@ public class FileImpl extends SymbolImpl implements File {
     /**
      * other symbols
      */
+    @JsonIgnore
     public ArrayList<Symbol> otherSymbols = new ArrayList<>();
 
     /**
      *
      * @return extension of file
      */
+    @JsonIgnore
     public String getExtension() {
         int lastIndex = this.getName().lastIndexOf(".");
         return this.getName().substring(lastIndex + 1);
     }
 
+    @JsonIgnore
     public String getFullPath() {
 
         if (owner instanceof PathImpl) {

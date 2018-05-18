@@ -19,7 +19,7 @@ public final class CommonConstants {
     public static final Set<Level> LOG_LEVELS_SET;
     public static final int MINUS_ONE_RETURN_CODE = -1;
     public static final Date NOW;
-
+    public static final String JSON = "json";
     public static final String LOGGING_PROPERTIES_PATH = "logging.properties";
 
     private CommonConstants() {

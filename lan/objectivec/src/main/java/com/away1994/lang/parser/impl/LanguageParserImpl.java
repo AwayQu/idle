@@ -51,13 +51,13 @@ public abstract class LanguageParserImpl implements LanguageParser {
             ArrayList<PathImpl> paths = new ArrayList<>();
             for (File f : fds) {
                 if (f.isFile()) {
-                    if (this.getOptions().getIgnoreFiles().contains(f.getPath())) {
+                    if (this.getOptions() != null && this.getOptions().getIgnoreFiles().contains(f.getPath())) {
                         LOGGER.log(FINE, LogUtils.buildLogString(FineConstants.PARSE_IGNORE_FILE_FINE, f.getPath()));
                         continue;
                     }
                     files.add(new FileImpl(f.getName(), path));
                 } else if (f.isDirectory()) {
-                    if (this.getOptions().getIgnorePaths().contains(f.getPath())) {
+                    if (this.getOptions() != null && this.getOptions().getIgnorePaths().contains(f.getPath())) {
                         LOGGER.log(FINE, LogUtils.buildLogString(FineConstants.PARSE_IGNORE_DIRECTORY_FINE, f.getPath()));
                         continue;
                     }

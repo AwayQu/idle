@@ -3,6 +3,7 @@ package com.away1994.objectivec.parser;
 import com.away1994.lang.aggregator.Session;
 import com.away1994.lang.aggregator.impl.AggregatorImpl;
 import com.away1994.lang.aggregator.impl.ClassDiagram;
+import com.away1994.lang.aggregator.impl.FileTree;
 import com.away1994.lang.aggregator.impl.SessionImpl;
 import com.away1994.lang.parser.Parser;
 import com.away1994.lang.parser.impl.objectivec.ObjectiveCLanguageParser;
@@ -32,7 +33,7 @@ public class ReadTest {
         parser.runParseStateMachine();
     }
 
-//    @After
+    //    @After
 //    public void clearFile() {
 //        File file = new File(TEST_RESOURCES_PATH + "out/symbols");
 //        File[] files = file.listFiles();
@@ -54,6 +55,20 @@ public class ReadTest {
         ClassDiagram classDiagram = aggregator.getClassDiagram(1);
 
         LOGGER.log(Level.SEVERE, "" + classDiagram);
+    }
+
+
+    @Test
+    public void readFileTree() throws Exception {
+        readLoggerConfigurationFromResourceFromClassClassLoader(LOGGING_PROPERTIES_PATH,
+                ReadTest.class);
+
+        Session session = new SessionImpl(null, TEST_RESOURCES_PATH + "out/symbols");
+
+        AggregatorImpl aggregator = new AggregatorImpl(session);
+        FileTree fileTree = aggregator.getFileTree();
+
+        LOGGER.log(Level.SEVERE, "" + fileTree);
     }
 
 }

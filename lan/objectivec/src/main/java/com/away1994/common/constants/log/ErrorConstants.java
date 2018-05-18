@@ -29,6 +29,12 @@ public final class ErrorConstants {
 
     public static final String NOT_FOUND_FILE_ERROR = "[error-idle-009] : The read file \"{0}\", is not exist \"{1}\".";
 
+    public static final String HASH_ERROR = "[error-idle-010] : The hash data \"{0}\", is fail with exception \"{1}\".";
+
+    public static final String SYMBOL_TABLE_NOT_INITIALIZE_ERROR = "[error-idle-011] : Symbol table not initialize.";
+
+    public static final String SYMBOL_TABLE_NOT_FOUND_VALUE_ERROR = "[error-idle-012] : The symbol table not find value with key \"{0}\".";
+
     private ErrorConstants() {
         super();
     }

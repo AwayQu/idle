@@ -55,6 +55,14 @@ public class FileTree extends SymbolTree {
         public void setType(String type) {
             this.type = type;
         }
+
+        @Override
+        public String toString() {
+            return "FD{" +
+                    "name='" + name + '\'' +
+                    ", type='" + type + '\'' +
+                    '}';
+        }
     }
 
     private ArrayList<FD> fds = new ArrayList<>();
@@ -68,5 +76,12 @@ public class FileTree extends SymbolTree {
 
     public void setFds(ArrayList<FD> fds) {
         this.fds = fds;
+    }
+
+    @Override
+    public String toString() {
+        return "FileTree{" +
+                "fds=" + fds +
+                '}';
     }
 }

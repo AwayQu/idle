@@ -20,6 +20,8 @@ public final class FineConstants {
 
     public static final String PARSE_IGNORE_FILE_FINE = "[fine-idle-006] : Parse ignore the file \"{0}\".";
 
+    public static final String SUMMARY_FINE = "[fine-idle-007] : Summary parser ";
+
 
     private FineConstants() {
         super();

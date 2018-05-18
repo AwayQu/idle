@@ -42,6 +42,8 @@ public class Java8ParserTest {
         options.getIgnorePaths().add("../objectivec/target");
         options.getIgnorePaths().add("../idlecommand/target");
 
+        options.setVerbose(true);
+
         lan.setOptions(options);
 
         Parser parser = new Parser(new PathImpl(TestConstants.IDLE_LAN_PROJECT_PATH),

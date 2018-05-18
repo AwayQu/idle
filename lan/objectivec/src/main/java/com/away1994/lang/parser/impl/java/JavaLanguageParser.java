@@ -26,6 +26,7 @@ public class JavaLanguageParser extends LanguageParserImpl implements LanguagePa
 
     private static final transient Logger LOGGER = Logger.getLogger(ObjectiveCLanguageParser.class.getName());
 
+
     @Override
     public ArrayList<Symbol> parseInterface(InterfaceImpl anInterface) {
         ArrayList<Symbol> symbols = new ArrayList<>();

@@ -298,7 +298,7 @@ public class AggregatorImpl implements Aggregator {
                     reader.getSymbol(s);
                 } else {
                     String name = IdentifyUtils.getSymbolName(s.identify());
-                    LOGGER.log(Level.INFO, LogUtils.buildLogString(InfoConstants.READ_RELATIVE_SYMBOL, new String[]{name, s.identify()}));
+                     LOGGER.log(Level.INFO, LogUtils.buildLogString(InfoConstants.READ_RELATIVE_SYMBOL, new String[]{name, s.identify()}));
                     s.setName(name);
                     s.setIdentify(name);
                 }
