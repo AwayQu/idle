@@ -6,4 +6,4 @@ jdk:
 
 install: cd lan && mvn install -DskipTests=true -Dmaven.javadoc.skip=true
 
-script: mvn test
+script: mvn package
