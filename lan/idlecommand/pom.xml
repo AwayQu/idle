@@ -16,7 +16,7 @@
 
         <dependency>
             <groupId>com.away1994</groupId>
-            <artifactId>objectivec</artifactId>
+            <artifactId>idle</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>com.away1994</groupId>
-            <artifactId>objectivec</artifactId>
+            <artifactId>idle</artifactId>
             <type>test-jar</type>
             <version>1.0-SNAPSHOT</version>
             <scope>test</scope>

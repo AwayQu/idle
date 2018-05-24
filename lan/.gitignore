@@ -3,7 +3,7 @@ vcs.xml
 *.class
 venv/
 .idea/
-objectivec/src/test/java/resources/uml/project
+idle/src/test/java/resources/uml/project
 idlecommand/src/test/java/resources/project
 idlecommand/src/test/java/resources
 target/

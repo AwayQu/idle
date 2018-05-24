@@ -3,10 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/g4/g4.iml" filepath="$PROJECT_DIR$/g4/g4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/idle/idle.iml" filepath="$PROJECT_DIR$/idle/idle.iml" />
       <module fileurl="file://$PROJECT_DIR$/idlecommand/idlecommand.iml" filepath="$PROJECT_DIR$/idlecommand/idlecommand.iml" />
       <module fileurl="file://$PROJECT_DIR$/idlerest/idlerest.iml" filepath="$PROJECT_DIR$/idlerest/idlerest.iml" />
       <module fileurl="file://$PROJECT_DIR$/lan.iml" filepath="$PROJECT_DIR$/lan.iml" />
-      <module fileurl="file://$PROJECT_DIR$/objectivec/objectivec.iml" filepath="$PROJECT_DIR$/objectivec/objectivec.iml" />
     </modules>
   </component>
 </project>

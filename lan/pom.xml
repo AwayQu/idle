@@ -11,7 +11,7 @@
 
     <modules>
         <module>idlecommand</module>
-        <module>objectivec</module>
+        <module>idle</module>
         <module>idlerest</module>
     </modules>
 
@@ -19,7 +19,7 @@
         <dependencies>
             <dependency>
                 <groupId>com.away1994</groupId>
-                <artifactId>objectivec</artifactId>
+                <artifactId>idle</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
