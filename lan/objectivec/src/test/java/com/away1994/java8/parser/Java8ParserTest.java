@@ -29,7 +29,34 @@ public class Java8ParserTest {
     }
 
     @Test
-    public void parserTest() throws Exception {
+    public void parseObjectiveCModuleTest() throws Exception {
+        readLoggerConfigurationFromResourceFromClassClassLoader(LOGGING_PROPERTIES_PATH,
+                Java8ParserTest.class);
+
+        JavaLanguageParser lan = new JavaLanguageParser();
+        Options options = new Options();
+        options.getIgnoreFiles().add("./idle.log");
+        options.getIgnorePaths().add("./src/test/java/com/away1994/resources");
+        options.getIgnorePaths().add("./src/main/java/com/away1994/gen/java8");
+        options.getIgnorePaths().add("./src/main/java/com/away1994/gen/javascript");
+        options.getIgnorePaths().add("./src/main/java/com/away1994/gen/objectivec");
+        options.getIgnorePaths().add("./src/main/java/com/away1994/gen/python3");
+        options.getIgnorePaths().add("./src/main/java/com/away1994/gen/swift3");
+        options.getIgnorePaths().add("./target");
+
+        options.setVerbose(true);
+
+        lan.setOptions(options);
+
+        Parser parser = new Parser(new PathImpl(TestConstants.IDLE_OBJECTIVE_C_MODULE_PROJECT_PATH),
+                lan);
+
+        parser.setOutputPath(TEST_RESOURCES_PATH + "out/symbols");
+        parser.runParseStateMachine();
+    }
+
+    @Test
+    public void parseLanModuleTest() throws Exception {
         readLoggerConfigurationFromResourceFromClassClassLoader(LOGGING_PROPERTIES_PATH,
                 Java8ParserTest.class);
 
