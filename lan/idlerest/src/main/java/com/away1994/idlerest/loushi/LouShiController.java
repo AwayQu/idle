@@ -96,8 +96,15 @@ public class LouShiController {
     public ArrayList list(@RequestParam(value="detailID", defaultValue="1") String detailID,
                            HttpServletResponse response, HttpServletRequest request) {
 
-        ArrayList arrayList = new ArrayList<>();
-        arrayList.add(new LouShiDetail("1", "华夏四季", "开盘时间111111"));
+        ArrayList<LouShiDetail> arrayList = new ArrayList<>();
+        arrayList.add(new LouShiDetail("1", "华夏四季（截止5月27日）", "所在区域：余杭区未来科技城\n" +
+                "登记时间：2018年5月25日—5月27日\n" +
+                "开盘房源：160套\n" +
+                "优先比例：40%\n" +
+                "开盘均价：26105元/㎡（含5000元/㎡精装标准）\n" +
+                "购买条件：无房无贷款记录：60万元现金存款证明；有房或有贷款记录：120万元现金存款证明；一次性付款：200万元现金存款证明\n" +
+                "主力户型：89㎡、112㎡\n" +
+                "售楼电话：0571-86129999\n"));
         arrayList.add(new LouShiDetail("2", "华夏四季", "开盘时间111111"));
         arrayList.add(new LouShiDetail("3", "华夏四季", "开盘时间111111"));
         arrayList.add(new LouShiDetail("4", "华夏四季", "开盘时间111111"));
@@ -113,7 +120,14 @@ public class LouShiController {
                             HttpServletResponse response, HttpServletRequest request) {
 
         ArrayList<LouShiDetail> arrayList = new ArrayList<>();
-        arrayList.add(new LouShiDetail("1", "华夏四季", "开盘时间111111"));
+        arrayList.add(new LouShiDetail("1", "华夏四季（截止5月27日）", "所在区域：余杭区未来科技城\n" +
+                "登记时间：2018年5月25日—5月27日\n" +
+                "开盘房源：160套\n" +
+                "优先比例：40%\n" +
+                "开盘均价：26105元/㎡（含5000元/㎡精装标准）\n" +
+                "购买条件：无房无贷款记录：60万元现金存款证明；有房或有贷款记录：120万元现金存款证明；一次性付款：200万元现金存款证明\n" +
+                "主力户型：89㎡、112㎡\n" +
+                "售楼电话：0571-86129999\n"));
         arrayList.add(new LouShiDetail("2", "华夏四季", "开盘时间111111"));
         arrayList.add(new LouShiDetail("3", "华夏四季", "开盘时间111111"));
         arrayList.add(new LouShiDetail("4", "华夏四季", "开盘时间111111"));
