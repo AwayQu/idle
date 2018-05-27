@@ -21,6 +21,7 @@ public class GitURL {
 
     public String getURL() throws GitURLFormatErrorException {
 
+        Boolean isLocalPath = true;
         if (originDescription.startsWith("http")) {
            if (originDescription.endsWith(".git")) {
                return originDescription;
@@ -29,15 +30,20 @@ public class GitURL {
            }
         } else if (originDescription.startsWith("git")){
             return originDescription;
+        } else if (isLocalPath){ //  TODO: verify path
+            return originDescription;
         } else {
             throw new GitURLFormatErrorException();
         }
     }
 
     public String getRepositoryName() throws GitURLNameNotFoundException {
+        Boolean isLocalPath = true;
         if (originDescription.startsWith("http")) {
             return extractName();
         } else if (originDescription.startsWith("git")){
+            return extractName();
+        } else if (isLocalPath) { //  TODO: verify path
             return extractName();
         } else {
             throw new GitURLNameNotFoundException();

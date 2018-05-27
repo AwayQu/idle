@@ -42,6 +42,7 @@ public class Application extends SpringBootServletInitializer {
                 ArrayList<String> arrayList = new ArrayList<>();
                 arrayList.add("/github");
                 arrayList.add("/github/diagram/files");
+                arrayList.add("/github/diagram/all");
                 arrayList.add("/github/fileTree");
                 arrayList.add("/github/project");
 

@@ -61,17 +61,23 @@ public class AggregatorImpl implements Aggregator {
     public ArrayList<ClassDiagram> getClassDiagrams(int depth) {
         ClassDiagram diagram = this.getClassDiagram(depth);
 
-        ArrayList<ClassDiagram> diagrams = getClassDiagrams(diagram);
+        ArrayList<ClassDiagram> diagrams = new ArrayList<>();
+        diagrams.add(diagram);
+        diagrams.addAll(getClassDiagrams(diagram));
 
         return diagrams;
     }
 
+    /**
+     * 将合并所有内容的加载最前面
+     */
     @Override
     public ArrayList<ClassDiagram> getClassDiagrams(ArrayList<String> identifyList, int depth) {
 
         ClassDiagram diagram = this.getClassDiagram(identifyList, depth);
-
-        ArrayList<ClassDiagram> diagrams = getClassDiagrams(diagram);
+        ArrayList<ClassDiagram> diagrams = new ArrayList<>();
+        diagrams.add(diagram);
+        diagrams.addAll(getClassDiagrams(diagram));
 
         return diagrams;
     }
@@ -158,7 +164,7 @@ public class AggregatorImpl implements Aggregator {
         return diagrams;
     }
 
-    /**
+        /**
          * 1.聚合同一个类 散落在各个文件中的实现 （生产真正的类节点）
          * 2.区分相对引用 和 绝对引用 通过相对引用找到聚合的类 （awake所有的identify）
          * 3.将awake之后的所有节点，转化为node 和 edge

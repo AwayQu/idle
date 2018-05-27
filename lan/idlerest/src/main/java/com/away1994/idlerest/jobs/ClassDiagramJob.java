@@ -1,15 +1,17 @@
 package com.away1994.idlerest.jobs;
 
+import com.away1994.idlerest.bean.IdentifyList;
 import com.away1994.idlerest.message.JobProgressMessage;
 import com.away1994.lang.aggregator.Session;
 import com.away1994.lang.aggregator.impl.AggregatorImpl;
-import com.away1994.lang.aggregator.impl.FileTree;
+import com.away1994.lang.aggregator.impl.ClassDiagram;
 import com.away1994.lang.aggregator.impl.SessionImpl;
 import com.away1994.lang.project.Project;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
-public class FileTreeJob implements DetailedJob {
+import java.util.ArrayList;
 
+public class ClassDiagramJob implements DetailedJob {
     private SimpMessagingTemplate template;
 
     private Project project;
@@ -20,10 +22,19 @@ public class FileTreeJob implements DetailedJob {
 
     private Integer progess = 0;
 
-    public FileTreeJob(SimpMessagingTemplate template, Project project) {
+    private IdentifyList identifyList;
+
+    public ClassDiagramJob(SimpMessagingTemplate template, Project project) {
         this.template = template;
         this.project = project;
-        project.setParsingFileTree(true);
+        project.setParsingClassDiagram(true);
+    }
+
+    public ClassDiagramJob(SimpMessagingTemplate template, Project project, IdentifyList identifyList) {
+        this.template = template;
+        this.project = project;
+        this.identifyList = identifyList;
+        project.setParsingClassDiagram(true);
     }
 
     @Override
@@ -38,31 +49,39 @@ public class FileTreeJob implements DetailedJob {
 
     @Override
     public String getJobName() {
-        return "Parse file tree";
+        return "Parse class diagram";
     }
 
     @Override
     public void run() {
+
         state = "RUNNING";
         sendProgress();
 
-        System.out.println("do fileTree job");
-
-
+        System.out.println("do clone job");
         Session idleSession = new SessionImpl(project.getProjectPath(),
                 project.getSymbolsPath());
         AggregatorImpl aggregator = new AggregatorImpl(idleSession);
-        FileTree tree = aggregator.getFileTree();
+        ArrayList<ClassDiagram> diagrams = new ArrayList<>();
 
-        template.convertAndSend("/topic/fileTree", tree);
+        if (identifyList != null) {
+            ArrayList<ClassDiagram> res = aggregator.getClassDiagrams(identifyList.getIdentifies(), 2);
+            diagrams.addAll(res);
+        } else {
+            ArrayList<ClassDiagram> res = aggregator.getClassDiagrams(1);
+            diagrams.addAll(res);
+        }
+
         progess = 100;
+        template.convertAndSend("/topic/classDiagram", diagrams);
+
         sendProgress();
         state = "DONE";
 
-        project.setParsingFileTree(false);
-        System.out.println("finish fileTree job");
-    }
+        this.project.setParsingClassDiagram(false);
 
+        System.out.println("finish clone job");
+    }
 
     public void sendProgress() {
         JobProgressMessage temp = new JobProgressMessage(this.getJobName());
@@ -71,6 +90,4 @@ public class FileTreeJob implements DetailedJob {
         temp.setTaskName(taskName);
         template.convertAndSend("/topic/status", temp);
     }
-
-
 }

@@ -1,7 +1,10 @@
 package com.away1994.idlerest.jobs;
 
+import com.away1994.common.utils.DirectoryUtils;
 import com.away1994.idlerest.message.JobProgressMessage;
+import com.away1994.lang.parser.LanguageParser;
 import com.away1994.lang.parser.Parser;
+import com.away1994.lang.parser.impl.java.JavaLanguageParser;
 import com.away1994.lang.parser.impl.objectivec.ObjectiveCLanguageParser;
 import com.away1994.lang.project.Project;
 import com.away1994.lang.symbols.impl.PathImpl;
@@ -48,14 +51,20 @@ public class ParseJob implements DetailedJob {
         sendProgress();
 
         System.out.println("do parse job");
+        DirectoryUtils.deleteDir(new File(project.getSymbolsPath()));
         File client = new File(project.getSymbolsPath());
         client.mkdirs();
-        Parser parser = new Parser(new PathImpl(project.getProjectPath()),
-                new ObjectiveCLanguageParser());
+        LanguageParser languageParser = new ObjectiveCLanguageParser();
+        if (project.getLanguage().equals("java8")) {
+            languageParser = new JavaLanguageParser();
+        }
+        Parser parser = new Parser(new PathImpl(project.getProjectPath()), languageParser);
         parser.setOutputPath(project.getSymbolsPath());
         parser.runParseStateMachine();
         project.setParsed(true);
         project.setParsing(false);
+
+        progess = 100;
         state = "DONE";
         sendProgress();
 

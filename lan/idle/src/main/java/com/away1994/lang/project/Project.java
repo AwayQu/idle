@@ -13,6 +13,15 @@ public class Project {
 
     private String projectPath;
 
+    private String language;
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
     public String getProjectPath() {
         return projectPath;
@@ -67,6 +76,10 @@ public class Project {
     private Boolean parsed = false;
 
 
+    private Boolean parsingFileTree = false;
+
+    private Boolean parsingClassDiagram = false;
+
 
     public Boolean getCloned() {
         return cloned;
@@ -98,5 +111,21 @@ public class Project {
 
     public void setParsing(Boolean parsing) {
         isParsing = parsing;
+    }
+
+    public Boolean getParsingFileTree() {
+        return parsingFileTree;
+    }
+
+    public void setParsingFileTree(Boolean parsingFileTree) {
+        this.parsingFileTree = parsingFileTree;
+    }
+
+    public Boolean getParsingClassDiagram() {
+        return parsingClassDiagram;
+    }
+
+    public void setParsingClassDiagram(Boolean parsingClassDiagram) {
+        this.parsingClassDiagram = parsingClassDiagram;
     }
 }

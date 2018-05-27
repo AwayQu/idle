@@ -1,6 +1,7 @@
 package com.away1994.idlerest.jobs;
 
 import com.away1994.common.utils.DirectoryUtils;
+import com.away1994.idlerest.bean.Response;
 import com.away1994.idlerest.message.JobProgressMessage;
 import com.away1994.jgit.repository.RepositoryProvider;
 import com.away1994.jgit.repository.TaskProgress;
@@ -92,6 +93,8 @@ public class CloneRepositoryJob implements DetailedJob {
 //            git.pull().call();
         } catch (Exception e) {
             this.project.setCloned(false);
+            this.template.convertAndSend("/topic/info", new Response(Response.CODE_FAIL, "Clone repository fail, please check repository url."));
+
             e.printStackTrace();
         }
 
