@@ -572,20 +572,20 @@ class _SelectorTransport(transports._FlowControlMixin,
         loop._transports[self._sock_fd] = self
 
     def __repr__(self):
-        info = [self.__class__.__name__]
+        taskName = [self.__class__.__name__]
         if self._sock is None:
-            info.append('closed')
+            taskName.append('closed')
         elif self._closing:
-            info.append('closing')
-        info.append('fd=%s' % self._sock_fd)
+            taskName.append('closing')
+        taskName.append('fd=%s' % self._sock_fd)
         # test if the transport was closed
         if self._loop is not None and not self._loop.is_closed():
             polling = _test_selector_event(self._loop._selector,
                                            self._sock_fd, selectors.EVENT_READ)
             if polling:
-                info.append('read=polling')
+                taskName.append('read=polling')
             else:
-                info.append('read=idle')
+                taskName.append('read=idle')
 
             polling = _test_selector_event(self._loop._selector,
                                            self._sock_fd,
@@ -596,8 +596,8 @@ class _SelectorTransport(transports._FlowControlMixin,
                 state = 'idle'
 
             bufsize = self.get_write_buffer_size()
-            info.append('write=<%s, bufsize=%s>' % (state, bufsize))
-        return '<%s>' % ' '.join(info)
+            taskName.append('write=<%s, bufsize=%s>' % (state, bufsize))
+        return '<%s>' % ' '.join(taskName)
 
     def abort(self):
         self._force_close(None)
@@ -841,7 +841,7 @@ class _SelectorSslTransport(_SelectorTransport):
         self._sslcontext = sslcontext
         self._paused = False
 
-        # SSL-specific extra info.  (peercert is set later)
+        # SSL-specific extra taskName.  (peercert is set later)
         self._extra.update(sslcontext=sslcontext)
 
         if self._loop.get_debug():
@@ -905,7 +905,7 @@ class _SelectorSslTransport(_SelectorTransport):
                     self._wakeup_waiter(exc)
                     return
 
-        # Add extra info that becomes available after handshake.
+        # Add extra taskName that becomes available after handshake.
         self._extra.update(peercert=peercert,
                            cipher=self._sock.cipher(),
                            compression=self._sock.compression(),

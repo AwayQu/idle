@@ -49,11 +49,11 @@ class _OverlappedFuture(futures.Future):
         self._ov = ov
 
     def _repr_info(self):
-        info = super()._repr_info()
+        taskName = super()._repr_info()
         if self._ov is not None:
             state = 'pending' if self._ov.pending else 'completed'
-            info.insert(1, 'overlapped=<%s, %#x>' % (state, self._ov.address))
-        return info
+            taskName.insert(1, 'overlapped=<%s, %#x>' % (state, self._ov.address))
+        return taskName
 
     def _cancel_overlapped(self):
         if self._ov is None:
@@ -107,14 +107,14 @@ class _BaseWaitHandleFuture(futures.Future):
                 _winapi.WAIT_OBJECT_0)
 
     def _repr_info(self):
-        info = super()._repr_info()
-        info.append('handle=%#x' % self._handle)
+        taskName = super()._repr_info()
+        taskName.append('handle=%#x' % self._handle)
         if self._handle is not None:
             state = 'signaled' if self._poll() else 'waiting'
-            info.append(state)
+            taskName.append(state)
         if self._wait_handle is not None:
-            info.append('wait_handle=%#x' % self._wait_handle)
-        return info
+            taskName.append('wait_handle=%#x' % self._wait_handle)
+        return taskName
 
     def _unregister_wait_cb(self, fut):
         # The wait was unregistered: it's not safe to destroy the Overlapped

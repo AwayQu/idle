@@ -9,6 +9,7 @@ import com.away1994.lang.parser.Type;
 import com.away1994.lang.symbols.Symbol;
 import com.away1994.lang.symbols.impl.SymbolTable;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import sun.nio.cs.FastCharsetProvider;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -56,7 +57,14 @@ public class ReaderImpl implements Reader {
     }
 
     public <T extends Symbol> Boolean isSymbolExist(T s) {
-        return this.getSymbolFile(s).exists();
+        if (s == null) {
+            return false;
+        }
+        File finded = this.getSymbolFile(s);
+        if (finded == null) {
+            return false;
+        }
+        return finded.exists();
     }
 
     @Override
@@ -88,8 +96,9 @@ public class ReaderImpl implements Reader {
         Symbol symbol = null;
         try {
             symbol = new ObjectMapper().reader(Type.getState(identify).getClazz()).readValue(file);
-        } catch (IOException e) {
-            LOGGER.log(SEVERE, LogUtils.buildLogString(READ_TO_FILE_ERROR, new Object[]{file.getName(), e}));
+        } catch (IOException | NullPointerException e) {
+            LOGGER.log(SEVERE, LogUtils.buildLogString(READ_TO_FILE_ERROR, new Object[]{file == null ? "" :file.getName(), e}));
+            return null;
         }
         return (T) symbol;
     }

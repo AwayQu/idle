@@ -6,18 +6,18 @@ from . import coroutines
 
 
 def _task_repr_info(task):
-    info = base_futures._future_repr_info(task)
+    taskName = base_futures._future_repr_info(task)
 
     if task._must_cancel:
         # replace status
-        info[0] = 'cancelling'
+        taskName[0] = 'cancelling'
 
     coro = coroutines._format_coroutine(task._coro)
-    info.insert(1, 'coro=<%s>' % coro)
+    taskName.insert(1, 'coro=<%s>' % coro)
 
     if task._fut_waiter is not None:
-        info.insert(2, 'wait_for=%r' % task._fut_waiter)
-    return info
+        taskName.insert(2, 'wait_for=%r' % task._fut_waiter)
+    return taskName
 
 
 def _task_get_stack(task, limit):

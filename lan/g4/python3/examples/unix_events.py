@@ -109,7 +109,7 @@ class _UnixSelectorEventLoop(selector_events.BaseSelectorEventLoop):
                 try:
                     signal.set_wakeup_fd(-1)
                 except (ValueError, OSError) as nexc:
-                    logger.info('set_wakeup_fd(-1) failed: %s', nexc)
+                    logger.taskName('set_wakeup_fd(-1) failed: %s', nexc)
 
             if exc.errno == errno.EINVAL:
                 raise RuntimeError('sig {} cannot be caught'.format(sig))
@@ -154,7 +154,7 @@ class _UnixSelectorEventLoop(selector_events.BaseSelectorEventLoop):
             try:
                 signal.set_wakeup_fd(-1)
             except (ValueError, OSError) as exc:
-                logger.info('set_wakeup_fd(-1) failed: %s', exc)
+                logger.taskName('set_wakeup_fd(-1) failed: %s', exc)
 
         return True
 
@@ -355,26 +355,26 @@ class _UnixReadPipeTransport(transports.ReadTransport):
                                  waiter, None)
 
     def __repr__(self):
-        info = [self.__class__.__name__]
+        taskName = [self.__class__.__name__]
         if self._pipe is None:
-            info.append('closed')
+            taskName.append('closed')
         elif self._closing:
-            info.append('closing')
-        info.append('fd=%s' % self._fileno)
+            taskName.append('closing')
+        taskName.append('fd=%s' % self._fileno)
         selector = getattr(self._loop, '_selector', None)
         if self._pipe is not None and selector is not None:
             polling = selector_events._test_selector_event(
                           selector,
                           self._fileno, selectors.EVENT_READ)
             if polling:
-                info.append('polling')
+                taskName.append('polling')
             else:
-                info.append('idle')
+                taskName.append('idle')
         elif self._pipe is not None:
-            info.append('open')
+            taskName.append('open')
         else:
-            info.append('closed')
-        return '<%s>' % ' '.join(info)
+            taskName.append('closed')
+        return '<%s>' % ' '.join(taskName)
 
     def _read_ready(self):
         try:
@@ -388,7 +388,7 @@ class _UnixReadPipeTransport(transports.ReadTransport):
                 self._protocol.data_received(data)
             else:
                 if self._loop.get_debug():
-                    logger.info("%r was closed by peer", self)
+                    logger.taskName("%r was closed by peer", self)
                 self._closing = True
                 self._loop._remove_reader(self._fileno)
                 self._loop.call_soon(self._protocol.eof_received)
@@ -493,29 +493,29 @@ class _UnixWritePipeTransport(transports._FlowControlMixin,
                                  waiter, None)
 
     def __repr__(self):
-        info = [self.__class__.__name__]
+        taskName = [self.__class__.__name__]
         if self._pipe is None:
-            info.append('closed')
+            taskName.append('closed')
         elif self._closing:
-            info.append('closing')
-        info.append('fd=%s' % self._fileno)
+            taskName.append('closing')
+        taskName.append('fd=%s' % self._fileno)
         selector = getattr(self._loop, '_selector', None)
         if self._pipe is not None and selector is not None:
             polling = selector_events._test_selector_event(
                           selector,
                           self._fileno, selectors.EVENT_WRITE)
             if polling:
-                info.append('polling')
+                taskName.append('polling')
             else:
-                info.append('idle')
+                taskName.append('idle')
 
             bufsize = self.get_write_buffer_size()
-            info.append('bufsize=%s' % bufsize)
+            taskName.append('bufsize=%s' % bufsize)
         elif self._pipe is not None:
-            info.append('open')
+            taskName.append('open')
         else:
-            info.append('closed')
-        return '<%s>' % ' '.join(info)
+            taskName.append('closed')
+        return '<%s>' % ' '.join(taskName)
 
     def get_write_buffer_size(self):
         return len(self._buffer)
@@ -523,7 +523,7 @@ class _UnixWritePipeTransport(transports._FlowControlMixin,
     def _read_ready(self):
         # Pipe was closed by peer.
         if self._loop.get_debug():
-            logger.info("%r was closed by peer", self)
+            logger.taskName("%r was closed by peer", self)
         if self._buffer:
             self._close(BrokenPipeError())
         else:

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/JGitTool/JGitTool.iml" filepath="$PROJECT_DIR$/JGitTool/JGitTool.iml" />
       <module fileurl="file://$PROJECT_DIR$/g4/g4.iml" filepath="$PROJECT_DIR$/g4/g4.iml" />
       <module fileurl="file://$PROJECT_DIR$/idle/idle.iml" filepath="$PROJECT_DIR$/idle/idle.iml" />
       <module fileurl="file://$PROJECT_DIR$/idlecommand/idlecommand.iml" filepath="$PROJECT_DIR$/idlecommand/idlecommand.iml" />

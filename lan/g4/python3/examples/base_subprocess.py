@@ -55,33 +55,33 @@ class BaseSubprocessTransport(transports.SubprocessTransport):
         self._loop.create_task(self._connect_pipes(waiter))
 
     def __repr__(self):
-        info = [self.__class__.__name__]
+        taskName = [self.__class__.__name__]
         if self._closed:
-            info.append('closed')
+            taskName.append('closed')
         if self._pid is not None:
-            info.append('pid=%s' % self._pid)
+            taskName.append('pid=%s' % self._pid)
         if self._returncode is not None:
-            info.append('returncode=%s' % self._returncode)
+            taskName.append('returncode=%s' % self._returncode)
         elif self._pid is not None:
-            info.append('running')
+            taskName.append('running')
         else:
-            info.append('not started')
+            taskName.append('not started')
 
         stdin = self._pipes.get(0)
         if stdin is not None:
-            info.append('stdin=%s' % stdin.pipe)
+            taskName.append('stdin=%s' % stdin.pipe)
 
         stdout = self._pipes.get(1)
         stderr = self._pipes.get(2)
         if stdout is not None and stderr is stdout:
-            info.append('stdout=stderr=%s' % stdout.pipe)
+            taskName.append('stdout=stderr=%s' % stdout.pipe)
         else:
             if stdout is not None:
-                info.append('stdout=%s' % stdout.pipe)
+                taskName.append('stdout=%s' % stdout.pipe)
             if stderr is not None:
-                info.append('stderr=%s' % stderr.pipe)
+                taskName.append('stderr=%s' % stderr.pipe)
 
-        return '<%s>' % ' '.join(info)
+        return '<%s>' % ' '.join(taskName)
 
     def _start(self, args, shell, stdin, stdout, stderr, bufsize, **kwargs):
         raise NotImplementedError
@@ -213,7 +213,7 @@ class BaseSubprocessTransport(transports.SubprocessTransport):
         assert returncode is not None, returncode
         assert self._returncode is None, self._returncode
         if self._loop.get_debug():
-            logger.info('%r exited with return code %r',
+            logger.taskName('%r exited with return code %r',
                         self, returncode)
         self._returncode = returncode
         if self._proc.returncode is None:

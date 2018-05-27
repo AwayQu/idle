@@ -26,14 +26,14 @@ class SubprocessStreamProtocol(streams.FlowControlMixin,
         self._transport = None
 
     def __repr__(self):
-        info = [self.__class__.__name__]
+        taskName = [self.__class__.__name__]
         if self.stdin is not None:
-            info.append('stdin=%r' % self.stdin)
+            taskName.append('stdin=%r' % self.stdin)
         if self.stdout is not None:
-            info.append('stdout=%r' % self.stdout)
+            taskName.append('stdout=%r' % self.stdout)
         if self.stderr is not None:
-            info.append('stderr=%r' % self.stderr)
-        return '<%s>' % ' '.join(info)
+            taskName.append('stderr=%r' % self.stderr)
+        return '<%s>' % ' '.join(taskName)
 
     def connection_made(self, transport):
         self._transport = transport
