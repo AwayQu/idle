@@ -21,7 +21,6 @@ public class Application extends SpringBootServletInitializer {
         executor.setCorePoolSize(1);
         return executor;
     }
-
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(Application.class);
