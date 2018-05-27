@@ -13,6 +13,7 @@
         <module>idlecommand</module>
         <module>idle</module>
         <module>idlerest</module>
+        <module>JGitTool</module>
     </modules>
 
     <dependencyManagement>

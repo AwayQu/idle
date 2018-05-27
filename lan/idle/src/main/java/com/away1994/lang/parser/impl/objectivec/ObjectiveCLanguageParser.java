@@ -197,7 +197,11 @@ public class ObjectiveCLanguageParser extends LanguageParserImpl implements Lang
                 if (ctx.className() != null) {
                     name = ctx.className().getText();
                 } else {
-                    name = ctx.enumSpecifier().identifier().get(0).getText();
+                    if (ctx.enumSpecifier().identifier().size() == 0) {
+                        name = "No name Enum";
+                    } else {
+                        name = ctx.enumSpecifier().identifier().get(0).getText();
+                    }
                 }
                 EnumeratorImpl enumerator = new EnumeratorImpl(name, file);
                 enumerator.setRuleContext(ctx);

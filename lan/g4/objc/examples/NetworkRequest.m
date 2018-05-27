@@ -685,7 +685,7 @@ static const NSTimeInterval defaultNetworkRequestUploadTimeout = 1200;
             self.fileHandler(uploadTempFilename, nil);
         }
     }
-    [self releaseHandlers]; // don't cleanup just connection/temp info because the delegate may use the file later (releaseConnectionAndData)
+    [self releaseHandlers]; // don't cleanup just connection/temp taskName because the delegate may use the file later (releaseConnectionAndData)
  
 }
 

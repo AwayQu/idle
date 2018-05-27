@@ -9,8 +9,8 @@ import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public abstract class FileUtils {
-    private static final transient Logger LOGGER = Logger.getLogger(FileUtils.class.getName());
+public abstract class FileIOUtils {
+    private static final transient Logger LOGGER = Logger.getLogger(FileIOUtils.class.getName());
 
     public static void closeCloseable(Closeable closeable) {
         if(closeable != null) {
@@ -172,6 +172,6 @@ public abstract class FileUtils {
         return writeIntoFile(str, new File(pathName), append);
     }
 
-    private FileUtils() {
+    private FileIOUtils() {
     }
 }

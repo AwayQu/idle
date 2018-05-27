@@ -281,10 +281,10 @@ class StreamWriter:
         self._loop = loop
 
     def __repr__(self):
-        info = [self.__class__.__name__, 'transport=%r' % self._transport]
+        taskName = [self.__class__.__name__, 'transport=%r' % self._transport]
         if self._reader is not None:
-            info.append('reader=%r' % self._reader)
-        return '<%s>' % ' '.join(info)
+            taskName.append('reader=%r' % self._reader)
+        return '<%s>' % ' '.join(taskName)
 
     @property
     def transport(self):
@@ -355,22 +355,22 @@ class StreamReader:
         self._paused = False
 
     def __repr__(self):
-        info = ['StreamReader']
+        taskName = ['StreamReader']
         if self._buffer:
-            info.append('%d bytes' % len(self._buffer))
+            taskName.append('%d bytes' % len(self._buffer))
         if self._eof:
-            info.append('eof')
+            taskName.append('eof')
         if self._limit != _DEFAULT_LIMIT:
-            info.append('l=%d' % self._limit)
+            taskName.append('l=%d' % self._limit)
         if self._waiter:
-            info.append('w=%r' % self._waiter)
+            taskName.append('w=%r' % self._waiter)
         if self._exception:
-            info.append('e=%r' % self._exception)
+            taskName.append('e=%r' % self._exception)
         if self._transport:
-            info.append('t=%r' % self._transport)
+            taskName.append('t=%r' % self._transport)
         if self._paused:
-            info.append('paused')
-        return '<%s>' % ' '.join(info)
+            taskName.append('paused')
+        return '<%s>' % ' '.join(taskName)
 
     def exception(self):
         return self._exception

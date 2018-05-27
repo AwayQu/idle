@@ -45,23 +45,23 @@ class _ProactorBasePipeTransport(transports._FlowControlMixin,
                                  waiter, None)
 
     def __repr__(self):
-        info = [self.__class__.__name__]
+        taskName = [self.__class__.__name__]
         if self._sock is None:
-            info.append('closed')
+            taskName.append('closed')
         elif self._closing:
-            info.append('closing')
+            taskName.append('closing')
         if self._sock is not None:
-            info.append('fd=%s' % self._sock.fileno())
+            taskName.append('fd=%s' % self._sock.fileno())
         if self._read_fut is not None:
-            info.append('read=%s' % self._read_fut)
+            taskName.append('read=%s' % self._read_fut)
         if self._write_fut is not None:
-            info.append("write=%r" % self._write_fut)
+            taskName.append("write=%r" % self._write_fut)
         if self._buffer:
             bufsize = len(self._buffer)
-            info.append('write_bufsize=%s' % bufsize)
+            taskName.append('write_bufsize=%s' % bufsize)
         if self._eof_written:
-            info.append('EOF written')
-        return '<%s>' % ' '.join(info)
+            taskName.append('EOF written')
+        return '<%s>' % ' '.join(taskName)
 
     def _set_extra(self, sock):
         self._extra['pipe'] = sock

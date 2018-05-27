@@ -4,7 +4,7 @@
 package com.away1994.common.utils.log;
 
 
-import com.away1994.common.utils.file.FileUtils;
+import com.away1994.common.utils.file.FileIOUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -95,7 +95,7 @@ public abstract class LogUtils {
 
             readLoggerConfigurationFromResourceFromInputStream(inputStream);
         } finally {
-            FileUtils.closeCloseable(inputStream, fullResourcePath);
+            FileIOUtils.closeCloseable(inputStream, fullResourcePath);
         }
 
     }
@@ -107,7 +107,7 @@ public abstract class LogUtils {
             inputStream = new FileInputStream(file);
             readLoggerConfigurationFromResourceFromInputStream(inputStream);
         } finally {
-            FileUtils.closeCloseable(inputStream, file);
+            FileIOUtils.closeCloseable(inputStream, file);
         }
 
     }

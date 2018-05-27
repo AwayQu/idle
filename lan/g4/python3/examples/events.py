@@ -94,21 +94,21 @@ class Handle:
             self._source_traceback = None
 
     def _repr_info(self):
-        info = [self.__class__.__name__]
+        taskName = [self.__class__.__name__]
         if self._cancelled:
-            info.append('cancelled')
+            taskName.append('cancelled')
         if self._callback is not None:
-            info.append(_format_callback_source(self._callback, self._args))
+            taskName.append(_format_callback_source(self._callback, self._args))
         if self._source_traceback:
             frame = self._source_traceback[-1]
-            info.append('created at %s:%s' % (frame[0], frame[1]))
-        return info
+            taskName.append('created at %s:%s' % (frame[0], frame[1]))
+        return taskName
 
     def __repr__(self):
         if self._repr is not None:
             return self._repr
-        info = self._repr_info()
-        return '<%s>' % ' '.join(info)
+        taskName = self._repr_info()
+        return '<%s>' % ' '.join(taskName)
 
     def cancel(self):
         if not self._cancelled:
@@ -152,10 +152,10 @@ class TimerHandle(Handle):
         self._scheduled = False
 
     def _repr_info(self):
-        info = super()._repr_info()
+        taskName = super()._repr_info()
         pos = 2 if self._cancelled else 1
-        info.insert(pos, 'when=%s' % self._when)
-        return info
+        taskName.insert(pos, 'when=%s' % self._when)
+        return taskName
 
     def __hash__(self):
         return hash(self._when)

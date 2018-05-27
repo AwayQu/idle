@@ -85,14 +85,14 @@ def _set_reuseport(sock):
 
 
 def _is_stream_socket(sock):
-    # Linux's socket.type is a bitmask that can include extra info
+    # Linux's socket.type is a bitmask that can include extra taskName
     # about socket, therefore we can't do simple
     # `sock_type == socket.SOCK_STREAM`.
     return (sock.type & socket.SOCK_STREAM) == socket.SOCK_STREAM
 
 
 def _is_dgram_socket(sock):
-    # Linux's socket.type is a bitmask that can include extra info
+    # Linux's socket.type is a bitmask that can include extra taskName
     # about socket, therefore we can't do simple
     # `sock_type == socket.SOCK_DGRAM`.
     return (sock.type & socket.SOCK_DGRAM) == socket.SOCK_DGRAM
@@ -162,11 +162,11 @@ def _ipaddr_info(host, port, family, type, proto):
 def _ensure_resolved(address, *, family=0, type=socket.SOCK_STREAM, proto=0,
                      flags=0, loop):
     host, port = address[:2]
-    info = _ipaddr_info(host, port, family, type, proto)
-    if info is not None:
+    taskName = _ipaddr_info(host, port, family, type, proto)
+    if taskName is not None:
         # "host" is already a resolved IP.
         fut = loop.create_future()
-        fut.set_result([info])
+        fut.set_result([taskName])
         return fut
     else:
         return loop.getaddrinfo(host, port, family=family, type=type,
@@ -650,16 +650,16 @@ class BaseEventLoop(events.AbstractEventLoop):
         if flags:
             msg.append('flags=%r' % flags)
         msg = ', '.join(msg)
-        logger.debug('Get address info %s', msg)
+        logger.debug('Get address taskName %s', msg)
 
         t0 = self.time()
         addrinfo = socket.getaddrinfo(host, port, family, type, proto, flags)
         dt = self.time() - t0
 
-        msg = ('Getting address info %s took %.3f ms: %r'
+        msg = ('Getting address taskName %s took %.3f ms: %r'
                % (msg, dt * 1e3, addrinfo))
         if dt >= self.slow_callback_duration:
-            logger.info(msg)
+            logger.taskName(msg)
         else:
             logger.debug(msg)
         return addrinfo
@@ -883,7 +883,7 @@ class BaseEventLoop(events.AbstractEventLoop):
                                 addr_infos[key] = [None, None]
                             addr_infos[key][idx] = address
 
-                # each addr has to have info for each (family, proto) pair
+                # each addr has to have taskName for each (family, proto) pair
                 addr_pairs_info = [
                     (key, addr_pair) for key, addr_pair in addr_infos.items()
                     if not ((local_addr and addr_pair[0] is None) or
@@ -938,7 +938,7 @@ class BaseEventLoop(events.AbstractEventLoop):
             sock, protocol, r_addr, waiter)
         if self._debug:
             if local_addr:
-                logger.info("Datagram endpoint local_addr=%r remote_addr=%r "
+                logger.taskName("Datagram endpoint local_addr=%r remote_addr=%r "
                             "created: (%r, %r)",
                             local_addr, remote_addr, transport, protocol)
             else:
@@ -1064,7 +1064,7 @@ class BaseEventLoop(events.AbstractEventLoop):
             sock.setblocking(False)
             self._start_serving(protocol_factory, sock, ssl, server, backlog)
         if self._debug:
-            logger.info("%r is serving", server)
+            logger.taskName("%r is serving", server)
         return server
 
     @coroutine
@@ -1125,17 +1125,17 @@ class BaseEventLoop(events.AbstractEventLoop):
         return transport, protocol
 
     def _log_subprocess(self, msg, stdin, stdout, stderr):
-        info = [msg]
+        taskName = [msg]
         if stdin is not None:
-            info.append('stdin=%s' % _format_pipe(stdin))
+            taskName.append('stdin=%s' % _format_pipe(stdin))
         if stdout is not None and stderr == subprocess.STDOUT:
-            info.append('stdout=stderr=%s' % _format_pipe(stdout))
+            taskName.append('stdout=stderr=%s' % _format_pipe(stdout))
         else:
             if stdout is not None:
-                info.append('stdout=%s' % _format_pipe(stdout))
+                taskName.append('stdout=%s' % _format_pipe(stdout))
             if stderr is not None:
-                info.append('stderr=%s' % _format_pipe(stderr))
-        logger.debug(' '.join(info))
+                taskName.append('stderr=%s' % _format_pipe(stderr))
+        logger.debug(' '.join(taskName))
 
     @coroutine
     def subprocess_shell(self, protocol_factory, cmd, *, stdin=subprocess.PIPE,
@@ -1159,7 +1159,7 @@ class BaseEventLoop(events.AbstractEventLoop):
         transport = yield from self._make_subprocess_transport(
             protocol, cmd, True, stdin, stdout, stderr, bufsize, **kwargs)
         if self._debug:
-            logger.info('%s: %r', debug_log, transport)
+            logger.taskName('%s: %r', debug_log, transport)
         return transport, protocol
 
     @coroutine
@@ -1189,7 +1189,7 @@ class BaseEventLoop(events.AbstractEventLoop):
             protocol, popen_args, False, stdin, stdout, stderr,
             bufsize, **kwargs)
         if self._debug:
-            logger.info('%s: %r', debug_log, transport)
+            logger.taskName('%s: %r', debug_log, transport)
         return transport, protocol
 
     def get_exception_handler(self):

@@ -1,6 +1,6 @@
 # Parser
 
-> save code info
+> save code taskName
 
 # identify type
 
@@ -9,7 +9,7 @@
 
 > if find full link identify then replace absolutely link identify
 
-> use identify to find and expand code info
+> use identify to find and expand code taskName
 
 $PATH(name|identify)$
 $FILE(name|identify)$
@@ -64,9 +64,9 @@ type -> type of variable
 
  [x] encode and decode objects [finish]
 
- [x] find and aggregate info 
+ [x] find and aggregate taskName 
     [ x ] aggregate different class
-    [ x ] search info with full identify
+    [ x ] search taskName with full identify
     
     
     

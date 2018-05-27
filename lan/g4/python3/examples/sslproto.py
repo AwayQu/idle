@@ -425,7 +425,7 @@ class SSLProtocol(protocols.Protocol):
         else:
             self._server_hostname = None
         self._sslcontext = sslcontext
-        # SSL-specific extra info. More info are set when the handshake
+        # SSL-specific extra taskName. More taskName are set when the handshake
         # completes.
         self._extra = dict(sslcontext=sslcontext)
 
@@ -604,7 +604,7 @@ class SSLProtocol(protocols.Protocol):
             dt = self._loop.time() - self._handshake_start_time
             logger.debug("%r: SSL handshake took %.1f ms", self, dt * 1e3)
 
-        # Add extra info that becomes available after handshake.
+        # Add extra taskName that becomes available after handshake.
         self._extra.update(peercert=peercert,
                            cipher=sslobj.cipher(),
                            compression=sslobj.compression(),
