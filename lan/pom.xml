@@ -10,20 +10,20 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>idlecommand</module>
         <module>idle</module>
-        <module>idlerest</module>
         <module>JGitTool</module>
+        <module>idlecommand</module>
+        <module>idlerest</module>
     </modules>
 
     <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.away1994</groupId>
-                <artifactId>idle</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-        </dependencies>
+        <!--<dependencies>-->
+            <!--<dependency>-->
+                <!--<groupId>com.away1994</groupId>-->
+                <!--<artifactId>idle</artifactId>-->
+                <!--<version>${project.version}</version>-->
+            <!--</dependency>-->
+        <!--</dependencies>-->
     </dependencyManagement>
     <build>
         <plugins>
