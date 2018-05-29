@@ -7,6 +7,8 @@ public class Project {
 
     private String gitURL;
 
+    private Boolean localProject;
+
     private String projectName;
 
     private String symbolsPath;
@@ -45,6 +47,14 @@ public class Project {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public Boolean getLocalProject() {
+        return localProject;
+    }
+
+    public void setLocalProject(Boolean localProject) {
+        this.localProject = localProject;
     }
 
     public Project(String gitURL) {

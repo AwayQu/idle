@@ -1,12 +1,54 @@
 package com.away1994.jgit.url;
 
-import java.security.PublicKey;
+import java.io.File;
+
 
 public class GitURL {
+    public enum URLType {
+        // http://
+        GitHTTP,
+        // git://
+        GitURL,
+        // /www/example/project
+        GitLocal;
 
-    public class GitURLFormatErrorException extends Exception {}
+        URLType() {
 
-    public class GitURLNameNotFoundException extends Exception {}
+        }
+
+    }
+
+    public class URLInfo {
+        URLType urlType;
+        String url;
+
+        public URLType getUrlType() {
+            return urlType;
+        }
+
+        public void setUrlType(URLType urlType) {
+            this.urlType = urlType;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public URLInfo(URLType urlType, String url) {
+            this.urlType = urlType;
+            this.url = url;
+        }
+    }
+
+    public class GitURLFormatErrorException extends Exception {
+    }
+
+    public class GitURLNameNotFoundException extends Exception {
+    }
 
     /**
      * git@github:example.git
@@ -18,20 +60,20 @@ public class GitURL {
     }
 
 
+    public URLInfo getURL() throws GitURLFormatErrorException {
 
-    public String getURL() throws GitURLFormatErrorException {
-
-        Boolean isLocalPath = true;
         if (originDescription.startsWith("http")) {
-           if (originDescription.endsWith(".git")) {
-               return originDescription;
-           } else {
-               return originDescription + ".git";
-           }
-        } else if (originDescription.startsWith("git")){
-            return originDescription;
-        } else if (isLocalPath){ //  TODO: verify path
-            return originDescription;
+            if (originDescription.endsWith(".git")) {
+
+                return new URLInfo(URLType.GitHTTP, originDescription);
+            } else {
+                return new URLInfo(URLType.GitHTTP, originDescription + ".git");
+            }
+        } else if (originDescription.startsWith("git")) {
+            return new URLInfo(URLType.GitURL, originDescription);
+            //isLocalPath
+        } else if (new File(originDescription).isDirectory()) { //  TODO: verify path
+            return new URLInfo(URLType.GitLocal, originDescription);
         } else {
             throw new GitURLFormatErrorException();
         }
@@ -41,9 +83,10 @@ public class GitURL {
         Boolean isLocalPath = true;
         if (originDescription.startsWith("http")) {
             return extractName();
-        } else if (originDescription.startsWith("git")){
+        } else if (originDescription.startsWith("git")) {
             return extractName();
-        } else if (isLocalPath) { //  TODO: verify path
+            // /isLocalPath
+        } else if (new File(originDescription).isDirectory()) { //  TODO: verify path
             return extractName();
         } else {
             throw new GitURLNameNotFoundException();

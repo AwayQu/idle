@@ -92,9 +92,9 @@ public class CloneRepositoryJob implements DetailedJob {
             this.project.setCloning(false);
 //            git.pull().call();
         } catch (Exception e) {
+            this.project.setCloning(false);
             this.project.setCloned(false);
             this.template.convertAndSend("/topic/info", new Response(Response.CODE_FAIL, "Clone repository fail, please check repository url."));
-
             e.printStackTrace();
         }
 

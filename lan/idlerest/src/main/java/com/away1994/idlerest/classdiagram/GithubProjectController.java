@@ -51,18 +51,18 @@ public class GithubProjectController {
 
 
         GitURL gitUrl = new GitURL(projectURL);
-        String repositoryURL = null;
+        GitURL.URLInfo repositoryURLInfo = null;
         try {
-            repositoryURL = gitUrl.getURL();
+            repositoryURLInfo = gitUrl.getURL();
         } catch (GitURL.GitURLFormatErrorException e) {
             return new Response(Response.CODE_FAIL, "URL Format error, not invalid git URL");
         }
         com.away1994.lang.project.Project pro = (Project) session.getAttribute("pro");
-        if ((repositoryURL != null && pro != null && repositoryURL.equals(pro.getGitURL())) && // url no change
+        if ((repositoryURLInfo != null && pro != null && repositoryURLInfo.getUrl().equals(pro.getGitURL())) && // url no change
                 (pro != null && pro.getLanguage().equals(projectSubmit.lan)) // language is same
                 ) {
             //pass
-        } else {
+        } else if (repositoryURLInfo != null) {
 
             String repositoryName = null;
             try {
@@ -71,12 +71,19 @@ public class GithubProjectController {
                 return new Response(Response.CODE_FAIL, "Repository name found error, not invalid git URL");
             }
 
-            pro = new com.away1994.lang.project.Project(repositoryURL);
+            pro = new com.away1994.lang.project.Project(repositoryURLInfo.getUrl());
+            pro.setLocalProject(repositoryURLInfo.getUrlType() == GitURL.URLType.GitLocal);
             pro.setLanguage(projectSubmit.lan);
             pro.setProjectName(repositoryName);
-            pro.setProjectPath(PathUtils.append(configuration.getProjectPath(), repositoryName));
+            if (pro.getLocalProject()) {
+                pro.setProjectPath(repositoryURLInfo.getUrl());
+            } else {
+                pro.setProjectPath(PathUtils.append(configuration.getProjectPath(), repositoryName));
+            }
             pro.setSymbolsPath(PathUtils.append(configuration.getSymbolsPath(), repositoryName));
             session.setAttribute("pro", pro);
+        } else {
+            return new Response(Response.CODE_FAIL, "URL info not extract");
         }
 
         Response res = checkIsParsing(pro);
@@ -85,7 +92,7 @@ public class GithubProjectController {
         }
 
 
-        if (!pro.getCloned()) {
+        if (!pro.getCloned() && !pro.getLocalProject()) {
             CloneRepositoryJob newJob = new CloneRepositoryJob(template, pro);
             jobNumber = jobNumber + 1;
             myJobList.add(newJob);

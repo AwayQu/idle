@@ -42,7 +42,10 @@ public class ObjcG4Util {
     @Nullable
     public static ParseTree getParseTree(CharStream cs) {
         //region pre parser
+
         PreprocessorParser preprocessorParser = new PreprocessorParser(cs).invoke();
+
+
         ObjectiveCPreprocessor preprocessor = preprocessorParser.getPreprocessor();
         ObjectiveCPreprocessorParser.ObjectiveCDocumentContext preParseTree = preprocessorParser.getPreParseTree();
 
@@ -67,6 +70,8 @@ public class ObjcG4Util {
         CommonTokenStream token = new CommonTokenStream(lexer);
 
         ObjectiveCParser parser = new ObjectiveCParser(token);
+        /// remove error log handler
+        parser.removeErrorListeners();
 
         return parser.translationUnit();
     }
@@ -94,7 +99,8 @@ public class ObjcG4Util {
             CommonTokenStream preToken = new CommonTokenStream(preLexer);
 
             ObjectiveCPreprocessorParser preParser = new ObjectiveCPreprocessorParser(preToken);
-
+            /// remove error log handler
+            preParser.removeErrorListeners();
             preParseTree = preParser.objectiveCDocument();
 
 
