@@ -255,7 +255,7 @@ public class GithubProjectController {
     }
 
     private Response checkIsClonedAndParsed(Project pro) {
-        if (!pro.getCloned()) {
+        if (!pro.getCloned() && !pro.getLocalProject()) {
             return new Response(Response.CODE_FAIL, "Repository was not cloned.");
         }
 
