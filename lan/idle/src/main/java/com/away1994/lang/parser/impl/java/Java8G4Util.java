@@ -33,6 +33,8 @@ public class Java8G4Util {
 
 
         Java8Parser java8Parser = new Java8Parser(tokenStream);
+        /// error log handler remove
+        java8Parser.removeErrorListeners();
         return java8Parser.compilationUnit();
     }
 }
