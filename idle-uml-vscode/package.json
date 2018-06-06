@@ -11,7 +11,9 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.sayHello"
+        "onCommand:extension.viewIdleUML",
+        "onLanguage:objective-c",
+        "onLanguage:java"
     ],
     "main": "./out/extension",
     "contributes": {
@@ -21,10 +23,30 @@
                 "title": "Hello World"
             },
             {
-              "command": "extension.viewIdleUML",
-              "title": "View idle UML"
+                "command": "extension.viewIdleUML",
+                "title": "View idle UML",
+                "icon": {
+                    "light": "./images/preview.svg",
+                    "dark": "./images/preview_inverse.svg"
+                }
             }
-        ]
+        ],
+        "menus": {
+            "editor/title": [
+                {
+                    "when": "resourceLangId == objective-c",
+                    "command": "extension.viewIdleUML",
+                    "group": "navigation"
+                }
+            ],
+            "editor/context": [
+                {
+                    "when": "resourceLangId == objective-c",
+                    "command": "extension.viewIdleUML",
+                    "group": "navigation"
+                }
+            ]
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",

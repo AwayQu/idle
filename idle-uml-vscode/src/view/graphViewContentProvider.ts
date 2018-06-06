@@ -7,8 +7,8 @@ import * as path from 'path';
 
 export class GraphViewContentProvider extends Disposable implements vscode.TextDocumentContentProvider {
     private _onDidChange = new vscode.EventEmitter<vscode.Uri>();
-    private lastUri: vscode.Uri;
-    private serverPort: number;
+    private lastUri!: vscode.Uri;
+    private serverPort!: number;
     constructor() {
         super(() => { });
         this.ServerPort = 8080;
@@ -20,13 +20,42 @@ export class GraphViewContentProvider extends Disposable implements vscode.TextD
     }
 
 
-    public update(uri:vscode.Uri) {
-            this._onDidChange.fire(uri);
+    public update(uri: vscode.Uri) {
+        this._onDidChange.fire(uri);
     }
 
 
     public provideTextDocumentContent(uri: vscode.Uri, token: vscode.CancellationToken): Thenable<string> {
         this.lastUri = uri;
+        const editor = vscode.window.activeTextEditor;
+        if (!editor || !editor.document) {
+            console.log("no active editor");
+            console.log(editor);
+            // pass
+        } else {
+            const text = editor.document.getText();
+            const filename = editor.document.fileName;
+            // console.log(text);
+            console.log("find active editor");
+            console.log(filename);
+            console.log(editor.document.uri.path);
+
+            // check if there is no selection
+            if (editor.selection.isEmpty) {
+                // the Position object gives you the line and character where the cursor is
+                const position = editor.selection.active;
+                console.log(position);
+                // move cursor to this new position?
+                // var newPosition = position.with(position.line, 0);
+
+            } else {
+                console.log(editor.selection);
+            }
+        }
+
+
+
+
         return this.createHTML();
     }
 
