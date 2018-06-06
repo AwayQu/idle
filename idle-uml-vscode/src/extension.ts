@@ -2,6 +2,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { GraphViewContentProvider } from './view/graphViewContentProvider';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -22,6 +23,23 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     context.subscriptions.push(disposable);
+
+    
+    const registerCommand = vscode.commands.registerCommand;
+    const previewUri = vscode.Uri.parse('idle-uml://authority/idle-uml');
+
+    let provider = new GraphViewContentProvider();
+    let registration = vscode.workspace.registerTextDocumentContentProvider('idle-uml', provider);
+
+    let command = registerCommand('extension.viewIdleUML', () => {
+        var disp = vscode.commands.executeCommand('vscode.previewHtml', previewUri, vscode.ViewColumn.Two).then(
+            (success) => { provider.update(previewUri); },
+            (reason) => { vscode.window.showErrorMessage(reason); });
+        return disp;
+    });
+
+    context.subscriptions.push(command, registration);
+
 }
 
 // this method is called when your extension is deactivated

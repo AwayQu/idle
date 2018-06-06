@@ -19,6 +19,10 @@
             {
                 "command": "extension.sayHello",
                 "title": "Hello World"
+            },
+            {
+              "command": "extension.viewIdleUML",
+              "title": "View idle UML"
             }
         ]
     },
