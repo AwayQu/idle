@@ -9,7 +9,11 @@ Parse source code (Objective-C) to UML(Class Diagram).
 
 
 ### Mac app
-![AFNetworking](https://raw.githubusercontent.com/AwayQu/idle/master/imgs/Mume1.0.0-1.png)
+
+
+ <p align="center">
+      <img src="https://raw.githubusercontent.com/AwayQu/idle/master/imgs/Mume1.0.0-1.png" alt="AFNetworking"  width="80%" height="80%">
+ </p>
 
 ### Download
 
