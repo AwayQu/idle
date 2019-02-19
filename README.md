@@ -13,4 +13,10 @@ Parse source code (Objective-C) to UML(Class Diagram).
 
 ### Download
 
-![https://itunes.apple.com/us/app/id1453316488](https://raw.githubusercontent.com/AwayQu/idle/master/imgs/app-store.png)
+
+<a href="https://itunes.apple.com/us/app/id1453316488">
+  <p align="left">
+      <img src="https://raw.githubusercontent.com/AwayQu/idle/master/imgs/app-store.png" alt="app store"  width="159" height="64">
+  </p>
+</a>
+
