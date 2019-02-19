@@ -1,65 +1,71 @@
-# idle README
+# idle
 
-This is the README for your extension "idle". After writing up a brief description, we recommend including the following sections.
+> parse source code file to uml.
 
-## Features
+# Partener Wanted
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+A `web front-end` all-round worker. To implement a d3-uml support big data uml render and interact.
 
-For example if there is an image subfolder under your extension project workspace:
+A `language server protocol` all-round worker. To support `languager server protocol` then publish with ide like `vscode` & `atom`.
 
-\!\[feature X\]\(images/feature-x.png\)
+A `ascii art` all-round worker. To support render with ascii.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
-## Requirements
+# Version
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## 0.0.3-beta
 
-## Extension Settings
+### Description
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+Parse source code (Objective-C, Java) to UML(Class Diagram) render in web front.
 
-For example:
+### Example
 
-This extension contributes the following settings:
+#### web front objective-c
+![AFNetworking](https://raw.githubusercontent.com/AwayQu/idle/master/imgs/idle0.0.3-demo.gif)
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
 
-## Known Issues
+#### snapshot java support
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+![Java](https://raw.githubusercontent.com/AwayQu/idle/master/imgs/idle0.0.3-snapshot.png)
 
-## Release Notes
 
-Users appreciate release notes as you update your extension.
+### Usage
 
-### 1.0.0
+* download the [idlerest0.0.3.jar](https://github.com/AwayQu/idle/releases/download/0.0.3-beta/idlerest-0.0.3.jar)
 
-Initial release of ...
+* run `java -jar idlerest0.0.3.jar`
 
-### 1.0.1
+* visit http://localhost:8080 (support local project path & git url)
 
-Fixed issue #.
 
-### 1.1.0
+## 0.0.1-alpha
 
-Added features X, Y, and Z.
+### Description
 
------------------------------------------------------------------------------------------------------------
+Parse source code (Objective-C) to UML(Class Diagram) file format of plantuml.
 
-## Working with Markdown
+### Example
 
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+### AFNetworking Class Diagram
+![AFNetworking](https://raw.githubusercontent.com/AwayQuEM/idle/master/imgs/AFNetworking.png)
 
-* Split the editor (`Cmd+\` on OSX or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on OSX or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (OSX) to see a list of Markdown snippets
 
-### For more information
+### Usage
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+```shell
 
-**Enjoy!**
+# parse code to generate plantuml file
+java -jar idlecommand-1.0-SNAPSHOT-jar-with-dependencies.jar analyze -p path/to/project -o output.puml
+
+# install graphviz
+brew install graphviz
+
+# parse plantuml file to png
+java -DPLANTUML_LIMIT_SIZE=30000 -jar plantuml.jar output.puml
+
+```
+
+# Link
+
+[plantuml](http://plantuml.com/download)
