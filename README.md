@@ -9,7 +9,7 @@ Parse source code (Objective-C) to UML(Class Diagram).
 
 ### Example
 
-#### web front objective-c
+#### Mac app
 ![AFNetworking](https://raw.githubusercontent.com/AwayQu/idle/master/imgs/Mume1.0.0-1.png)
 
 
